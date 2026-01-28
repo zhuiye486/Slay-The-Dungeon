@@ -1,2 +1,2 @@
-# SlayTheDarkestDungeon
+# Slay-The-Dungeon
 
