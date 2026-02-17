@@ -1,13 +1,12 @@
 package io.github.zhuiye486;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest {
+public class SlayTheDungeon {
 
     /**
      * Rigorous Test :-)
