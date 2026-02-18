@@ -10,8 +10,25 @@ import basemod.interfaces.EditCardsSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
 import io.github.zhuiye486.cards.Strike;
 
+import com.badlogic.gdx.graphics.Color;
+
 @SpireInitializer
 public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber {
+    private static final String CHARACTER_BUTTON = "SlayTheDungeonResources/img/char/Character_Button.png";
+    private static final String CHARACTER_PORTRAIT = "SlayTheDungeonResources/img/char/Character_Portrait.png";
+    private static final String BG_ATTACK_512 = "SlayTheDungeonResources/img/512/bg_attack.png";
+    private static final String BG_SKILL_512 = "SlayTheDungeonResources/img/512/bg_skill.png";
+    private static final String BG_POWER_512 = "SlayTheDungeonResources/img/512/bg_power.png";
+    private static final String SMALL_ORB = "SlayTheDungeonResources/img/512/card_small_orb.png";
+    private static final String BG_ATTACK_1024 = "SlayTheDungeonResources/img/1024/bg_attack.png";
+    private static final String BG_SKILL_1024 = "SlayTheDungeonResources/img/1024/bg_skill.png";
+    private static final String BG_POWER_1024 = "SlayTheDungeonResources/img/1024/bg_power.png";
+    private static final String BIG_ORB = "SlayTheDungeonResources/img/1024/card_orb.png";
+    private static final String ENERGY_ORB = "SlayTheDungeonResources/img/512/card_orb.png";
+    
+    private static final Color SLAY_THE_DUNGEON_COLOR = new Color(104.0f / 225.0f, 0.0f, 0.2f / 225.0f, 1.0f);
+    
+
     public SlayTheDungeon() {
 
     }
@@ -35,6 +52,6 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         } else {
             lang = "ENG";
         }
-        BaseMod.loadCustomStringsFile(CardStrings.class, "ExampleResources/localization/" + lang + "/cards.json");
+        BaseMod.loadCustomStringsFile(CardStrings.class, "SlayTheDungeonResources/localization/" + lang + "/cards.json");
     }
 }
