@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import basemod.abstracts.CustomCard;
+import io.github.zhuiye486.helpers.ModHelper;
 
 public class Strike extends CustomCard{
     public static final String ID = ModHelper.makePath(Strike.class.getSimpleName());
