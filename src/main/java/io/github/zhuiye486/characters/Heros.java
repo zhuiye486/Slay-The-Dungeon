@@ -1,23 +1,28 @@
+package io.github.zhuiye486.characters;
+
 import java.util.ArrayList;
-import com.brashmonkey.spriter.Player;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.core.Settings.GameLanguage;
+import com.megacrit.cardcrawl.core.EnergyManager;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
-import com.megacrit.cardcrawl.localization.VampireStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.Vajra;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
-import com.megacrit.cardcrawl.screens.events.Vampires;
-import com.megacrit.cardcrawl.shop.ShopScreen;
-import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
+import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
+import com.megacrit.cardcrawl.events.city.Vampires;
+
+
+import io.github.zhuiye486.cards.Strike;
+import io.github.zhuiye486.SlayTheDungeon;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Color;
 
 import basemod.abstracts.CustomPlayer;
 
@@ -46,10 +51,10 @@ public class Heros extends CustomPlayer {
     // 每个图层的旋转速度
     private static final float[] LAYER_SPEED = new float[]{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
     // 人物的本地化文本，如卡牌的本地化文本一样，如何书写见下
-    private static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("ExampleMod:MyCharacter");
+    private static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("SlayTheDungeon:Heros");
 
-    public Heros(String name) {
-        super(name, CHARACTER, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
+    public Heros(String name, PlayerClass setClass) {
+        super(name, setClass, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
 
         // 人物对话气泡的大小，如果游戏中尺寸不对在这里修改（libgdx的坐标轴左下为原点）
         this.dialogX = (this.drawX + 0.0F * Settings.scale);
@@ -83,7 +88,7 @@ public class Heros extends CustomPlayer {
         for(int x = 0; x<5; x++) {
             retVal.add(Strike.ID);
         }
-        retVal.add("ExampleMod:Strike");
+        retVal.add("SlayTheDungeon:Strike");
         return retVal;
     }
 
@@ -119,7 +124,7 @@ public class Heros extends CustomPlayer {
     // 你的卡牌颜色（这个枚举在最下方创建）
     @Override
     public AbstractCard.CardColor getCardColor() {
-        return EXAMPLE_GREEN;
+        return SlayTheDungeonColorEnum.DEEP_RED;
     }
 
     // 翻牌事件出现的你的职业牌（一般设为打击）
@@ -131,7 +136,7 @@ public class Heros extends CustomPlayer {
     // 卡牌轨迹颜色（和CardColor不是同一个类。使用com.badlogic.gdx.graphics.Color）
     @Override
     public Color getCardTrailColor() {
-        return ExampleMod.MY_COLOR;
+        return SlayTheDungeon.SLAY_THE_DUNGEON_COLOR;
     }
 
     // 高进阶带来的生命值损失
@@ -157,9 +162,9 @@ public class Heros extends CustomPlayer {
     public ArrayList<CutscenePanel> getCutscenePanels() {
         ArrayList<CutscenePanel> panels = new ArrayList<>();
         // 有两个参数的，第二个参数表示出现图片时播放的音效
-        panels.add(new CutscenePanel("ExampleModResources/img/char/Victory1.png", "ATTACK_MAGIC_FAST_1"));
-        panels.add(new CutscenePanel("ExampleModResources/img/char/Victory2.png"));
-        panels.add(new CutscenePanel("ExampleModResources/img/char/Victory3.png"));
+        panels.add(new CutscenePanel("SlayTheDungeonResources/img/char/Victory1.png", "ATTACK_MAGIC_FAST_1"));
+        panels.add(new CutscenePanel("SlayTheDungeonResources/img/char/Victory2.png"));
+        panels.add(new CutscenePanel("SlayTheDungeonResources/img/char/Victory3.png"));
         return panels;
     }
 
@@ -178,7 +183,7 @@ public class Heros extends CustomPlayer {
     // 创建人物实例，照抄，记得替换MyCharacter为你的类名
     @Override
     public AbstractPlayer newInstance() {
-        return new MyCharacter(this.name);
+        return new Heros(this.name, SlayTheDungeonColorEnum.HEROS);
     }
 
     // 第三章面对心脏说的话（例如战士是“你握紧了你的长刀……”之类的）
@@ -190,7 +195,7 @@ public class Heros extends CustomPlayer {
     // 打心脏的颜色，不是很明显（和CardColor不是同一个类。使用com.badlogic.gdx.graphics.Color）
     @Override
     public Color getSlashAttackColor() {
-        return ExampleMod.MY_COLOR;
+        return SlayTheDungeon.SLAY_THE_DUNGEON_COLOR;
     }
 
     // 吸血鬼事件文本，主要是他（索引为0）和她（索引为1）的区别（机器人另外）
@@ -202,7 +207,7 @@ public class Heros extends CustomPlayer {
     // 卡牌选择界面选择该牌的颜色（和CardColor不是同一个类。使用com.badlogic.gdx.graphics.Color）
     @Override
     public Color getCardRenderColor() {
-        return ExampleMod.MY_COLOR;
+        return SlayTheDungeon.SLAY_THE_DUNGEON_COLOR;
     }
 
     // 第三章面对心脏造成伤害时的特效
@@ -215,15 +220,15 @@ public class Heros extends CustomPlayer {
 
     // 注意此处是在 MyCharacter 类内部的静态嵌套类中定义的新枚举值
     // 不可将该定义放在外部的 MyCharacter 类中，具体原因见《高级技巧 / 01 - Patch / SpireEnum》
-    public static class PlayerColorEnum {
+    public static class SlayTheDungeonColorEnum {
         // 修改为你的颜色名称，确保不会与其他mod冲突
         @SpireEnum
-        public static PlayerClass MY_CHARACTER;
+        public static PlayerClass HEROS;
 
         // ***将CardColor和LibraryType的变量名改为你的角色的颜色名称，确保不会与其他mod冲突***
         // ***并且名称需要一致！***
         @SpireEnum
-        public static AbstractCard.CardColor EXAMPLE_GREEN;
+        public static AbstractCard.CardColor DEEP_RED;
     }
 
     public static class PlayerLibraryEnum {
@@ -232,6 +237,6 @@ public class Heros extends CustomPlayer {
 
         // 这个变量未被使用（呈现灰色）是正常的
         @SpireEnum
-        public static CardLibrary.LibraryType EXAMPLE_GREEN;
+        public static CardLibrary.LibraryType DEEP_RED;
     }
 }

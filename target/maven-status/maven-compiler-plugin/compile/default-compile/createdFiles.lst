@@ -1,2 +1,6 @@
-io/github/zhuiye486/cards/Strike.class
-io/github/zhuiye486/SlayTheDungeon.class
+io\github\zhuiye486\characters\Heros$SlayTheDungeonColorEnum.class
+io\github\zhuiye486\helpers\ModHelper.class
+io\github\zhuiye486\cards\Strike.class
+io\github\zhuiye486\characters\Heros.class
+io\github\zhuiye486\characters\Heros$PlayerLibraryEnum.class
+io\github\zhuiye486\SlayTheDungeon.class

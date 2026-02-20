@@ -1,19 +1,25 @@
 package io.github.zhuiye486;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.localization.CardStrings;
+import com.megacrit.cardcrawl.localization.CharacterStrings;
 
 import basemod.BaseMod;
 import basemod.interfaces.EditCardsSubscriber;
+import basemod.interfaces.EditCharactersSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
+
 import io.github.zhuiye486.cards.Strike;
+import io.github.zhuiye486.characters.Heros;
+import io.github.zhuiye486.characters.Heros.SlayTheDungeonColorEnum;
 
 import com.badlogic.gdx.graphics.Color;
 
 @SpireInitializer
-public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber {
+public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber {
     private static final String CHARACTER_BUTTON = "SlayTheDungeonResources/img/char/Character_Button.png";
     private static final String CHARACTER_PORTRAIT = "SlayTheDungeonResources/img/char/Character_Portrait.png";
     private static final String BG_ATTACK_512 = "SlayTheDungeonResources/img/512/bg_attack.png";
@@ -26,16 +32,19 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
     private static final String BIG_ORB = "SlayTheDungeonResources/img/1024/card_orb.png";
     private static final String ENERGY_ORB = "SlayTheDungeonResources/img/512/card_orb.png";
     
-    private static final Color SLAY_THE_DUNGEON_COLOR = new Color(104.0f / 225.0f, 0.0f, 0.2f / 225.0f, 1.0f);
+    public static final Color SLAY_THE_DUNGEON_COLOR = new Color(104.0f / 225.0f, 0.0f, 0.2f / 225.0f, 1.0f);
     
 
     public SlayTheDungeon() {
-
+        BaseMod.subscribe(this);
+        BaseMod.addColor(SlayTheDungeonColorEnum.DEEP_RED, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR,
+                SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR,
+                BG_ATTACK_512, BG_SKILL_512, BG_POWER_512, ENERGY_ORB,
+                BG_ATTACK_1024, BG_SKILL_1024, BG_POWER_1024, BIG_ORB, SMALL_ORB);
     }
 
     public static void initialize() {
-        SlayTheDungeon instance = new SlayTheDungeon();
-        BaseMod.subscribe(instance);
+        new SlayTheDungeon();
         System.out.println("SlayTheDungeon initialized.");
     }
 
@@ -53,5 +62,12 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
             lang = "ENG";
         }
         BaseMod.loadCustomStringsFile(CardStrings.class, "SlayTheDungeonResources/localization/" + lang + "/cards.json");
+        BaseMod.loadCustomStringsFile(CharacterStrings.class, "SlayTheDungeonResources/localization/" + lang + "/characters.json");
     }
+
+    @Override
+    public void receiveEditCharacters() {
+        BaseMod.addCharacter(new Heros(CardCrawlGame.playerName, SlayTheDungeonColorEnum.HEROS), CHARACTER_BUTTON, CHARACTER_PORTRAIT, SlayTheDungeonColorEnum.HEROS);
+    }
+
 }
