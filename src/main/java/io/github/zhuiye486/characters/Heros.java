@@ -1,30 +1,28 @@
 package io.github.zhuiye486.characters;
 
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.core.EnergyManager;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
+import com.megacrit.cardcrawl.events.city.Vampires;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
-import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.relics.Vajra;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
-import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
-import com.megacrit.cardcrawl.events.city.Vampires;
-
-
-import io.github.zhuiye486.cards.Strike;
-import io.github.zhuiye486.SlayTheDungeon;
-
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.Color;
 
 import basemod.abstracts.CustomPlayer;
+import io.github.zhuiye486.SlayTheDungeon;
+import io.github.zhuiye486.cards.Strike;
 
 // 继承CustomPlayer类
 public class Heros extends CustomPlayer {
@@ -83,6 +81,7 @@ public class Heros extends CustomPlayer {
     }
 
     // 初始卡组的ID，可直接写或引用变量
+    @Override
     public ArrayList<String> getStartingDeck() {
         ArrayList<String> retVal = new ArrayList<>();
         for(int x = 0; x<5; x++) {
@@ -93,12 +92,14 @@ public class Heros extends CustomPlayer {
     }
 
     // 初始遗物的ID，可以先写个原版遗物凑数
+    @Override
     public ArrayList<String> getStartingRelics() {
         ArrayList<String> retVal = new ArrayList<>();
         retVal.add(Vajra.ID);
         return retVal;
     }
 
+    @Override
     public CharSelectInfo getLoadout() {
         return new CharSelectInfo(
                 characterStrings.NAMES[0], // 人物名字
