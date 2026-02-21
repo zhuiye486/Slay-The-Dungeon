@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
+import com.megacrit.cardcrawl.localization.EventStrings;
 
 import basemod.BaseMod;
 import basemod.interfaces.EditCardsSubscriber;
@@ -63,6 +64,7 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         }
         BaseMod.loadCustomStringsFile(CardStrings.class, "SlayTheDungeonResources/localization/" + lang + "/cards.json");
         BaseMod.loadCustomStringsFile(CharacterStrings.class, "SlayTheDungeonResources/localization/" + lang + "/characters.json");
+        BaseMod.loadCustomStringsFile(EventStrings.class, "SlayTheDungeonResources/localization/" + lang + "/events.json");
     }
 
     @Override
