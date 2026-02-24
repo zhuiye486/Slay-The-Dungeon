@@ -2,10 +2,12 @@
     "SlayTheDungeon:ChooseHeros": {
         "NAME": "组建你的小队！",
         "DESCRIPTIONS": [
-            
+            "请选择你的英雄小队。"
         ],
         "OPTIONS": [
-            
+            "1",
+            "2",
+            "3"
         ]
     }
 }

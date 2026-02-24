@@ -14,7 +14,7 @@ import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 
 
-public class ChooseHeros extends AbstractImageEvent {
+public class ChooseHeroes extends AbstractImageEvent {
     public final static String ID = "SlayTheDungeon:ChooseHeros";
     private static final EventStrings EVENT_STRINGS = CardCrawlGame.languagePack.getEventString(ID);
     private static final String NAME = EVENT_STRINGS.NAME;
@@ -25,7 +25,7 @@ public class ChooseHeros extends AbstractImageEvent {
     private List<Integer> selectedHeroes = new ArrayList<>();
     private List<Integer> currentSequence;
 
-    public ChooseHeros() {
+    public ChooseHeroes() {
         super(NAME, DESCRIPTIONS[0], "img/event/chooseHeros.jpg");
 
         this.currentSequence = generateUniqueRandomSequence(4, 1, 18);
@@ -40,7 +40,7 @@ public class ChooseHeros extends AbstractImageEvent {
 
     @Override
     public void onEnterRoom() {
-        
+        System.out.println("ChooseHeroes event entered room.");
     }
 
     //需要本地化，添加卡牌
@@ -74,7 +74,7 @@ public class ChooseHeros extends AbstractImageEvent {
             this.imageEventText.updateBodyText("选择完成！你选择了英雄：" + this.selectedHeroes.toString());
             this.imageEventText.setDialogOption("离开");
             // Set selectedHeroes in Heros class
-            io.github.zhuiye486.characters.Heros.selectedHeroes = new ArrayList<>(this.selectedHeroes);
+            io.github.zhuiye486.characters.Heroes.selectedHeroes = new ArrayList<>(this.selectedHeroes);
         }
     }
 

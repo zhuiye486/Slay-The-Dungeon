@@ -15,8 +15,8 @@ import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
 
 import io.github.zhuiye486.cards.Strike;
-import io.github.zhuiye486.characters.Heros;
-import io.github.zhuiye486.characters.Heros.SlayTheDungeonColorEnum;
+import io.github.zhuiye486.characters.Heroes;
+import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 
 import com.badlogic.gdx.graphics.Color;
 
@@ -70,7 +70,7 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
 
     @Override
     public void receiveEditCharacters() {
-        BaseMod.addCharacter(new Heros(CardCrawlGame.playerName, SlayTheDungeonColorEnum.HEROS), CHARACTER_BUTTON, CHARACTER_PORTRAIT, SlayTheDungeonColorEnum.HEROS);
+        BaseMod.addCharacter(new Heroes(CardCrawlGame.playerName, SlayTheDungeonColorEnum.Heroes), CHARACTER_BUTTON, CHARACTER_PORTRAIT, SlayTheDungeonColorEnum.Heroes);
     }
 
     @Override

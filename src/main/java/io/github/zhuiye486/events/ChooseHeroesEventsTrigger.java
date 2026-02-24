@@ -11,10 +11,10 @@ import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.map.MapEdge;
 
-public class ChooseHerosEventsTrigger {
+public class ChooseHeroesEventsTrigger {
     private static String targetEventName = null;
 
-    public static void triggerChooseHerosEvent() {
+    public static void triggerChooseHeroesEvent() {
         AbstractDungeon.effectList.add(new AbstractGameEffect() {  // 天才!!
             @Override
             public void update() {
@@ -63,7 +63,7 @@ public class ChooseHerosEventsTrigger {
                 @Override
                 public void onPlayerEntry() {
                     AbstractDungeon.overlayMenu.proceedButton.hide();
-                    this.event = new ChooseHeros();
+                    this.event = new ChooseHeroes();
                     this.event.onEnterRoom();
                 }
             };

@@ -26,7 +26,7 @@ import io.github.zhuiye486.SlayTheDungeon;
 import io.github.zhuiye486.cards.Strike;
 
 // 继承CustomPlayer类
-public class Heros extends CustomPlayer {
+public class Heroes extends CustomPlayer {
     // 静态字段存储选择的英雄
     public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
     // 火堆的人物立绘（行动前）
@@ -74,7 +74,7 @@ public class Heros extends CustomPlayer {
         "Vestal",
     };
 
-    public Heros(String name, PlayerClass setClass) {
+    public Heroes(String name, PlayerClass setClass) {
         super(name, setClass, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
 
         // 人物对话气泡的大小，如果游戏中尺寸不对在这里修改（libgdx的坐标轴左下为原点）
@@ -254,7 +254,7 @@ public class Heros extends CustomPlayer {
     // 创建人物实例，照抄，记得替换MyCharacter为你的类名
     @Override
     public AbstractPlayer newInstance() {
-        return new Heros(this.name, SlayTheDungeonColorEnum.HEROS);
+        return new Heroes(this.name, SlayTheDungeonColorEnum.Heroes);
     }
 
     // 第三章面对心脏说的话（例如战士是“你握紧了你的长刀……”之类的）
@@ -305,7 +305,7 @@ public class Heros extends CustomPlayer {
     public static class SlayTheDungeonColorEnum {
         // 修改为你的颜色名称，确保不会与其他mod冲突
         @SpireEnum
-        public static PlayerClass HEROS;
+        public static PlayerClass Heroes;
 
         // ***将CardColor和LibraryType的变量名改为你的角色的颜色名称，确保不会与其他mod冲突***
         // ***并且名称需要一致！***
