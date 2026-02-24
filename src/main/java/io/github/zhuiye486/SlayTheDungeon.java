@@ -12,6 +12,7 @@ import basemod.BaseMod;
 import basemod.interfaces.EditCardsSubscriber;
 import basemod.interfaces.EditCharactersSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
+import basemod.interfaces.PostInitializeSubscriber;
 
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heros;
@@ -20,7 +21,7 @@ import io.github.zhuiye486.characters.Heros.SlayTheDungeonColorEnum;
 import com.badlogic.gdx.graphics.Color;
 
 @SpireInitializer
-public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber {
+public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber {
     private static final String CHARACTER_BUTTON = "SlayTheDungeonResources/img/char/Character_Button.png";
     private static final String CHARACTER_PORTRAIT = "SlayTheDungeonResources/img/char/Character_Portrait.png";
     private static final String BG_ATTACK_512 = "SlayTheDungeonResources/img/512/bg_attack.png";
@@ -70,6 +71,13 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
     @Override
     public void receiveEditCharacters() {
         BaseMod.addCharacter(new Heros(CardCrawlGame.playerName, SlayTheDungeonColorEnum.HEROS), CHARACTER_BUTTON, CHARACTER_PORTRAIT, SlayTheDungeonColorEnum.HEROS);
+    }
+
+    @Override
+    public void receivePostInitialize() {
+        // Trigger ChooseHeros event after character selection and before game start
+        // Note: This is a placeholder; actual triggering may need to be in a patch or different hook
+        // For now, assume it's called when the game starts
     }
 
 }

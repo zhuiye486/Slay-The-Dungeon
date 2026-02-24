@@ -73,6 +73,8 @@ public class ChooseHeros extends AbstractImageEvent {
             this.imageEventText.clearRemainingOptions();
             this.imageEventText.updateBodyText("选择完成！你选择了英雄：" + this.selectedHeroes.toString());
             this.imageEventText.setDialogOption("离开");
+            // Set selectedHeroes in Heros class
+            io.github.zhuiye486.characters.Heros.selectedHeroes = new ArrayList<>(this.selectedHeroes);
         }
     }
 

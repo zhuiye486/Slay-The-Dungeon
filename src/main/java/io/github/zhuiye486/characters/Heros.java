@@ -1,5 +1,6 @@
 package io.github.zhuiye486.characters;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
@@ -26,12 +27,14 @@ import io.github.zhuiye486.cards.Strike;
 
 // 继承CustomPlayer类
 public class Heros extends CustomPlayer {
+    // 静态字段存储选择的英雄
+    public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
     // 火堆的人物立绘（行动前）
     private static final String CHARACTER_SHOULDER_1 = "SlayTheDungeonResources/img/char/shoulder1.png";
     // 火堆的人物立绘（行动后）
     private static final String CHARACTER_SHOULDER_2 = "SlayTheDungeonResources/img/char/shoulder2.png";
     // 人物死亡图像
-    private static final String CORPSE_IMAGE = "SlayTheDungeonResources/img/char/corpse.png";
+    private static final String CORPSE_IMAGE = "SlayTheDungeonResources/img/char/Corpse.png";
     // 战斗界面左下角能量图标的每个图层
     private static final String[] ORB_TEXTURES = new String[]{
             "SlayTheDungeonResources/img/UI/orb/layer5.png",
@@ -39,7 +42,7 @@ public class Heros extends CustomPlayer {
             "SlayTheDungeonResources/img/UI/orb/layer3.png",
             "SlayTheDungeonResources/img/UI/orb/layer2.png",
             "SlayTheDungeonResources/img/UI/orb/layer1.png",
-            "SlayTheDungeonResources/img/UI/orb/layer6.png",
+            "SlayTheDungeonResources/img/UI/orb/layer_locker.png",
             "SlayTheDungeonResources/img/UI/orb/layer5d.png",
             "SlayTheDungeonResources/img/UI/orb/layer4d.png",
             "SlayTheDungeonResources/img/UI/orb/layer3d.png",
@@ -50,6 +53,26 @@ public class Heros extends CustomPlayer {
     private static final float[] LAYER_SPEED = new float[]{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
     // 人物的本地化文本，如卡牌的本地化文本一样，如何书写见下
     private static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("SlayTheDungeon:Heros");
+    private static final String[] heroNames = new String[]{
+        "Abomination",
+        "Antiquarian",
+        "Arbalest",
+        "Bounty_Hunter",
+        "Crusader",
+        "Flagellant",
+        "Grave_Robber",
+        "Hellion",
+        "Highwayman",
+        "Houndmaster",
+        "Jester",
+        "Leper",
+        "Man_At_Arms",
+        "Musketeer",
+        "Occultist",
+        "Plague_Doctor",
+        "Shieldbreaker",
+        "Vestal",
+    };
 
     public Heros(String name, PlayerClass setClass) {
         super(name, setClass, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
@@ -60,8 +83,9 @@ public class Heros extends CustomPlayer {
 
 
         // 初始化你的人物，如果你的人物只有一张图，那么第一个参数填写你人物图片的路径。
+        String characterImage = getCharacterImagePath();
         this.initializeClass(
-                "SlayTheDungeonResources/img/char/character.png", // 人物图片
+                characterImage, // 人物图片
                 CHARACTER_SHOULDER_2, CHARACTER_SHOULDER_1,
                 CORPSE_IMAGE, // 人物死亡图像
                 this.getLoadout(),
@@ -80,14 +104,39 @@ public class Heros extends CustomPlayer {
 
     }
 
+    private String getCharacterImagePath() {
+        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+            int primaryHero = selectedHeroes.get(0);
+            return "SlayTheDungeonResources/img/char/" + heroNames[primaryHero - 1] + ".png";
+        } else {
+            return "SlayTheDungeonResources/img/char/Charcter_Portrait.png";
+        }
+    }
+
     // 初始卡组的ID，可直接写或引用变量
     @Override
     public ArrayList<String> getStartingDeck() {
         ArrayList<String> retVal = new ArrayList<>();
-        for(int x = 0; x<5; x++) {
-            retVal.add(Strike.ID);
+        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+            // Combine decks from selected heroes
+            for (Integer hero : selectedHeroes) {
+                switch (hero) {
+                    case 1:
+                        retVal.add("SlayTheDungeon:Strike");
+                        break;
+                    // Add cases for other heroes
+                    default:
+                        retVal.add(Strike.ID);
+                        break;
+                }
+            }
+        } else {
+            // Default deck
+            for(int x = 0; x<5; x++) {
+                retVal.add(Strike.ID);
+            }
+            retVal.add("SlayTheDungeon:Strike");
         }
-        retVal.add("SlayTheDungeon:Strike");
         return retVal;
     }
 
@@ -95,7 +144,23 @@ public class Heros extends CustomPlayer {
     @Override
     public ArrayList<String> getStartingRelics() {
         ArrayList<String> retVal = new ArrayList<>();
-        retVal.add(Vajra.ID);
+        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+            // Combine relics from selected heroes
+            for (Integer hero : selectedHeroes) {
+                switch (hero) {
+                    case 1:
+                        retVal.add(Vajra.ID);
+                        break;
+                    // Add cases for other heroes
+                    default:
+                        retVal.add(Vajra.ID);
+                        break;
+                }
+            }
+        } else {
+            // Default relic
+            retVal.add(Vajra.ID);
+        }
         return retVal;
     }
 
@@ -119,7 +184,12 @@ public class Heros extends CustomPlayer {
     // 人物名字（出现在游戏左上角）
     @Override
     public String getTitle(PlayerClass playerClass) {
-        return characterStrings.NAMES[0];
+        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+            int primaryHero = selectedHeroes.get(0);
+            return "英雄 " + primaryHero;
+        } else {
+            return characterStrings.NAMES[0];
+        }
     }
 
     // 你的卡牌颜色（这个枚举在最下方创建）
@@ -215,6 +285,17 @@ public class Heros extends CustomPlayer {
     @Override
     public AbstractGameAction.AttackEffect[] getSpireHeartSlashEffect() {
         return new AbstractGameAction.AttackEffect[]{AbstractGameAction.AttackEffect.SLASH_HEAVY, AbstractGameAction.AttackEffect.FIRE, AbstractGameAction.AttackEffect.SLASH_DIAGONAL, AbstractGameAction.AttackEffect.SLASH_HEAVY, AbstractGameAction.AttackEffect.FIRE, AbstractGameAction.AttackEffect.SLASH_DIAGONAL};
+    }
+
+    // Save and Load methods for selectedHeroes
+    public void saveSelectedHeroes() {
+        // Implementation for saving selectedHeroes, e.g., using SpireConfig or similar
+        // For now, placeholder
+    }
+
+    public void loadSelectedHeroes() {
+        // Implementation for loading selectedHeroes
+        // For now, placeholder
     }
 
     // 以下为原版人物枚举、卡牌颜色枚举扩展的枚举，需要写，接下来要用
