@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -29,6 +33,8 @@ import io.github.zhuiye486.cards.Strike;
 public class Heroes extends CustomPlayer {
     // 静态字段存储选择的英雄
     public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
+    // 静态实例引用
+    public static Heroes instance = null;
     // 火堆的人物立绘（行动前）
     private static final String CHARACTER_SHOULDER_1 = "SlayTheDungeonResources/img/char/shoulder1.png";
     // 火堆的人物立绘（行动后）
@@ -74,8 +80,63 @@ public class Heroes extends CustomPlayer {
         "Vestal",
     };
 
+    public static void composeCharacterImage(java.util.List<Integer> heroes) {
+        if (heroes == null || heroes.size() != 4) {
+            System.out.println("Invalid heroes list for composition.");
+            return;
+        }
+
+        Pixmap[] heroPixmaps = new Pixmap[4];
+        int totalWidth = 0;
+        int height = 512; // Unified height
+
+        // Load hero images
+        for (int i = 0; i < 4; i++) {
+            int heroIndex = heroes.get(i) - 1; // 0-based
+            String heroName = heroNames[heroIndex];
+            String path = "SlayTheDungeonResources/img/char/" + heroName + ".png";
+            try {
+                Texture texture = new Texture(Gdx.files.internal(path));
+                texture.getTextureData().prepare();
+                heroPixmaps[i] = texture.getTextureData().consumePixmap();
+                totalWidth += heroPixmaps[i].getWidth();
+            } catch (Exception e) {
+                System.out.println("Failed to load hero image: " + path);
+                e.printStackTrace();
+                return;
+            }
+        }
+
+        // Create composed pixmap
+        Pixmap composed = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
+        int currentX = 0;
+        for (Pixmap pix : heroPixmaps) {
+            composed.drawPixmap(pix, currentX, 0);
+            currentX += pix.getWidth();
+            pix.dispose();
+        }
+
+        // Save composed image
+        try {
+            Texture composedTexture = new Texture(composed);
+            System.out.println("Composed hero texture created.");
+            // Set to instance if exists
+            if (instance != null) {
+                instance.img.dispose();
+                instance.img = composedTexture;
+                System.out.println("Composed texture set to player img.");
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to create composed texture.");
+            e.printStackTrace();
+        } finally {
+            composed.dispose();
+        }
+    }
+
     public Heroes(String name, PlayerClass setClass) {
         super(name, setClass, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
+        instance = this;
 
         // 人物对话气泡的大小，如果游戏中尺寸不对在这里修改（libgdx的坐标轴左下为原点）
         this.dialogX = (this.drawX + 0.0F * Settings.scale);
@@ -107,9 +168,13 @@ public class Heroes extends CustomPlayer {
     private String getCharacterImagePath() {
         if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
             int primaryHero = selectedHeroes.get(0);
-            return "SlayTheDungeonResources/img/char/" + heroNames[primaryHero - 1] + ".png";
+            String heroPath = "SlayTheDungeonResources/img/char/" + heroNames[primaryHero - 1] + ".png";
+            System.out.println("Using hero image: " + heroPath);
+            return heroPath;
         } else {
-            return "SlayTheDungeonResources/img/char/Charcter_Portrait.png";
+            String defaultPath = "SlayTheDungeonResources/img/char/Character_Portrait.png";
+            System.out.println("Using default image: " + defaultPath);
+            return defaultPath;
         }
     }
 

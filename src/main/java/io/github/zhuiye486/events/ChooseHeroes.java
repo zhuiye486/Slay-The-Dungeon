@@ -28,7 +28,7 @@ public class ChooseHeroes extends AbstractImageEvent {
     public ChooseHeroes() {
         super(NAME, DESCRIPTIONS[0], "img/event/chooseHeros.jpg");
 
-        this.currentSequence = generateUniqueRandomSequence(4, 1, 18);
+        this.currentSequence = generateUniqueRandomSequence(4, 1, 18, this.selectedHeroes);
         this.imageEventText.clearAllDialogs();
         this.imageEventText.clearRemainingOptions();
 
@@ -58,7 +58,7 @@ public class ChooseHeroes extends AbstractImageEvent {
 
         if (this.choiceCount < 4) {
             // 生成新的4个选项
-            this.currentSequence = generateUniqueRandomSequence(4, 1, 18);
+            this.currentSequence = generateUniqueRandomSequence(4, 1, 18, this.selectedHeroes);
             this.imageEventText.clearAllDialogs();
             this.imageEventText.clearRemainingOptions();
             this.imageEventText.updateBodyText("这是第" + (this.choiceCount + 1) + "次选择，请从以下英雄中选择一个：");
@@ -73,16 +73,18 @@ public class ChooseHeroes extends AbstractImageEvent {
             this.imageEventText.clearRemainingOptions();
             this.imageEventText.updateBodyText("选择完成！你选择了英雄：" + this.selectedHeroes.toString());
             this.imageEventText.setDialogOption("离开");
-            // Set selectedHeroes in Heros class
+            // Set selectedHeroes in Heroes class
             io.github.zhuiye486.characters.Heroes.selectedHeroes = new ArrayList<>(this.selectedHeroes);
+            // Compose character image
+            io.github.zhuiye486.characters.Heroes.composeCharacterImage(this.selectedHeroes);
         }
     }
 
-    private static List<Integer> generateUniqueRandomSequence(int sequenceSize, int minNumber, int maxNumber) {
+    private static List<Integer> generateUniqueRandomSequence(int sequenceSize, int minNumber, int maxNumber, List<Integer> excluded) {
         Set<Integer> availableNumbers = new HashSet<>();
 
         for (int i = minNumber; i <= maxNumber; i++) {
-            if (!allUsedNumbers.contains(i))
+            if (!allUsedNumbers.contains(i) && !excluded.contains(i))
                 availableNumbers.add(i); 
         } 
         Random random = new Random(AbstractDungeon.miscRng.randomLong());
@@ -95,7 +97,7 @@ public class ChooseHeroes extends AbstractImageEvent {
         } 
         List<Integer> sequence = new LinkedList<>();
         for (int i = 1; i <= sequenceSize; i++) {
-            if (!allUsedNumbers.contains(i)) {
+            if (!allUsedNumbers.contains(i) && !excluded.contains(i)) {
                 sequence.add(i);
             }
         }
