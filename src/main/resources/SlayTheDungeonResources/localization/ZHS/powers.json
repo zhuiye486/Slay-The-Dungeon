@@ -1,0 +1,9 @@
+{
+    "SlayTheDungeon:Mark": {
+        "NAME": "标记",
+        "DESCRIPTIONS": [
+            "当你受到攻击时，失去 ",
+            " 点生命。"
+        ]
+    }
+}

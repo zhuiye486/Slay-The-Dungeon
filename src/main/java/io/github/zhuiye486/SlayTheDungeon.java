@@ -1,27 +1,31 @@
 package io.github.zhuiye486;
 
+import java.nio.charset.StandardCharsets;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.google.gson.Gson;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.localization.Keyword;
 
 import basemod.BaseMod;
 import basemod.interfaces.EditCardsSubscriber;
 import basemod.interfaces.EditCharactersSubscriber;
+import basemod.interfaces.EditKeywordsSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
-
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 
-import com.badlogic.gdx.graphics.Color;
-
 @SpireInitializer
-public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber {
+public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber, EditKeywordsSubscriber {
     private static final String CHARACTER_BUTTON = "SlayTheDungeonResources/img/char/Character_Button.png";
     private static final String CHARACTER_PORTRAIT = "SlayTheDungeonResources/img/char/Character_Portrait.png";
     private static final String BG_ATTACK_512 = "SlayTheDungeonResources/img/512/bg_attack.png";
@@ -78,6 +82,25 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         // Trigger ChooseHeros event after character selection and before game start
         // Note: This is a placeholder; actual triggering may need to be in a patch or different hook
         // For now, assume it's called when the game starts
+    }
+
+    @Override
+    public void receiveEditKeywords() {
+        Gson gson = new Gson();
+        String lang;
+        if (Settings.language == GameLanguage.ZHS) {
+            lang = "ZHS";
+        } else {
+            lang = "ENG";
+        }
+
+        String json = Gdx.files.internal("SlayTheDungeonResources/localization/" + lang + "/keywords.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        Keyword[] keywords = gson.fromJson(json, Keyword[].class);
+        if (keywords != null){
+            for (Keyword keyword : keywords){
+                BaseMod.addKeyword("slaythedungeon", keyword.NAMES[0], keyword.NAMES, keyword.DESCRIPTION);
+            }
+        }   
     }
 
 }
