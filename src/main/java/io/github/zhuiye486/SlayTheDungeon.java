@@ -20,6 +20,10 @@ import basemod.interfaces.EditCharactersSubscriber;
 import basemod.interfaces.EditKeywordsSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
+import io.github.zhuiye486.cards.Arbalest.SniperShot;
+import io.github.zhuiye486.cards.Arbalest.SnipersMark;
+import io.github.zhuiye486.cards.Arbalest.SuppressingFire;
+import io.github.zhuiye486.cards.BountyHunter.Uppercut;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -57,6 +61,10 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
     @Override
     public void receiveEditCards() {
         BaseMod.addCard(new Strike());
+        BaseMod.addCard(new SniperShot());
+        BaseMod.addCard(new SnipersMark());
+        BaseMod.addCard(new SuppressingFire());
+        BaseMod.addCard(new Uppercut());
     }
 
     @Override

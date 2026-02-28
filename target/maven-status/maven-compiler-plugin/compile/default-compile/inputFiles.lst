@@ -1,4 +1,8 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/SlayTheDungeon.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Arbalest/SniperShot.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Arbalest/SnipersMark.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Arbalest/SuppressingFire.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/BountyHunter/Uppercut.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Strike.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/characters/Heroes.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/ChooseHeroes.java
@@ -6,3 +10,4 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/ChooseHeroesWithNeow.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/SDAbstractEventRoom.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/helpers/ModHelper.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/Mark.java

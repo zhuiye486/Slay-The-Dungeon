@@ -3,5 +3,21 @@
         "NAME": "打击",
         "DESCRIPTION": "造成 !D! 点伤害。",
         "UPGRADE_DESCRIPTION": " 固有 。 NL 造成 !D! 点伤害。"
+    },
+    
+    "SlayTheDungeon:SniperShot": {
+        "NAME": "狙击",
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1层 slaythedunegon:标记 ，额外触发一次。"
+    },
+
+    "SlayTheDungeon:SnipersMark": {
+        "NAME": "狙击标记",
+        "DESCRIPTION": "给予 !M! 层 slaythedungeon:标记 和 !M! 层 虚弱 。"
+    },
+
+    "SlayTheDungeon:SuppressingFire": {
+        "NAME": "压制射击",
+        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1层 slaythedunegon:标记 ，额外触发一次。"
     }
+
 }

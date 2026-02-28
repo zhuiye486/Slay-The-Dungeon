@@ -1,4 +1,6 @@
 io/github/zhuiye486/events/ChooseHeroesWithNeow$TriggerChooseHeroesEventPatch.class
+io/github/zhuiye486/powers/Mark.class
+io/github/zhuiye486/cards/Arbalest/SniperShot.class
 io/github/zhuiye486/characters/Heroes.class
 io/github/zhuiye486/events/ChooseHeroesEventsTrigger$1.class
 io/github/zhuiye486/characters/Heroes$SlayTheDungeonColorEnum.class
@@ -6,8 +8,11 @@ io/github/zhuiye486/SlayTheDungeon.class
 io/github/zhuiye486/characters/Heroes$PlayerLibraryEnum.class
 io/github/zhuiye486/events/ChooseHeroesWithNeow.class
 io/github/zhuiye486/events/ChooseHeroesEventsTrigger$2.class
+io/github/zhuiye486/cards/BountyHunter/Uppercut.class
 io/github/zhuiye486/helpers/ModHelper.class
 io/github/zhuiye486/events/ChooseHeroesEventsTrigger.class
 io/github/zhuiye486/cards/Strike.class
+io/github/zhuiye486/cards/Arbalest/SuppressingFire.class
 io/github/zhuiye486/events/ChooseHeroes.class
+io/github/zhuiye486/cards/Arbalest/SnipersMark.class
 io/github/zhuiye486/events/SDAbstractEventRoom.class

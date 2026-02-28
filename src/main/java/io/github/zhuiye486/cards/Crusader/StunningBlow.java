@@ -1,0 +1,64 @@
+package io.github.zhuiye486.cards.Crusader;
+
+import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.CardStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+
+import basemod.abstracts.CustomCard;
+import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
+import io.github.zhuiye486.helpers.ModHelper;
+
+public class StunningBlow extends CustomCard{
+    public static final String ID = ModHelper.makePath(StunningBlow.class.getSimpleName());
+    private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
+    private static final String NAME = CARD_STRINGS.NAME;
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/StunningBlow.png";
+    private static final int COST = 1;
+    private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
+    private static final CardType TYPE = CardType.ATTACK;
+    private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
+    private static final CardRarity RARITY = CardRarity.BASIC;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
+
+    public StunningBlow() {
+        super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.damage = this.baseDamage = 2;
+    }
+
+    @Override
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        addToBot(
+            new DamageAction(
+                m, 
+                new DamageInfo(
+                    p, 
+                    this.damage,
+                    DamageInfo.DamageType.NORMAL
+                )
+            )
+        );
+        addToBot(
+            new StunMonsterAction(
+                m, 
+                p)
+        );
+    }
+
+    @Override
+    public void upgrade() {
+        if (!this.upgraded) {
+            upgradeName();
+            upgradeDamage(2);
+        }
+    }
+
+    @Override
+    public AbstractCard makeCopy() {
+        return new StunningBlow();
+    }
+}

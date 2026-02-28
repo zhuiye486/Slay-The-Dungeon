@@ -6,5 +6,5 @@
   "version": "0.0.1",
   "sts_version": "2022-12-20",
   "mts_version": "3.30.3",
-  "dependencies": ["basemod"]
+  "dependencies": ["basemod", "stslib"]
 }
