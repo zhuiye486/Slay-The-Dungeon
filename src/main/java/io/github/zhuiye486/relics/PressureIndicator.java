@@ -50,10 +50,7 @@ public class PressureIndicator extends CustomRelic{
     public int generateRandomNumber(int baseNum) {
         Random random = new Random(AbstractDungeon.miscRng.randomLong());
         float avoidChance = 0.3f;
-        int output = random.nextInt(
-            (int)((-baseNum) * avoidChance),
-            (int)(baseNum * (1 - avoidChance))
-        );
+        int output = (int)((random.nextFloat() * (float)baseNum) - ((float)baseNum * avoidChance));
 
         return output;
     }

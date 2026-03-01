@@ -7,15 +7,15 @@ import basemod.abstracts.DynamicVariable;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 
-public class MagicNumber2 extends DynamicVariable{
+public class Heal extends DynamicVariable{
     @Override
     public String key() {
-        return "SlayTheDungeon:M2";
+        return "SlayTheDungeon:H";
     }
 
     @Override
     public boolean isModified(AbstractCard card) {
-        return ;
+        return card.is;
     }
 
     @Override
@@ -28,11 +28,8 @@ public class MagicNumber2 extends DynamicVariable{
         return card.baseHeal;
     }
 
-
-
     @Override
     public boolean upgraded(AbstractCard card) {
         return card.upgraded;
     }
-
 }
