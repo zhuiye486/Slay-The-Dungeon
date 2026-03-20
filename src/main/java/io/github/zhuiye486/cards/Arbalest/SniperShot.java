@@ -16,7 +16,7 @@ public class SniperShot extends CustomCard {
     public static final String ID = ModHelper.makePath(SniperShot.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/SniperShot.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Itsuki_A.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.ATTACK;
@@ -31,7 +31,10 @@ public class SniperShot extends CustomCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        int count = 1 + m.getPower("Mark").amount;
+        int count = 1;
+        if (this.target != null && m.hasPower("SlayTheDungeon:Mark")) {
+            count += m.getPower("SlayTheDungeon:Mark").amount;
+        }
         for (int i = 0; i < count; i++) {
             addToBot(
                 new DamageAction(

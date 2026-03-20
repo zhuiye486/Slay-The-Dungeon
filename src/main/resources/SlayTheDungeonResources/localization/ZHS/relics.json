@@ -1,0 +1,9 @@
+{
+    "SlayTheDungeon:PressureIndicator": {
+        "NAME": "压力指示器",
+        "FLAVOR": "感受到压力的存在。",
+        "DESCRIPTIONS": [
+            "显示队伍的当前压力值。"
+        ]
+    }
+}

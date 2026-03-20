@@ -7,17 +7,17 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
-import com.megacrit.cardcrawl.powers.watcher.MarkPower;
 
 import basemod.abstracts.CustomCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.powers.MarkPower;
 
 public class MarkForDeath extends CustomCard {
     public static final String ID = ModHelper.makePath(MarkForDeath.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/MarkForDeath.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Itsuki_S.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
@@ -34,8 +34,8 @@ public class MarkForDeath extends CustomCard {
     public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(
             new ApplyPowerAction(
-                p, 
                 m, 
+                p, 
                 new VulnerablePower(
                     m, 
                     magicNumber, 
@@ -45,8 +45,8 @@ public class MarkForDeath extends CustomCard {
         );
         addToBot(
             new ApplyPowerAction(
-                p, 
                 m, 
+                p, 
                 new MarkPower(
                     m, 
                     magicNumber

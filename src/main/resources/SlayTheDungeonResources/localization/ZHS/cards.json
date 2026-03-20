@@ -7,17 +7,47 @@
     
     "SlayTheDungeon:SniperShot": {
         "NAME": "狙击",
-        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1层 slaythedunegon:标记 ，额外触发一次。"
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1层 标记 ，额外触发一次。"
     },
 
     "SlayTheDungeon:SnipersMark": {
         "NAME": "狙击标记",
-        "DESCRIPTION": "给予 !M! 层 slaythedungeon:标记 和 !M! 层 虚弱 。"
+        "DESCRIPTION": "给予 !M! 层 标记 和 !M! 层 虚弱 。"
     },
 
     "SlayTheDungeon:SuppressingFire": {
         "NAME": "压制射击",
-        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1层 slaythedunegon:标记 ，额外触发一次。"
+        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1层 标记 ，额外触发一次。"
+    },
+
+    "SlayTheDungeon:FinishHim": {
+        "NAME": "了结他！",
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有 标记 和 眩晕 中的一项，额外触发一次。"
+    },
+
+    "SlayTheDungeon:MarkForDeath": {
+        "NAME": "死亡标记",
+        "DESCRIPTION": "给予敌人 !M! 层 标记 和 !M! 层 易伤 。"
+    },
+
+    "SlayTheDungeon:Uppercut": {
+        "NAME": "上勾拳",
+        "DESCRIPTION": "造成 !D! 点伤害，眩晕 敌人1回合。"
+    },
+
+    "SlayTheDungeon:BulwarkOfFaith": {
+        "NAME": "信仰壁障",
+        "DESCRIPTION": "获得 !B! 点格挡，给予自己 !M! 层 标记 。"
+    },
+
+    "SlayTheDungeon:InspiringCry": {
+        "NAME": "鼓舞呐喊",
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命，减少 !M! 点 压力。"
+    },
+
+    "SlayTheDungeon:StunningBlow": {
+        "NAME": "眩晕击",
+        "DESCRIPTION": "造成 !D! 点伤害，眩晕 敌人1回合。"
     }
 
 }

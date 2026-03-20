@@ -12,7 +12,7 @@ import io.github.zhuiye486.helpers.ModHelper;
 
 public class PressureIndicator extends CustomRelic{
     public static final String ID = ModHelper.makePath(PressureIndicator.class.getSimpleName());
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/relic/PressureIndicator.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/ExampleRelic.png";
     private static final RelicTier RELIC_TIER = RelicTier.STARTER;
     private static final LandingSound LANDING_SOUND = LandingSound.FLAT;
 
@@ -28,12 +28,12 @@ public class PressureIndicator extends CustomRelic{
     public void wasHPLost(int damageAmount) {
         int pressureAdded = generateRandomNumber(damageAmount);
         counter += pressureAdded;
-        if (counter >= TEST_AMOUNT) {
-            //爆美德或折磨
-        } else if (counter >= DIE_AMOUNT) {
+        if (counter >= DIE_AMOUNT) {
             addToBot(
                 new LoseHPAction(AbstractDungeon.player, null, 99999)
             );
+        } else if (counter >= TEST_AMOUNT) {
+            //爆美德或折磨
         }
     }
 
@@ -44,7 +44,7 @@ public class PressureIndicator extends CustomRelic{
 
     @Override
     public AbstractRelic makeCopy() {
-        return null;
+        return new PressureIndicator();
     }
 
     public int generateRandomNumber(int baseNum) {
@@ -53,5 +53,23 @@ public class PressureIndicator extends CustomRelic{
         int output = (int)((random.nextFloat() * (float)baseNum) - ((float)baseNum * avoidChance));
 
         return output;
+    }
+
+    public void changePressure(int amount) {
+        if (amount < 0 && counter + amount < 0) {
+            counter = 0;
+        } else {
+            counter += amount;
+        }
+
+        if (counter < TEST_AMOUNT) {
+            if (counter >= DIE_AMOUNT) {
+                addToBot(
+                    new LoseHPAction(AbstractDungeon.player, null, 99999)
+                );
+            } else if (counter >= TEST_AMOUNT) {
+                //爆美德或折磨
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
     "SlayTheDungeon:Mark": {
         "NAME": "标记",
         "DESCRIPTIONS": [
-            "当你受到攻击时，失去 ",
+            "当你受到 #y攻击 时，失去 #b",
             " 点生命。"
         ]
     }

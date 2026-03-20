@@ -1,21 +1,24 @@
 package io.github.zhuiye486.variables;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.evacipated.cardcrawl.mod.stslib.StSLib;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 
 import basemod.abstracts.DynamicVariable;
-
-import com.megacrit.cardcrawl.cards.AbstractCard;
+import io.github.zhuiye486.patches.HealPatch;
 
 public class Heal extends DynamicVariable{
     @Override
     public String key() {
-        return "SlayTheDungeon:H";
+        return "SlayTheDungeonH";
     }
 
     @Override
     public boolean isModified(AbstractCard card) {
-        return card.is;
+        return HealPatch.isHealModified.get(card);
+    }
+
+    @Override
+    public void setIsModified(AbstractCard card, boolean v) {
+        HealPatch.isHealModified.set(card, v);
     }
 
     @Override
@@ -30,6 +33,6 @@ public class Heal extends DynamicVariable{
 
     @Override
     public boolean upgraded(AbstractCard card) {
-        return card.upgraded;
+        return HealPatch.upgradedHeal.get(card);
     }
 }

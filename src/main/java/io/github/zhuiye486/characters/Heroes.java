@@ -20,12 +20,12 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
-import com.megacrit.cardcrawl.relics.Vajra;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
 
 import basemod.abstracts.CustomPlayer;
 import io.github.zhuiye486.SlayTheDungeon;
 import io.github.zhuiye486.cards.Strike;
+import io.github.zhuiye486.relics.PressureIndicator;
 
 // 继承CustomPlayer类
 public class Heroes extends CustomPlayer {
@@ -133,7 +133,7 @@ public class Heroes extends CustomPlayer {
     }
 
     public Heroes(String name, PlayerClass setClass) {
-        super(name, setClass, ORB_TEXTURES, "SlayTheDungeonResources/img/UI/orb/vfx.png", LAYER_SPEED, null, null);
+        super(name, setClass, ORB_TEXTURES, null, LAYER_SPEED, null, null);
         instance = this;
 
         // 人物对话气泡的大小，如果游戏中尺寸不对在这里修改（libgdx的坐标轴左下为原点）
@@ -207,23 +207,8 @@ public class Heroes extends CustomPlayer {
     @Override
     public ArrayList<String> getStartingRelics() {
         ArrayList<String> retVal = new ArrayList<>();
-        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
-            // Combine relics from selected heroes
-            for (Integer hero : selectedHeroes) {
-                switch (hero) {
-                    case 1:
-                        retVal.add(Vajra.ID);
-                        break;
-                    // Add cases for other heroes
-                    default:
-                        retVal.add(Vajra.ID);
-                        break;
-                }
-            }
-        } else {
-            // Default relic
-            retVal.add(Vajra.ID);
-        }
+        retVal.add(PressureIndicator.ID);
+
         return retVal;
     }
 

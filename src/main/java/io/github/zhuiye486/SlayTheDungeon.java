@@ -13,23 +13,34 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.Keyword;
+import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.localization.RelicStrings;
 
 import basemod.BaseMod;
+import basemod.helpers.RelicType;
 import basemod.interfaces.EditCardsSubscriber;
 import basemod.interfaces.EditCharactersSubscriber;
 import basemod.interfaces.EditKeywordsSubscriber;
+import basemod.interfaces.EditRelicsSubscriber;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
 import io.github.zhuiye486.cards.Arbalest.SniperShot;
 import io.github.zhuiye486.cards.Arbalest.SnipersMark;
 import io.github.zhuiye486.cards.Arbalest.SuppressingFire;
+import io.github.zhuiye486.cards.BountyHunter.FinishHim;
+import io.github.zhuiye486.cards.BountyHunter.MarkForDeath;
 import io.github.zhuiye486.cards.BountyHunter.Uppercut;
+import io.github.zhuiye486.cards.Crusader.BulwarkOfFaith;
+import io.github.zhuiye486.cards.Crusader.InspiringCry;
+import io.github.zhuiye486.cards.Crusader.StunningBlow;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
+import io.github.zhuiye486.relics.PressureIndicator;
+import io.github.zhuiye486.variables.Heal;
 
 @SpireInitializer
-public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber, EditKeywordsSubscriber {
+public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber, EditKeywordsSubscriber, EditRelicsSubscriber {
     private static final String CHARACTER_BUTTON = "SlayTheDungeonResources/img/char/Character_Button.png";
     private static final String CHARACTER_PORTRAIT = "SlayTheDungeonResources/img/char/Character_Portrait.png";
     private static final String BG_ATTACK_512 = "SlayTheDungeonResources/img/512/bg_attack.png";
@@ -65,6 +76,17 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new SnipersMark());
         BaseMod.addCard(new SuppressingFire());
         BaseMod.addCard(new Uppercut());
+        BaseMod.addCard(new FinishHim());
+        BaseMod.addCard(new MarkForDeath());
+        BaseMod.addCard(new BulwarkOfFaith());
+        BaseMod.addCard(new InspiringCry());
+        BaseMod.addCard(new StunningBlow());
+        BaseMod.addDynamicVariable(new Heal());
+    }
+
+    @Override
+    public void receiveEditRelics() {
+        BaseMod.addRelic(new PressureIndicator(), RelicType.SHARED);
     }
 
     @Override
@@ -78,6 +100,8 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.loadCustomStringsFile(CardStrings.class, "SlayTheDungeonResources/localization/" + lang + "/cards.json");
         BaseMod.loadCustomStringsFile(CharacterStrings.class, "SlayTheDungeonResources/localization/" + lang + "/characters.json");
         BaseMod.loadCustomStringsFile(EventStrings.class, "SlayTheDungeonResources/localization/" + lang + "/events.json");
+        BaseMod.loadCustomStringsFile(PowerStrings.class, "SlayTheDungeonResources/localization/" + lang + "/powers.json");
+        BaseMod.loadCustomStringsFile(RelicStrings.class, "SlayTheDungeonResources/localization/" + lang + "/relics.json");
     }
 
     @Override
@@ -110,5 +134,7 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
             }
         }   
     }
+
+    
 
 }
