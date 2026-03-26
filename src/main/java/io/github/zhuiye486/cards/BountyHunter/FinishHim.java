@@ -9,11 +9,11 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster.Intent;
 
-import basemod.abstracts.CustomCard;
+import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 
-public class FinishHim extends CustomCard {
+public class FinishHim extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(FinishHim.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;

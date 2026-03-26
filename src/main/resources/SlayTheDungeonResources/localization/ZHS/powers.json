@@ -2,8 +2,33 @@
     "SlayTheDungeon:Mark": {
         "NAME": "标记",
         "DESCRIPTIONS": [
-            "当你受到 #y攻击 时，失去 #b",
+            "当其受到 #y攻击 时，失去 #b",
             " 点生命。"
+        ]
+    },
+    
+    "SlayTheDungeon:Plague": {
+        "NAME": "瘟疫",
+        "DESCRIPTIONS": [
+            "当其受到 #y攻击 时，使随机敌人获得 #b",
+            " 层 #y中毒 。"
+        ]
+    },
+
+    "SlayTheDungeon:Bleed": {
+        "NAME": "流血",
+        "DESCRIPTIONS": [
+            "累计到 ",
+            " 时，失去当前生命值的 ",
+            " 。"
+        ]
+    },
+
+    "SlayTheDungeon:BleedOutPower": {
+        "NAME": "血如泉涌",
+        "DESCRIPTIONS": [
+            "本回合打出的下 ",
+            " 张攻击牌给予等同于造成伤害的 #y流血 。"
         ]
     }
 }

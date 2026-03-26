@@ -48,6 +48,36 @@
     "SlayTheDungeon:StunningBlow": {
         "NAME": "眩晕击",
         "DESCRIPTION": "造成 !D! 点伤害，眩晕 敌人1回合。"
+    },
+
+    "SlayTheDungeon:ShadowFade": {
+        "NAME": "影遁",
+        "DESCRIPTION": "弃 !M! 张牌，获得 !SlayTheDungeonM2! 层 无实体 。"
+    },
+
+    "SlayTheDungeon:PoisonDart": {
+        "NAME": "毒镖",
+        "DESCRIPTION": "造成 !D! 点伤害，给予 !M! 层 瘟疫 。"
+    },
+
+    "SlayTheDungeon:ToxinTrickery": {
+        "NAME": "敏捷药剂",
+        "DESCRIPTION": "抽2张牌。你每有1层 中毒，额外抽1张牌。"
+    },
+
+    "SlayTheDungeon:IronSawn": {
+        "NAME": "钢铁天鹅",
+        "DESCRIPTION": "造成 !D! 点伤害。只有在此牌在你手牌最右边时才能被打出。"
+    },
+
+    "SlayTheDungeon:BleedOut": {
+        "NAME": "血如泉涌",
+        "DESCRIPTION": "本回合中你打出的下一张攻击牌给予等同于造成伤害的 流血 。"
+    },
+
+    "SlayTheDungeon:IfItBleeds": {
+        "NAME": "血溅三尺",
+        "DESCRIPTION": "给予10层流血，获得 !M! 层 虚弱 。"
     }
 
 }

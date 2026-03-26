@@ -33,11 +33,18 @@ import io.github.zhuiye486.cards.BountyHunter.Uppercut;
 import io.github.zhuiye486.cards.Crusader.BulwarkOfFaith;
 import io.github.zhuiye486.cards.Crusader.InspiringCry;
 import io.github.zhuiye486.cards.Crusader.StunningBlow;
+import io.github.zhuiye486.cards.GraveRobber.PoisonDart;
+import io.github.zhuiye486.cards.GraveRobber.ShadowFade;
+import io.github.zhuiye486.cards.GraveRobber.ToxinTrickery;
+import io.github.zhuiye486.cards.Hellion.BleedOut;
+import io.github.zhuiye486.cards.Hellion.IfItBleeds;
+import io.github.zhuiye486.cards.Hellion.IronSawn;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.relics.PressureIndicator;
 import io.github.zhuiye486.variables.Heal;
+import io.github.zhuiye486.variables.SecondMagicNumber;
 
 @SpireInitializer
 public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber, EditKeywordsSubscriber, EditRelicsSubscriber {
@@ -81,7 +88,14 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new BulwarkOfFaith());
         BaseMod.addCard(new InspiringCry());
         BaseMod.addCard(new StunningBlow());
+        BaseMod.addCard(new ShadowFade());
+        BaseMod.addCard(new PoisonDart());
+        BaseMod.addCard(new ToxinTrickery());
+        BaseMod.addCard(new IronSawn());
+        BaseMod.addCard(new BleedOut());
+        BaseMod.addCard(new IfItBleeds());
         BaseMod.addDynamicVariable(new Heal());
+        BaseMod.addDynamicVariable(new SecondMagicNumber());
     }
 
     @Override

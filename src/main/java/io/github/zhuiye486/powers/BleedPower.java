@@ -1,0 +1,65 @@
+package io.github.zhuiye486.powers;
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
+import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.powers.AbstractPower.PowerType;
+
+import io.github.zhuiye486.helpers.ModHelper;
+
+public class BleedPower extends AbstractPower {
+    public static final String POWER_ID = ModHelper.makePath("Bleed");
+    private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
+    private static final String NAME = powerStrings.NAME;
+    private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
+    
+    public static int targetAmount = 30;
+    public static double damagePercent = 0.3;
+
+    public BleedPower(AbstractCreature owner, int Amount) {
+        this.name = NAME;
+        this.ID = POWER_ID;
+        this.owner = owner;
+        this.type = PowerType.DEBUFF;
+        this.amount = Amount;
+
+        String path128 = "SlayTheDungeonResources/img/powers/BleedPower128.png";
+        String path48 = "SlayTheDungeonResources/img/powers/BleedPower48.png";
+        this.region128 = new AtlasRegion(ImageMaster.loadImage(path128), 0, 0, 84, 84);
+        this.region48 = new AtlasRegion(ImageMaster.loadImage(path48), 0, 0, 32, 32);
+
+        this.updateDescription();
+    }
+
+    @Override
+    public void updateDescription() {
+        this.description = DESCRIPTION[0] + this.targetAmount + DESCRIPTION[1] + this.damagePercent * 100 + "%" + DESCRIPTION[2];
+    }
+
+    @Override
+    public void atEndOfTurn(boolean isPlayer) {
+        if (this.amount >= targetAmount) {
+            addToTop(
+                new DamageAction(
+                    owner, 
+                    new DamageInfo(
+                        owner, 
+                        (int)(owner.currentHealth * damagePercent), 
+                        DamageType.HP_LOSS
+                    )
+                )
+            );
+
+            targetAmount += 10;
+            this.amount = 0;
+            updateDescription();
+        }
+    }
+
+}

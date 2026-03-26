@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import io.github.zhuiye486.helpers.ModHelper;
 
-public class ChangePressureAction extends AbstractGameAction{
+public class ChangePressureAction extends AbstractGameAction {
     private int pressureAmount;
     
     public ChangePressureAction(int amount) {
