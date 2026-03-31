@@ -39,6 +39,13 @@ import io.github.zhuiye486.cards.GraveRobber.ToxinTrickery;
 import io.github.zhuiye486.cards.Hellion.BleedOut;
 import io.github.zhuiye486.cards.Hellion.IfItBleeds;
 import io.github.zhuiye486.cards.Hellion.IronSawn;
+import io.github.zhuiye486.cards.HighWayMan.DuelistsAdvance;
+import io.github.zhuiye486.cards.HighWayMan.OpenVein;
+import io.github.zhuiye486.cards.HighWayMan.PointBlankShoot;
+import io.github.zhuiye486.cards.Hound;
+import io.github.zhuiye486.cards.Houndmaster.CryHavoc;
+import io.github.zhuiye486.cards.Houndmaster.HoundsHurry;
+import io.github.zhuiye486.cards.Houndmaster.HoundsRush;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -94,6 +101,13 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new IronSawn());
         BaseMod.addCard(new BleedOut());
         BaseMod.addCard(new IfItBleeds());
+        BaseMod.addCard(new DuelistsAdvance());
+        BaseMod.addCard(new PointBlankShoot());
+        BaseMod.addCard(new OpenVein());
+        BaseMod.addCard(new HoundsRush());
+        BaseMod.addCard(new CryHavoc());
+        BaseMod.addCard(new HoundsHurry());
+        BaseMod.addCard(new Hound());
         BaseMod.addDynamicVariable(new Heal());
         BaseMod.addDynamicVariable(new SecondMagicNumber());
     }

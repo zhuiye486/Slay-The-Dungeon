@@ -43,7 +43,7 @@ public class BleedPower extends AbstractPower {
     }
 
     @Override
-    public void atEndOfTurn(boolean isPlayer) {
+    public void atStartOfTurn() {
         if (this.amount >= targetAmount) {
             addToTop(
                 new DamageAction(

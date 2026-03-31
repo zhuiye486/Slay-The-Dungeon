@@ -3,6 +3,7 @@ io/github/zhuiye486/cards/GraveRobber/ShadowFade.class
 io/github/zhuiye486/events/ChooseHeroesEventsTrigger$1.class
 io/github/zhuiye486/characters/Heroes$SlayTheDungeonColorEnum.class
 io/github/zhuiye486/SlayTheDungeon.class
+io/github/zhuiye486/powers/RipostePower.class
 io/github/zhuiye486/characters/Heroes$PlayerLibraryEnum.class
 io/github/zhuiye486/cards/BountyHunter/FinishHim.class
 io/github/zhuiye486/relics/PressureIndicator.class
@@ -12,6 +13,7 @@ io/github/zhuiye486/cards/Hellion/IronSawn.class
 io/github/zhuiye486/helpers/ModHelper.class
 io/github/zhuiye486/cards/Strike.class
 io/github/zhuiye486/cards/Hellion/IfItBleeds.class
+io/github/zhuiye486/cards/HighWayMan/OpenVein.class
 io/github/zhuiye486/events/ChooseHeroes.class
 io/github/zhuiye486/patches/HealPatch.class
 io/github/zhuiye486/cards/GraveRobber/PoisonDart.class
@@ -26,11 +28,13 @@ io/github/zhuiye486/events/ChooseHeroesEventsTrigger$2.class
 io/github/zhuiye486/powers/PlaguePower.class
 io/github/zhuiye486/cards/BountyHunter/Uppercut.class
 io/github/zhuiye486/actions/ChangePressureAction.class
+io/github/zhuiye486/cards/HighWayMan/DuelistsAdvance.class
 io/github/zhuiye486/cards/AbstractDungeonCard.class
 io/github/zhuiye486/events/ChooseHeroesEventsTrigger.class
 io/github/zhuiye486/cards/Arbalest/SuppressingFire.class
 io/github/zhuiye486/cards/BountyHunter/MarkForDeath.class
 io/github/zhuiye486/variables/Heal.class
+io/github/zhuiye486/cards/HighWayMan/PointBlankShoot.class
 io/github/zhuiye486/cards/Arbalest/SnipersMark.class
 io/github/zhuiye486/cards/Crusader/InspiringCry.class
 io/github/zhuiye486/cards/Crusader/BulwarkOfFaith.class

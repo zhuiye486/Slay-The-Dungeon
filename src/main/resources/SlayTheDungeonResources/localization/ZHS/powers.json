@@ -19,16 +19,32 @@
         "NAME": "流血",
         "DESCRIPTIONS": [
             "累计到 ",
-            " 时，失去当前生命值的 ",
+            " 时，在回合开始时，失去当前生命值的 ",
             " 。"
         ]
     },
 
-    "SlayTheDungeon:BleedOutPower": {
+    "SlayTheDungeon:BleedOut": {
         "NAME": "血如泉涌",
         "DESCRIPTIONS": [
             "本回合打出的下 ",
             " 张攻击牌给予等同于造成伤害的 #y流血 。"
+        ]
+    },
+
+    "SlayTheDungeon:Riposte": {
+        "NAME": "反击",
+        "DESCRIPTIONS": [
+            "在本回合中，当受到攻击时，在下回合开始时打出你抽牌堆顶的 ",
+            " 张牌。"
+        ]
+    },
+
+    "SlayTheDungeon:HoundsHurry": {
+        "NAME": "猎犬骚扰",
+        "DESCRIPTIONS": [
+            "你打出的下", 
+            " 张 猎犬 会对所有敌人生效。"
         ]
     }
 }

@@ -15,7 +15,7 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import io.github.zhuiye486.helpers.ModHelper;
 
 public class BleedOutPower extends AbstractPower {
-    public static final String POWER_ID = ModHelper.makePath("BleedOutPower");
+    public static final String POWER_ID = ModHelper.makePath("BleedOut");
     private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     private static final String NAME = powerStrings.NAME;
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;

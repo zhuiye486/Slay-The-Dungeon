@@ -7,17 +7,17 @@
     
     "SlayTheDungeon:SniperShot": {
         "NAME": "狙击",
-        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1层 标记 ，额外触发一次。"
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1 标记 ，额外触发一次。"
     },
 
     "SlayTheDungeon:SnipersMark": {
         "NAME": "狙击标记",
-        "DESCRIPTION": "给予 !M! 层 标记 和 !M! 层 虚弱 。"
+        "DESCRIPTION": "给予敌人 !M! 标记 。 NL 给予敌人 !M! 虚弱 。"
     },
 
     "SlayTheDungeon:SuppressingFire": {
         "NAME": "压制射击",
-        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1层 标记 ，额外触发一次。"
+        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1 标记 ，额外触发一次。"
     },
 
     "SlayTheDungeon:FinishHim": {
@@ -27,47 +27,47 @@
 
     "SlayTheDungeon:MarkForDeath": {
         "NAME": "死亡标记",
-        "DESCRIPTION": "给予敌人 !M! 层 标记 和 !M! 层 易伤 。"
+        "DESCRIPTION": "给予敌人 !M! 标记 。 NL 给予敌人 !M! 易伤 。"
     },
 
     "SlayTheDungeon:Uppercut": {
         "NAME": "上勾拳",
-        "DESCRIPTION": "造成 !D! 点伤害，眩晕 敌人1回合。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 眩晕 敌人1回合。"
     },
 
     "SlayTheDungeon:BulwarkOfFaith": {
         "NAME": "信仰壁障",
-        "DESCRIPTION": "获得 !B! 点格挡，给予自己 !M! 层 标记 。"
+        "DESCRIPTION": "获得 !B! 点格挡。 NL 给予自己 !M! 标记 。"
     },
 
     "SlayTheDungeon:InspiringCry": {
         "NAME": "鼓舞呐喊",
-        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命，减少 !M! 点 压力。"
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命。 NL 减少 !M! 点 压力。"
     },
 
     "SlayTheDungeon:StunningBlow": {
         "NAME": "眩晕击",
-        "DESCRIPTION": "造成 !D! 点伤害，眩晕 敌人1回合。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 眩晕 敌人1回合。"
     },
 
     "SlayTheDungeon:ShadowFade": {
         "NAME": "影遁",
-        "DESCRIPTION": "弃 !M! 张牌，获得 !SlayTheDungeonM2! 层 无实体 。"
+        "DESCRIPTION": "弃 !M! 张牌。 NL 获得 !SlayTheDungeonM2! 无实体 。"
     },
 
     "SlayTheDungeon:PoisonDart": {
         "NAME": "毒镖",
-        "DESCRIPTION": "造成 !D! 点伤害，给予 !M! 层 瘟疫 。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 瘟疫 。"
     },
 
     "SlayTheDungeon:ToxinTrickery": {
         "NAME": "敏捷药剂",
-        "DESCRIPTION": "抽2张牌。你每有1层 中毒，额外抽1张牌。"
+        "DESCRIPTION": "抽2张牌。你每有1 中毒 ，额外抽1张牌。"
     },
 
     "SlayTheDungeon:IronSawn": {
         "NAME": "钢铁天鹅",
-        "DESCRIPTION": "造成 !D! 点伤害。只有在此牌在你手牌最右边时才能被打出。"
+        "DESCRIPTION": "只有在此牌在你手牌最右边时才能被打出。 NL 造成 !D! 点伤害。"
     },
 
     "SlayTheDungeon:BleedOut": {
@@ -77,7 +77,41 @@
 
     "SlayTheDungeon:IfItBleeds": {
         "NAME": "血溅三尺",
-        "DESCRIPTION": "给予10层流血，获得 !M! 层 虚弱 。"
-    }
+        "DESCRIPTION": "给予10 流血 。 NL 获得 !M! 虚弱 。"
+    },
 
+    "SlayTheDungeon:DuelistsAdvance": {
+        "NAME": "决斗突刺",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 抽1张牌。 NL 获得 !M! 反击 。"
+    },
+
+    "SlayTheDungeon:OpenVein": {
+        "NAME": "切开血管",
+        "DESCRIPTION": "给予 !M! 流血 。 NL 本场战斗中你每打出过此牌一次，额外给予 !SlayTheDungeonM2! 流血 。"
+    },
+
+    "SlayTheDungeon:PointBlankShoot": {
+        "NAME": "抵近射击",
+        "DESCRIPTION": "只有在此牌在你手牌最右边时才能被打出。 NL 造成 !D! 点伤害。 NL 抽1张牌。 NL 弃1张牌。 NL 此牌受3倍 力量 加成。"
+    },
+
+    "SlayTheDungeon:CryHavoc": {
+        "NAME": "振奋犬嚎",
+        "DESCRIPTION": "你的每一张手牌有66%几率使你减少 !M! 压力 。"
+    },
+
+    "SlayTheDungeon:HoundsHurry": {
+        "NAME":"猎犬骚扰",
+        "DESCRIPTION": "你的下1张 猎犬 会对所有敌人生效。"
+    },
+
+    "SlayTheDungeon:HoundsRush": {
+        "NAME":"猎犬突袭",
+        "DESCRIPTION": "将2张 猎犬 置入你的手牌。"
+    },
+
+    "SlayTheDungeon:Hound": {
+        "NAME":"猎犬",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 流血 。"
+    }
 }
