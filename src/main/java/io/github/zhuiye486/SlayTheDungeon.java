@@ -46,6 +46,12 @@ import io.github.zhuiye486.cards.Hound;
 import io.github.zhuiye486.cards.Houndmaster.CryHavoc;
 import io.github.zhuiye486.cards.Houndmaster.HoundsHurry;
 import io.github.zhuiye486.cards.Houndmaster.HoundsRush;
+import io.github.zhuiye486.cards.Jester.BattleBallad;
+import io.github.zhuiye486.cards.Jester.Finale;
+import io.github.zhuiye486.cards.Jester.InspiringTune;
+import io.github.zhuiye486.cards.Leper.Intimidate;
+import io.github.zhuiye486.cards.Leper.Revenge;
+import io.github.zhuiye486.cards.Leper.Withstand;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -108,6 +114,12 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new CryHavoc());
         BaseMod.addCard(new HoundsHurry());
         BaseMod.addCard(new Hound());
+        BaseMod.addCard(new Finale());
+        BaseMod.addCard(new InspiringTune());
+        BaseMod.addCard(new BattleBallad());
+        BaseMod.addCard(new Withstand());
+        BaseMod.addCard(new Revenge());
+        BaseMod.addCard(new Intimidate());
         BaseMod.addDynamicVariable(new Heal());
         BaseMod.addDynamicVariable(new SecondMagicNumber());
     }

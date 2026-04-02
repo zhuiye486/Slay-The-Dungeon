@@ -1,7 +1,10 @@
 package io.github.zhuiye486.cards.Arbalest;
 
-import com.megacrit.cardcrawl.actions.common.AttackDamageRandomEnemyAction;
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -27,21 +30,29 @@ public class SuppressingFire extends AbstractDungeonCard {
     public SuppressingFire() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.damage = this.baseDamage = 3;
-        this.magicNumber = this.baseMagicNumber = 1;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
+        int count = 1;
         for (AbstractMonster mo : (AbstractDungeon.getCurrRoom()).monsters.monsters) {
             if (mo.hasPower("SlayTheDungeon:Mark")) {
-                magicNumber += mo.getPower("SlayTheDungeon:Mark").amount;
+                count += mo.getPower("SlayTheDungeon:Mark").amount;
             }
         }
-        addToBot(
-            new AttackDamageRandomEnemyAction(
-                this
-            )
-        );
+        
+        for(int i = 0; i < count; i++) {
+            addToBot(
+                new DamageRandomEnemyAction(
+                    new DamageInfo(
+                        p, 
+                        this.damage, 
+                        DamageType.NORMAL
+                    ),
+                    AttackEffect.SLASH_HORIZONTAL
+                )
+            );
+        }
     }
 
     @Override

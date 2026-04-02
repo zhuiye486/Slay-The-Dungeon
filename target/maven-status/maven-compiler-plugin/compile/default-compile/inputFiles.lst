@@ -1,5 +1,8 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/SlayTheDungeon.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/ChangePressureAction.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DamageAllEnemyPerMusicPlayedAction.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DamagePerMusicPlayedAction.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DrawCardPerMusicPlayedAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/AbstractDungeonCard.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Arbalest/SniperShot.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Arbalest/SnipersMark.java
@@ -23,6 +26,12 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Houndmaster/CryHavoc.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Houndmaster/HoundsHurry.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Houndmaster/HoundsRush.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Jester/BattleBallad.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Jester/Finale.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Jester/InspiringTune.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Intimidate.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Revenge.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Withstand.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Strike.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/characters/Heroes.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/ChooseHeroes.java
@@ -30,6 +39,7 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/ChooseHeroesWithNeow.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/SDAbstractEventRoom.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/helpers/ModHelper.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/patches/CardTagsEnum.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/patches/HealPatch.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/BleedOutPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/BleedPower.java
