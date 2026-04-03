@@ -32,6 +32,12 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Intimidate.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Revenge.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Leper/Withstand.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ManAtArms/Bolster.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ManAtArms/Defender.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ManAtArms/Retribution.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Musketeer/AimedShot.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Musketeer/PatchUp.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Musketeer/SkeetShot.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Strike.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/characters/Heroes.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/events/ChooseHeroes.java
@@ -46,6 +52,7 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/HoundsHurryPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/MarkPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/PlaguePower.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/RecoveryPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/RipostePower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/relics/PressureIndicator.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/variables/Heal.java

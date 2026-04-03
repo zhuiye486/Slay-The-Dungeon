@@ -151,5 +151,38 @@
     "SlayTheDungeon:Withstand": {
         "NAME":"忍耐",
         "DESCRIPTION":"获得 !B! 点格挡。 NL 在下一回合获得 !B! 点格挡。 NL 获得2 易伤 。"
+    },
+
+    "SlayTheDungeon:Bolster": {
+        "NAME":"支援",
+        "DESCRIPTION":"获得等同于你手牌数的临时 敏捷 。"
+    },
+
+    "SlayTheDungeon:Defender": {
+        "NAME":"保护",
+        "DESCRIPTION":"获得 !M! 金属化 。 NL 额外获得等同于你 敏捷 的 金属化 。 NL 消耗 。"
+    },
+
+    "SlayTheDungeon:Retribution": {
+        "NAME":"报复",
+        "DESCRIPTION":"获得 !M! slaythedungeon:标记 。 NL 获得1 slaythedungeon:反击 。"
+    },
+
+    "SlayTheDungeon:AimedShot": {
+        "NAME":"瞄准射击",
+        "DESCRIPTION":"对所有敌人造成 !D! 点伤害，每命中一个敌人，伤害减少 !M! 。"
+    },
+
+    "SlayTheDungeon:PatchUp": {
+        "NAME":"包扎",
+        "DESCRIPTION":"获得2 slaythedungeon:愈合 。 NL 回复 !SlayTheDungeonH! 点生命。"
+    },
+
+    "SlayTheDungeon:SkeetShot": {
+        "NAME":"多重射击",
+        "DESCRIPTION":"对随机敌人造成 !D! 点伤害, 每次伤害减少1, 直到伤害为0。"
     }
+
+
+    
 }

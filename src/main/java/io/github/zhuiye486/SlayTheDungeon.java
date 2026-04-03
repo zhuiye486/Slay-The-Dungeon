@@ -52,6 +52,12 @@ import io.github.zhuiye486.cards.Jester.InspiringTune;
 import io.github.zhuiye486.cards.Leper.Intimidate;
 import io.github.zhuiye486.cards.Leper.Revenge;
 import io.github.zhuiye486.cards.Leper.Withstand;
+import io.github.zhuiye486.cards.ManAtArms.Bolster;
+import io.github.zhuiye486.cards.ManAtArms.Defender;
+import io.github.zhuiye486.cards.ManAtArms.Retribution;
+import io.github.zhuiye486.cards.Musketeer.AimedShot;
+import io.github.zhuiye486.cards.Musketeer.PatchUp;
+import io.github.zhuiye486.cards.Musketeer.SkeetShot;
 import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.characters.Heroes;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -120,6 +126,12 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new Withstand());
         BaseMod.addCard(new Revenge());
         BaseMod.addCard(new Intimidate());
+        BaseMod.addCard(new Defender());
+        BaseMod.addCard(new Bolster());
+        BaseMod.addCard(new Retribution());
+        BaseMod.addCard(new AimedShot());
+        BaseMod.addCard(new PatchUp());
+        BaseMod.addCard(new SkeetShot());
         BaseMod.addDynamicVariable(new Heal());
         BaseMod.addDynamicVariable(new SecondMagicNumber());
     }

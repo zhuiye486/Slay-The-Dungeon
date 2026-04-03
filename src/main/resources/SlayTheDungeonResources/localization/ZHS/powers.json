@@ -2,7 +2,7 @@
     "SlayTheDungeon:Mark": {
         "NAME": "标记",
         "DESCRIPTIONS": [
-            "当其受到 #y攻击 时，失去 #b",
+            "当其受到攻击时，失去 #b",
             " 点生命。"
         ]
     },
@@ -10,7 +10,7 @@
     "SlayTheDungeon:Plague": {
         "NAME": "瘟疫",
         "DESCRIPTIONS": [
-            "当其受到 #y攻击 时，使随机敌人获得 #b",
+            "当受到攻击时，使随机敌人获得 #b",
             " 层 #y中毒 。"
         ]
     },
@@ -18,8 +18,8 @@
     "SlayTheDungeon:Bleed": {
         "NAME": "流血",
         "DESCRIPTIONS": [
-            "累计到 ",
-            " 时，在回合开始时，失去当前生命值的 ",
+            "累计到 #b",
+            " 时，在回合开始时，失去当前生命值的 #b",
             " 。"
         ]
     },
@@ -27,7 +27,7 @@
     "SlayTheDungeon:BleedOut": {
         "NAME": "血如泉涌",
         "DESCRIPTIONS": [
-            "本回合打出的下 ",
+            "本回合打出的下 #b",
             " 张攻击牌给予等同于造成伤害的 #y流血 。"
         ]
     },
@@ -35,7 +35,7 @@
     "SlayTheDungeon:Riposte": {
         "NAME": "反击",
         "DESCRIPTIONS": [
-            "在本回合中，当受到攻击时，在下回合开始时打出你抽牌堆顶的 ",
+            "在本回合中受到攻击时，在下回合开始时打出你抽牌堆顶的 #b",
             " 张牌。"
         ]
     },
@@ -43,8 +43,16 @@
     "SlayTheDungeon:HoundsHurry": {
         "NAME": "猎犬骚扰",
         "DESCRIPTIONS": [
-            "你打出的下", 
+            "你打出的下 #b", 
             " 张 猎犬 会对所有敌人生效。"
+        ]
+    },
+
+    "SlayTheDungeon:Recovery": {
+        "NAME": "愈合",
+        "DESCRIPTIONS": [
+            "在 #b",
+            " 回合内，受到的生命恢复提高 #b50% 。"
         ]
     }
 }
