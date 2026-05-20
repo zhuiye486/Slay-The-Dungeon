@@ -6,4 +6,6 @@ import com.megacrit.cardcrawl.cards.AbstractCard.CardTags;
 public class CardTagsEnum{
     @SpireEnum
     public static CardTags Music;
+    @SpireEnum
+    public static CardTags Vapours;
 }

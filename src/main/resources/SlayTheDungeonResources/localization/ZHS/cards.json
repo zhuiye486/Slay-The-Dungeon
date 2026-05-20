@@ -181,8 +181,81 @@
     "SlayTheDungeon:SkeetShot": {
         "NAME":"多重射击",
         "DESCRIPTION":"对随机敌人造成 !D! 点伤害, 每次伤害减少1, 直到伤害为0。"
+    },
+
+    "SlayTheDungeon:HandsFromTheAbyss": {
+        "NAME":"深渊之手",
+        "DESCRIPTION":" slaythedungeon:眩晕 一个敌人。 NL 给予 !M! 易伤 。"
+    },
+
+    "SlayTheDungeon:WeakeningCurse": {
+        "NAME":"削弱诅咒",
+        "DESCRIPTION":"造成 4 点伤害。 NL 在本回合中减少2点 力量 。 NL 给予 !M! 虚弱 。"
+    },
+
+    "SlayTheDungeon:WyrdReconstruction": {
+        "NAME":"命运重构",
+        "DESCRIPTION":"恢复0～ !M! 点生命。 NL 获得等量的 slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:PlagueGrenade": {
+        "NAME":"瘟疫手雷",
+        "DESCRIPTION":"给予 !M! 中毒 。 NL 给予 !SlayTheDungeonM2! slaythedungeon:瘟疫 。"
+    },
+
+    "SlayTheDungeon:NoxiousBlast": {
+        "NAME":"瘟毒炸裂",
+        "DESCRIPTION":"触发一个敌人身上的 中毒 。 NL 使 !M! 个随机敌人获得其 slaythedungeon:瘟疫 层数的 slaythedungeon:瘟疫 。"
+    },
+
+    "SlayTheDungeon:BattlefieldMedicine": {
+        "NAME":"战地医疗",
+        "DESCRIPTION":"回复 !SlayTheDungeonH! 点生命。 NL 移除 中毒 和 slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:DazzlingLight": {
+        "NAME":"炫目圣光",
+        "DESCRIPTION":"造成 !D! 点伤害。 NL 击晕敌人1回合。"
+    },
+
+    "SlayTheDungeon:DivineGrace": {
+        "NAME":"神圣治疗",
+        "DESCRIPTION":"造成 !D! 点伤害。 NL 回复造成伤害的生命值。"
+    },
+
+    "SlayTheDungeon:DivineComfort": {
+        "NAME":"神圣抚慰",
+        "DESCRIPTION":"抽牌直到抽到消耗不为1的牌。 NL 回复抽牌数量的生命值。"
+    },
+
+    "SlayTheDungeon:Transform": {
+        "NAME": "变形",
+        "DESCRIPTION": "本回合中，你只能打出手牌最右边的牌。 NL 你造成的伤害，给予的 中毒 和 slaythedungeon:流血 变为 !M! 倍。"
+    },
+
+    "SlayTheDungeon:Rake": {
+        "NAME": "撕扯",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 中毒 和 !M! slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:Slam": {
+        "NAME": "冲撞",
+        "DESCRIPTION": "每有一个敌人，抽 !M! 张牌，弃 !M! 张牌。"
+    },
+
+    "SlayTheDungeon:FesteringVapours": {
+        "NAME": "溃烂蒸汽",
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+
+
+    "SlayTheDungeon:FortifyingVapours": {
+        "NAME": "强健蒸汽",
+        "DESCRIPTION": "获得 !M! 敏捷 。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+
+    "SlayTheDungeon:InvigoratingVapours": {
+        "NAME": "提神蒸汽",
+        "DESCRIPTION": "弃最多 !M! 张牌，每弃一张牌获得 !B! 点格挡。 NL 触发你打出的上一张蒸汽的效果。"
     }
-
-
-    
 }

@@ -10,7 +10,7 @@
     "SlayTheDungeon:Plague": {
         "NAME": "瘟疫",
         "DESCRIPTIONS": [
-            "当受到攻击时，使随机敌人获得 #b",
+            "当受到伤害时，使随机敌人获得 #b",
             " 层 #y中毒 。"
         ]
     },
@@ -53,6 +53,14 @@
         "DESCRIPTIONS": [
             "在 #b",
             " 回合内，受到的生命恢复提高 #b50% 。"
+        ]
+    },
+
+    "SlayTheDungeon:Transform": {
+        "NAME": "变形",
+        "DESCRIPTIONS": [
+            "你只能打出手牌最右边的牌。造成 #b",
+            " 倍伤害， #y中毒 和 #y流血 。"
         ]
     }
 }
