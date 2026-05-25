@@ -19,6 +19,7 @@ public class ChooseHeroes extends AbstractImageEvent {
     private static final EventStrings EVENT_STRINGS = CardCrawlGame.languagePack.getEventString(ID);
     private static final String NAME = EVENT_STRINGS.NAME;
     private static final String[] DESCRIPTIONS = EVENT_STRINGS.DESCRIPTIONS;
+    private static final String[] OPTIONS = EVENT_STRINGS.OPTIONS;
 
     private static Set<Integer> allUsedNumbers = new HashSet<>();
     private int choiceCount = 0;
@@ -34,7 +35,7 @@ public class ChooseHeroes extends AbstractImageEvent {
 
         for (int i = 0; i < this.currentSequence.size(); i++) {
             int number = this.currentSequence.get(i);
-            this.imageEventText.setDialogOption("选择英雄" + number);  //需要本地化，添加卡牌
+            this.imageEventText.setDialogOption(OPTIONS[number - 1]); 
         }
     }
 
@@ -65,16 +66,15 @@ public class ChooseHeroes extends AbstractImageEvent {
 
             for (int i = 0; i < this.currentSequence.size(); i++) {
                 int number = this.currentSequence.get(i);
-                this.imageEventText.setDialogOption("选择英雄" + number);
+                this.imageEventText.setDialogOption(OPTIONS[number - 1]);
             }
         } else {
             // 选择完成
             this.imageEventText.clearAllDialogs();
             this.imageEventText.clearRemainingOptions();
-            this.imageEventText.updateBodyText("选择完成！你选择了英雄：" + this.selectedHeroes.toString());
+            this.imageEventText.updateBodyText("选择完成！");
             this.imageEventText.setDialogOption("离开");
-            // Set selectedHeroes in Heroes class
-            io.github.zhuiye486.characters.Heroes.selectedHeroes = new ArrayList<>(this.selectedHeroes);
+            io.github.zhuiye486.characters.Heroes.updateStartingDeckForSelection(this.selectedHeroes);
             // Compose character image
             io.github.zhuiye486.characters.Heroes.composeCharacterImage(this.selectedHeroes);
         }

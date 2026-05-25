@@ -24,6 +24,9 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Crusader/BulwarkOfFaith.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Crusader/InspiringCry.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Crusader/StunningBlow.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Flagellant/RainOfSorrows.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Flagellant/Reclaim.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Flagellant/Redeem.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/GraveRobber/PoisonDart.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/GraveRobber/ShadowFade.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/GraveRobber/ToxinTrickery.java
@@ -55,6 +58,9 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/PlagueDoctor/BattlefieldMedicine.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/PlagueDoctor/NoxiousBlast.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/PlagueDoctor/PlagueGrenade.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ShieldBreaker/Captivate.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ShieldBreaker/Puncture.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/ShieldBreaker/SerpentSway.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Strike.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Vestal/DazzlingLight.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Vestal/DivineComfort.java
@@ -69,6 +75,7 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/patches/HealPatch.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/BleedOutPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/BleedPower.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/CompensatePower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/HoundsHurryPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/MarkPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/PlaguePower.java

@@ -257,5 +257,35 @@
     "SlayTheDungeon:InvigoratingVapours": {
         "NAME": "提神蒸汽",
         "DESCRIPTION": "弃最多 !M! 张牌，每弃一张牌获得 !B! 点格挡。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+
+    "SlayTheDungeon:RainOfSorrows": {
+        "NAME": "伤痛之雨",
+        "DESCRIPTION": "给予 !M! slaythedungeon:流血 。 NL 获得等量的 slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:Reclaim": {
+        "NAME": "授教",
+        "DESCRIPTION": "获得 !M! 再生 和 slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:Redeem": {
+        "NAME": "偿赎",
+        "DESCRIPTION": "恢复30%最大生命值的生命。 NL !M! 回合内受到的治疗减少50%。"
+    },
+
+    "SlayTheDungeon:Captivate": {
+        "NAME": "诱捕",
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫。 NL 造成 !D! 点伤害2次。 NL 额外给予目标身上 slaythedungeon:流血 层数的 slaythedungeon:瘟疫 。"
+    },
+
+    "SlayTheDungeon:Puncture": {
+        "NAME": "贯穿",
+        "DESCRIPTION": "移除目标的所有格挡。 NL 造成 !D! 点伤害。"
+    },
+
+    "SlayTheDungeon:SerpentSway": {
+        "NAME": "蝰蛇之舞",
+        "DESCRIPTION": "获得 !M! 缓冲 。"
     }
 }

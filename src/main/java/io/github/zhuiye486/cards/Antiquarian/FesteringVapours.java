@@ -43,7 +43,7 @@ public class FesteringVapours extends AbstractDungeonCard {
                 )
             )
         );
-        if (!this.isInAutoplay) {   
+        if (!this.isInAutoplay) {
             addToBot(
                 new PlayLastVapoursAction()
             );

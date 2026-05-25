@@ -1,6 +1,7 @@
 package io.github.zhuiye486.characters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,6 +16,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.EnergyManager;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.city.Vampires;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -29,6 +31,12 @@ import io.github.zhuiye486.relics.PressureIndicator;
 
 // 继承CustomPlayer类
 public class Heroes extends CustomPlayer {
+    private static final ArrayList<Integer> DEFAULT_STARTING_HEROES = new ArrayList<Integer>() {{
+        add(1);
+        add(2);
+        add(3);
+        add(4);
+    }};
     // 静态字段存储选择的英雄
     public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
     // 静态实例引用
@@ -180,27 +188,131 @@ public class Heroes extends CustomPlayer {
     @Override
     public ArrayList<String> getStartingDeck() {
         ArrayList<String> retVal = new ArrayList<>();
-        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
-            // Combine decks from selected heroes
-            for (Integer hero : selectedHeroes) {
-                switch (hero) {
-                    case 1:
-                        retVal.add("SlayTheDungeon:Strike");
-                        break;
-                    // Add cases for other heroes
-                    default:
-                        retVal.add(Strike.ID);
-                        break;
-                }
-            }
-        } else {
-            // Default deck
-            for(int x = 0; x<5; x++) {
-                retVal.add(Strike.ID);
-            }
-            retVal.add("SlayTheDungeon:Strike");
-        }
+        retVal.addAll(buildStartingDeck(getEffectiveSelectedHeroes()));
         return retVal;
+    }
+
+    private static List<Integer> getEffectiveSelectedHeroes() {
+        if (selectedHeroes == null || selectedHeroes.isEmpty()) {
+            return DEFAULT_STARTING_HEROES;
+        }
+        return selectedHeroes;
+    }
+
+    public static ArrayList<String> buildStartingDeck(List<Integer> heroes) {
+        ArrayList<String> retVal = new ArrayList<>();
+
+        for (Integer hero : heroes) {
+            switch (hero) {
+                case 1:
+                    retVal.add("SlayTheDungeon:Transform");
+                    retVal.add("SlayTheDungeon:Rake");
+                    retVal.add("SlayTheDungeon:Slam");
+                    break;
+                case 2:
+                    retVal.add("SlayTheDungeon:FesteringVapours");
+                    retVal.add("SlayTheDungeon:FortifyingVapours");
+                    retVal.add("SlayTheDungeon:InvigoratingVapours");
+                    break;
+                case 3:
+                    retVal.add("SlayTheDungeon:SniperShot");
+                    retVal.add("SlayTheDungeon:SnipersMark");
+                    retVal.add("SlayTheDungeon:SuppressingFire");
+                    break;
+                case 4:
+                    retVal.add("SlayTheDungeon:FinishHim");
+                    retVal.add("SlayTheDungeon:MarkForDeath");
+                    retVal.add("SlayTheDungeon:Uppercut");
+                    break;
+                case 5:
+                    retVal.add("SlayTheDungeon:BulwarkOfFaith");
+                    retVal.add("SlayTheDungeon:InspiringCry");
+                    retVal.add("SlayTheDungeon:StunningBlow");
+                    break;
+                case 6:
+                    retVal.add("SlayTheDungeon:RainOfSorrows");
+                    retVal.add("SlayTheDungeon:Reclaim");
+                    retVal.add("SlayTheDungeon:Redeem");
+                    break;
+                case 7:
+                    retVal.add("SlayTheDungeon:ShadowFade");
+                    retVal.add("SlayTheDungeon:PoisonDart");
+                    retVal.add("SlayTheDungeon:ToxinTrickery");
+                    break;
+                case 8:
+                    retVal.add("SlayTheDungeon:IronSawn");
+                    retVal.add("SlayTheDungeon:BleedOut");
+                    retVal.add("SlayTheDungeon:IfItBleeds");
+                    break;
+                case 9:
+                    retVal.add("SlayTheDungeon:DuelistsAdvance");
+                    retVal.add("SlayTheDungeon:OpenVein");
+                    retVal.add("SlayTheDungeon:PointBlankShoot");
+                    break;
+                case 10:
+                    retVal.add("SlayTheDungeon:CryHavoc");
+                    retVal.add("SlayTheDungeon:HoundsHurry");
+                    retVal.add("SlayTheDungeon:HoundsRush");
+                    break;
+                case 11:
+                    retVal.add("SlayTheDungeon:Finale");
+                    retVal.add("SlayTheDungeon:BattleBallad");
+                    retVal.add("SlayTheDungeon:InspiringTune");
+                    break;
+                case 12:
+                    retVal.add("SlayTheDungeon:Intimidate");
+                    retVal.add("SlayTheDungeon:Revenge");
+                    retVal.add("SlayTheDungeon:Withstand");
+                    break;
+                case 13:
+                    retVal.add("SlayTheDungeon:Bolster");
+                    retVal.add("SlayTheDungeon:Defender");
+                    retVal.add("SlayTheDungeon:Retribution");
+                    break;
+                case 14:
+                    retVal.add("SlayTheDungeon:AimedShot");
+                    retVal.add("SlayTheDungeon:PatchUp");
+                    retVal.add("SlayTheDungeon:SkeetShot");
+                    break;
+                case 15:
+                    retVal.add("SlayTheDungeon:HandsFromTheAbyss");
+                    retVal.add("SlayTheDungeon:WeakeningCurse");
+                    retVal.add("SlayTheDungeon:WyrdReconstruction");
+                    break;
+                case 16:
+                    retVal.add("SlayTheDungeon:PlagueGrenade");
+                    retVal.add("SlayTheDungeon:NoxiousBlast");
+                    retVal.add("SlayTheDungeon:BattlefieldMedicine");
+                    break;
+                case 17:
+                    retVal.add("SlayTheDungeon:Captivate");
+                    retVal.add("SlayTheDungeon:Puncture");
+                    retVal.add("SlayTheDungeon:SerpentSway");
+                    break;
+                case 18:
+                    retVal.add("SlayTheDungeon:DazzlingLight");
+                    retVal.add("SlayTheDungeon:DivineGrace");
+                    retVal.add("SlayTheDungeon:DivineComfort");
+                    break;
+                default:
+                    break;
+            }       
+        }
+
+        return retVal;
+    }
+
+    public static void updateStartingDeckForSelection(List<Integer> heroes) {
+        selectedHeroes = new ArrayList<>(heroes);
+
+        if (!(AbstractDungeon.player instanceof Heroes)) {
+            return;
+        }
+
+        AbstractDungeon.player.masterDeck.clear();
+        for (String cardId : buildStartingDeck(selectedHeroes)) {
+            AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(cardId));
+        }
     }
 
     // 初始遗物的ID，可以先写个原版遗物凑数
