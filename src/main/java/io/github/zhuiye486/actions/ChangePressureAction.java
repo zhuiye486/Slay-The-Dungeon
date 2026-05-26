@@ -14,7 +14,15 @@ public class ChangePressureAction extends AbstractGameAction {
 
     @Override
     public void update() {
-        AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter += pressureAmount;
+        int currentPressure = AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter;
+
+        // Clamp to zero when reduction exceeds current pressure.
+        if (pressureAmount < 0 && Math.abs(pressureAmount) > currentPressure) {
+            AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter = 0;
+        } else {
+            AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter += pressureAmount;
+        }
+
         this.isDone = true; 
     }
 }

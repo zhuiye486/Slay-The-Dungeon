@@ -271,7 +271,7 @@
 
     "SlayTheDungeon:Redeem": {
         "NAME": "偿赎",
-        "DESCRIPTION": "恢复30%最大生命值的生命。 NL !M! 回合内受到的治疗减少50%。"
+        "DESCRIPTION": "回复30%最大生命值的生命。 NL !M! 回合内受到的治疗减少50%。"
     },
 
     "SlayTheDungeon:Captivate": {
@@ -287,5 +287,81 @@
     "SlayTheDungeon:SerpentSway": {
         "NAME": "蝰蛇之舞",
         "DESCRIPTION": "获得 !M! 缓冲 。"
+    },
+
+    "SlayTheDungeon:Shovel": {
+        "NAME": "铁锹",
+        "DESCRIPTION": "造成 !D! 点伤害。"
+    },
+
+    "SlayTheDungeon:Food": {
+        "NAME": "食物",
+        "DESCRIPTION": "回复 !M! 点生命。 NL 消耗 。"
+    },
+
+    "SlayTheDungeon:HolyWater": {
+        "NAME": "圣水",
+        "DESCRIPTION": "获得 !B! 点格挡。"
+    },
+
+    "SlayTheDungeon:Abusive": {
+        "NAME": "暴虐",
+        "DESCRIPTION": "无法被打出。 NL 你每打出一张牌，失去 5 点生命，受到 7 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Fearful": {
+        "NAME": "恐惧",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，结束你的回合，受到 15 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Hopeless": {
+        "NAME": "绝望",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，受到 40 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Irrational": {
+        "NAME": "狂乱",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，20%概率受到失去 10 点生命，20%概率失去2点 能量 ，20%概率结束你的回合，20%概率将一张 铁锹 加入你的牌组，20%概率随机消耗两张手牌。"
+    },
+
+    "SlayTheDungeon:Masochistic": {
+        "NAME": "自虐",
+        "DESCRIPTION": "此牌在你手中时，你不能打出其他牌。 NL 失去 10 点生命，受到 15 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Paranoid": {
+        "NAME": "偏执",
+        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有50%概率使其无法被打出，受到 7 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Selfish": {
+        "NAME": "自私",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，随机打出你手牌中的一张牌，受到 10 slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Courageous": {
+        "NAME": "英勇",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时额外抽 !M! 张牌。"
+    },
+
+    "SlayTheDungeon:Focused": {
+        "NAME": "专注",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点 能量 。"
+    },
+
+    "SlayTheDungeon:Powerful": {
+        "NAME": "勇猛",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点临时 力量 。"
+    },
+
+    "SlayTheDungeon:Stalwart": {
+        "NAME": "坚定",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合结束时获得 !M! 点格挡。"
+    },
+
+    "SlayTheDungeon:Vigorous": {
+        "NAME": "振奋",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点临时 敏捷 。"
     }
+
 }

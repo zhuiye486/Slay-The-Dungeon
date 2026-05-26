@@ -44,7 +44,6 @@ public class ChooseHeroes extends AbstractImageEvent {
         System.out.println("ChooseHeroes event entered room.");
     }
 
-    //需要本地化，添加卡牌
     @Override
     protected void buttonEffect(int buttonPressed) {
         if (this.choiceCount >= 4) {

@@ -31,12 +31,6 @@ import io.github.zhuiye486.relics.PressureIndicator;
 
 // 继承CustomPlayer类
 public class Heroes extends CustomPlayer {
-    private static final ArrayList<Integer> DEFAULT_STARTING_HEROES = new ArrayList<Integer>() {{
-        add(1);
-        add(2);
-        add(3);
-        add(4);
-    }};
     // 静态字段存储选择的英雄
     public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
     // 静态实例引用
@@ -188,15 +182,13 @@ public class Heroes extends CustomPlayer {
     @Override
     public ArrayList<String> getStartingDeck() {
         ArrayList<String> retVal = new ArrayList<>();
-        retVal.addAll(buildStartingDeck(getEffectiveSelectedHeroes()));
+        retVal.add("SlayTheDungeon:Shovel");
+        retVal.add("SlayTheDungeon:Shovel");
+        retVal.add("SlayTheDungeon:Shovel");
+        retVal.add("SlayTheDungeon:HolyWater");
+        retVal.add("SlayTheDungeon:HolyWater");
+        retVal.add("SlayTheDungeon:Food");
         return retVal;
-    }
-
-    private static List<Integer> getEffectiveSelectedHeroes() {
-        if (selectedHeroes == null || selectedHeroes.isEmpty()) {
-            return DEFAULT_STARTING_HEROES;
-        }
-        return selectedHeroes;
     }
 
     public static ArrayList<String> buildStartingDeck(List<Integer> heroes) {
@@ -309,7 +301,6 @@ public class Heroes extends CustomPlayer {
             return;
         }
 
-        AbstractDungeon.player.masterDeck.clear();
         for (String cardId : buildStartingDeck(selectedHeroes)) {
             AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(cardId));
         }
