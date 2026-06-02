@@ -31,14 +31,16 @@ public class PlayLastVapoursAction extends AbstractGameAction {
         if (lastVapoursCard != null) {
             AbstractCard queuedVapoursCard = lastVapoursCard.makeStatEquivalentCopy();
             queuedVapoursCard.purgeOnUse = true;
-            addToBot(
-                new NewQueueCardAction(
-                    queuedVapoursCard, 
-                    true, 
-                    true, 
-                    true
-                )
-            );
+            if (queuedVapoursCard.hasTag(CardTagsEnum.Vapours)) {
+                addToBot(
+                    new NewQueueCardAction(
+                        queuedVapoursCard,
+                        true,
+                        true,
+                        true
+                    )
+                );
+            }
         }
         this.isDone = true;
     }

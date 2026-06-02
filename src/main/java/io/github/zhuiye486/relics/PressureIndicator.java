@@ -43,9 +43,12 @@ public class PressureIndicator extends CustomRelic{
         ModHelper.makePath("Selfish")
     };
 
+    private boolean cardAddedAt100 = false;
+
     public PressureIndicator() {
         super(ID, ImageMaster.loadImage(IMG_PATH), RELIC_TIER, LANDING_SOUND);
         this.counter = 0;
+        this.cardAddedAt100 = false;
     }
 
     @Override
@@ -58,9 +61,9 @@ public class PressureIndicator extends CustomRelic{
         removeAfflictionsIfPressureZero();
 
         AbstractCreature attacker = info.owner;
-        int baseAmount = 10;
+        int baseAmount = 7;
         if (attacker instanceof AbstractMonster && ((AbstractMonster) attacker).type == AbstractMonster.EnemyType.BOSS) {
-            baseAmount = 20;
+            baseAmount = 10;
         }
 
         final int pressureBase = baseAmount;
@@ -74,8 +77,9 @@ public class PressureIndicator extends CustomRelic{
                     counter += pressureAdded;
                     if (counter >= DIE_AMOUNT) {
                         addToTop(new LoseHPAction(AbstractDungeon.player, null, 99999));
-                    } else if (counter >= TEST_AMOUNT && !hasAfflictionInMasterDeck()) {
+                    } else if (counter >= TEST_AMOUNT && !cardAddedAt100) {
                         addRandomVirtueOrAffliction();
+                        cardAddedAt100 = true;
                     }
                     removeAfflictionsIfPressureZero();
                 }
@@ -109,12 +113,22 @@ public class PressureIndicator extends CustomRelic{
     }
 
     private void addRandomVirtueOrAffliction() {
-        String[] pool = AbstractDungeon.miscRng.randomBoolean(0.3f) ? VIRTUE_CARD_IDS : AFFLICTION_CARD_IDS;
-        String cardId = pool[AbstractDungeon.miscRng.random(pool.length - 1)];
-        AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
-
-        if (cardToAdd != null) {
-            AbstractDungeon.player.masterDeck.addToTop(cardToAdd);
+        boolean pickVirtue = AbstractDungeon.miscRng.randomBoolean(VirtueChance);
+        if (pickVirtue) {
+            String cardId = VIRTUE_CARD_IDS[AbstractDungeon.miscRng.random(VIRTUE_CARD_IDS.length - 1)];
+            AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
+            if (cardToAdd != null) {
+                AbstractDungeon.player.masterDeck.addToTop(cardToAdd);
+            }
+        } else {
+            // 选择折磨：仅当牌组中还没有折磨时才添加；否则不添加
+            if (!hasAfflictionInMasterDeck()) {
+                String cardId = AFFLICTION_CARD_IDS[AbstractDungeon.miscRng.random(AFFLICTION_CARD_IDS.length - 1)];
+                AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
+                if (cardToAdd != null) {
+                    AbstractDungeon.player.masterDeck.addToTop(cardToAdd);
+                }
+            }
         }
     }
 
@@ -130,7 +144,6 @@ public class PressureIndicator extends CustomRelic{
         }
         return false;
     }
-
     private void removeAfflictionsIfPressureZero() {
         if (this.counter != 0 || AbstractDungeon.player == null || AbstractDungeon.player.masterDeck == null) {
             return;
@@ -143,5 +156,7 @@ public class PressureIndicator extends CustomRelic{
                 iterator.remove();
             }
         }
+        // Reset the one-time trigger flag when pressure returns to 0
+        this.cardAddedAt100 = false;
     }
 }

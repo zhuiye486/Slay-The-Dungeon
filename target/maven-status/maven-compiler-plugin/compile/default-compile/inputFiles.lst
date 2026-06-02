@@ -4,6 +4,7 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DamageAllEnemyPerMusicPlayedAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DamagePerMusicPlayedAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/DrawCardPerMusicPlayedAction.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/ExperiencedAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/HealDrawUntilCostNotOneAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/OptionalDiscardGainBlockAction.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/actions/PlayLastVapoursAction.java
@@ -16,9 +17,15 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Affliction/Masochistic.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Affliction/Paranoid.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Affliction/Selfish.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/CriticalHit.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Dodge.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Escape.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Food.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/FromBeyond.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/HolyWater.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Hound.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Kleptomaniac.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/LetsGoGambling.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Abomination/Rake.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Abomination/Slam.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Abomination/Transform.java
@@ -73,6 +80,9 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Vestal/DazzlingLight.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Vestal/DivineComfort.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Master/Vestal/DivineGrace.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/NeverCompromise.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/OldRoad.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/RainInTheForest.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Shovel.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Strike.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/cards/Virtue/Courageous.java
@@ -93,6 +103,7 @@
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/CompensatePower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/HoundsHurryPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/MarkPower.java
+/Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/NeverCompromisePower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/PlaguePower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/RecoveryPower.java
 /Users/zhuiye/Slay-The-Dungeon/src/main/java/io/github/zhuiye486/powers/RipostePower.java

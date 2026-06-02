@@ -22,7 +22,7 @@ public class Slam extends AbstractDungeonCard {
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.BASIC;
+    private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public Slam() {
@@ -33,12 +33,14 @@ public class Slam extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         for (AbstractMonster monster : AbstractDungeon.getCurrRoom().monsters.monsters) {
-            addToBot(
-                new DrawCardAction(this.magicNumber)
-            );
-            addToBot(
-                new DiscardAction(p, p, this.magicNumber, false)
-            );
+            if (!monster.isDead && !monster.isDying) {
+                addToBot(
+                    new DrawCardAction(this.magicNumber)
+                );
+                addToBot(
+                    new DiscardAction(p, p, this.magicNumber, false)
+                );
+            }
         }
     }
 

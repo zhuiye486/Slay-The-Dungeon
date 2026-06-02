@@ -8,4 +8,6 @@ public class CardTagsEnum{
     public static CardTags Music;
     @SpireEnum
     public static CardTags Vapours;
+    @SpireEnum
+    public static CardTags Lucky;
 }

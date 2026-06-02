@@ -19,8 +19,9 @@ public class BleedPower extends AbstractPower {
     private static final String NAME = powerStrings.NAME;
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
     
-    public static int targetAmount = 30;
-    public static double damagePercent = 0.3;
+    public static final int BASE_TARGET_AMOUNT = 30;
+    public static final double DAMAGE_PERCENT = 0.5;
+    public int targetAmount;
 
     public BleedPower(AbstractCreature owner, int Amount) {
         this.name = NAME;
@@ -28,6 +29,7 @@ public class BleedPower extends AbstractPower {
         this.owner = owner;
         this.type = PowerType.DEBUFF;
         this.amount = Amount;
+        this.targetAmount = BASE_TARGET_AMOUNT;
 
         String path128 = "SlayTheDungeonResources/img/powers/BleedPower128.png";
         String path48 = "SlayTheDungeonResources/img/powers/BleedPower48.png";
@@ -39,24 +41,24 @@ public class BleedPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = DESCRIPTION[0] + this.targetAmount + DESCRIPTION[1] + this.damagePercent * 100 + "%" + DESCRIPTION[2];
+        this.description = DESCRIPTION[0] + this.targetAmount + DESCRIPTION[1] + DAMAGE_PERCENT * 100 + "%" + DESCRIPTION[2];
     }
 
     @Override
-    public void atStartOfTurn() {
-        if (this.amount >= targetAmount) {
+    public void onApplyPower(AbstractPower power, AbstractCreature target, AbstractCreature source) {
+        if (this.amount >= this.targetAmount) {
             addToTop(
                 new DamageAction(
                     owner, 
                     new DamageInfo(
                         owner, 
-                        (int)(owner.currentHealth * damagePercent), 
+                        (int)(owner.currentHealth * DAMAGE_PERCENT),
                         DamageType.HP_LOSS
                     )
                 )
             );
 
-            targetAmount += 10;
+            this.targetAmount += 10;
             this.amount = 0;
             updateDescription();
         }

@@ -41,13 +41,15 @@ public class PlaguePower extends AbstractPower {
 
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
-        AbstractMonster randomMonster = AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
-        addToBot(
-            new BouncingFlaskAction(
-                randomMonster, 
-                this.amount, 
-                1)
-        );
+        if (info.type == DamageInfo.DamageType.NORMAL) {   
+            AbstractMonster randomMonster = AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+            addToBot(
+                new BouncingFlaskAction(
+                    randomMonster, 
+                    this.amount, 
+                    1)
+            );
+        }
         return damageAmount;
     }
 }

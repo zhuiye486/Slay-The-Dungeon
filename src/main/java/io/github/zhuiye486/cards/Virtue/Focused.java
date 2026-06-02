@@ -41,6 +41,7 @@ public class Focused extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);
+            
         }
     }
 

@@ -43,7 +43,9 @@ public class RipostePower extends AbstractPower {
 
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
-        count += this.amount;
+        if (info.type == DamageInfo.DamageType.NORMAL && info.owner != null && info.owner != this.owner) {    
+            count += this.amount;
+        }
         return damageAmount;
     }
 

@@ -70,5 +70,45 @@
             "在 #b",
             " 回合内，受到的生命恢复减少 #b50% 。"
         ]
+    },
+
+    "SlayTheDungeon:NeverCompromise": {
+        "NAME":"永不妥协",
+        "DESCRIPTIONS": [
+            "回合开始时，获得 [E] ，受到 ",
+            " 点 #y压力 。"
+        ]
+    },
+
+    "SlayTheDungeon:Lucky": {
+        "NAME": "幸运",
+        "DESCRIPTIONS": [
+            "卡牌的正面效果的触发概率提高 #b",
+            "%。（不超过100%）"
+        ]
+    },
+
+    "SlayTheDungeon:Dogfood": {
+        "NAME": "狗粮",
+        "DESCRIPTIONS": [
+            "回合开始时，将 #b2 张 猎犬",
+            " 置入手牌。"
+        ]
+    },
+
+    "SlayTheDungeon:Berserk": {
+        "NAME": "狂暴",
+        "DESCRIPTIONS": [
+            "本回合打出的前 #b",
+            " 张攻击牌给予等同于造成伤害的 #y流血 。"
+        ]
+    },
+
+    "SlayTheDungeon:Feminization": {
+        "NAME": "娘化",
+        "DESCRIPTIONS": [
+            "回合开始时，减少 #b",
+            " #压力 。"
+        ]
     }
 }

@@ -20,7 +20,7 @@ public class CryHavoc extends AbstractDungeonCard {
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.BASIC;
+    private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public CryHavoc() {
@@ -32,8 +32,8 @@ public class CryHavoc extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         int amount = 0;
-        for (int i = 0; i < p.getCardCount(); i++) {
-            if (AbstractDungeon.cardRandomRng.random(0, 3) != 2) {
+        for (int i = 0; i < p.hand.size(); i++) {
+            if (AbstractDungeon.cardRandomRng.random(0, 2) != 2) {
                 amount += magicNumber;
             }
         }

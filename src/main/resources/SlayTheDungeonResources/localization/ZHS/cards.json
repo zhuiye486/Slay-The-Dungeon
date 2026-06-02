@@ -102,12 +102,12 @@
 
     "SlayTheDungeon:HoundsHurry": {
         "NAME":"猎犬骚扰",
-        "DESCRIPTION": "你的下1张 猎犬 会对所有敌人生效。"
+        "DESCRIPTION": "本回合中，你的下1张 *猎犬 会对所有敌人生效。"
     },
 
     "SlayTheDungeon:HoundsRush": {
         "NAME":"猎犬突袭",
-        "DESCRIPTION": "将2张 猎犬 置入你的手牌。"
+        "DESCRIPTION": "将2张 *猎犬 置入你的手牌。"
     },
 
     "SlayTheDungeon:Hound": {
@@ -126,7 +126,7 @@
 
     "SlayTheDungeon:BattleBallad": {
         "NAME":"战歌",
-        "DESCRIPTION": "获得等同于场上所有能力数量的 [R] 。 NL 音乐 。",
+        "DESCRIPTION": "获得等同于场上所有能力数量的 [E] 。 NL 音乐 。",
         "EXTENDED_DESCRIPTION":[
             " NL (场上共有",
             "个能力。)"
@@ -346,7 +346,8 @@
 
     "SlayTheDungeon:Focused": {
         "NAME": "专注",
-        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点 能量 。"
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 [E] 。",
+        "UPGRADE_DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 [E] [E] 。"
     },
 
     "SlayTheDungeon:Powerful": {
@@ -362,6 +363,91 @@
     "SlayTheDungeon:Vigorous": {
         "NAME": "振奋",
         "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点临时 敏捷 。"
-    }
+    },
 
+    "SlayTheDungeon:LetsGoGambling": {
+        "NAME": "Let's Go Gambling!",
+        "DESCRIPTION": "逆时针旋转你的抽牌堆，弃牌堆和消耗牌堆。"
+    },
+
+    "SlayTheDungeon:Escape": {
+        "NAME": "逃跑",
+        "DESCRIPTION": "50% 概率成功逃跑。 NL 50% 概率结束你的回合。"
+    },
+
+    "SlayTheDungeon:FromBeyond": {
+        "NAME": "从冥界而来",
+        "DESCRIPTION": "随机将一名英雄的初始卡牌加入你的抽牌堆，它们在本场战斗中费用变为0点。 NL 消耗 。"
+    },
+
+    "SlayTheDungeon:RainInTheForest": {
+        "NAME": "林中落雨",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 减少 !M! slaythedungeon:压力 。 NL 你的下一场攻击牌可以免费打出。"
+    },
+
+    "SlayTheDungeon:OldRoad": {
+        "NAME": "老路",
+        "DESCRIPTION": "造成 !D! 点伤害 2 次。 NL 将此牌的一张复制加入你的弃牌堆。 NL 本场战斗中所有 老路 牌的伤害增加 !M! 点。"
+    },
+
+    "SlayTheDungeon:Kleptomaniac": {
+        "NAME": "盗窃癖",
+        "DESCRIPTION": " 25% 概率获得 !M! 金币。 NL 75% 概率将1张 受伤 牌加入你的弃牌堆。"
+    },
+
+    "SlayTheDungeon:CriticalHit": {
+        "NAME": "暴击",
+        "DESCRIPTION": "本牌造成 2 倍伤害。 NL 造成 !D! 点伤害。 NL 减少 !M! slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Dodge": {
+        "NAME": "闪避",
+        "DESCRIPTION": "50% 概率获得 !B! 点格挡， 50% 概率获得 !M! 点格挡。"
+    },
+
+    "SlayTheDungeon:NeverCompromise": {
+        "NAME": "永不妥协",
+        "DESCRIPTION": "在你的回合开始时，获得 [E] , 受到 !M! slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Lucky": {
+        "NAME": "幸运",
+        "DESCRIPTION": "使你打出的牌的正面效果触发的概率提高 !M! % 。"
+    },
+
+    "SlayTheDungeon:BloodInTheMud": {
+        "NAME": "血泥相间",
+        "DESCRIPTION": "对所有敌人造成 !D! 点伤害，给予 !M! slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:LastDitchEffort": {
+        "NAME": "拼死一搏",
+        "DESCRIPTION": "造成等同于你已损失生命值的伤害。"
+    },
+
+    "SlayTheDungeon:Ambush": {
+        "NAME": "伏击",
+        "DESCRIPTION": " 固有 。 保留 。 NL 击晕一个敌人。 NL 抽 !M! 张牌。 NL 消耗 。"
+    },
+
+    "SlayTheDungeon:DogTreat": {
+        "NAME": "狗粮",
+        "DESCRIPTION": "你的回合开始时，将两张 *猎犬 置入你的手牌。",
+        "UPGRADE_DESCRIPTION": "你的回合开始时，将两张升级后的 *猎犬 置入你的手牌。"
+    },
+
+    "SlayTheDungeon:Topspeed": {
+        "NAME": "极速",
+        "DESCRIPTION": "抽2张牌。 NL 获得 [E] 。 NL 减少 !M! slaythedungeon:压力 NL 消耗 。"
+    },
+
+    "SlayTheDungeon:Feminization": {
+        "NAME": "娘化",
+        "DESCRIPTION": "你的回合开始时，减少 !M! slaythedungeon:压力 。"
+    },
+
+    "SlayTheDungeon:Berserk": {
+        "NAME": "狂化",
+        "DESCRIPTION": "你每回合打出的前 !M! 张攻击牌给予等同于伤害的 slaythedungeon:流血 。"
+    }
 }

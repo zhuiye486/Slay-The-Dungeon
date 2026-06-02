@@ -17,6 +17,8 @@ import io.github.zhuiye486.actions.ChangePressureAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.patches.CardTagsEnum;
+import io.github.zhuiye486.powers.LuckyPower;
 
 
 public class Paranoid extends AbstractDungeonCard {
@@ -31,10 +33,11 @@ public class Paranoid extends AbstractDungeonCard {
     private static final CardRarity RARITY = CardRarity.CURSE;
     private static final CardTarget TARGET = CardTarget.NONE;
 
-    private static final float CHANCE = 0.5f;
+    private static float chance = 0.5f;
 
     public Paranoid() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.tags.add(CardTagsEnum.Lucky);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Paranoid extends AbstractDungeonCard {
     public void triggerOnOtherCardPlayed(AbstractCard c) {
         super.triggerOnOtherCardPlayed(c);
         Random random = new Random(AbstractDungeon.miscRng.randomLong());
-        if (random.nextFloat() < CHANCE) {
+        if (random.nextFloat() > LuckyPower.getLuckyChance(chance)) {
             c.isLocked = true;
             addToBot(
                 new ChangePressureAction(7)
