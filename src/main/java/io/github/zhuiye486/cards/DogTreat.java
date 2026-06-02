@@ -35,7 +35,7 @@ public class DogTreat extends AbstractDungeonCard {
                 p,
                 new DogTreatPower(
                     p, 
-                    this.magicNumber, 
+                    2, 
                     this.upgraded
                 )
             )
@@ -46,6 +46,7 @@ public class DogTreat extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             this.upgradeName();
+            this.initializeDescription();
         }
     }
 

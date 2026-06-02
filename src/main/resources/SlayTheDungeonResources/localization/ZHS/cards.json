@@ -102,12 +102,12 @@
 
     "SlayTheDungeon:HoundsHurry": {
         "NAME":"猎犬骚扰",
-        "DESCRIPTION": "本回合中，你的下1张 *猎犬 会对所有敌人生效。"
+        "DESCRIPTION": "本回合中，你的下 !M! 张 *猎犬 会对所有敌人生效。"
     },
 
     "SlayTheDungeon:HoundsRush": {
         "NAME":"猎犬突袭",
-        "DESCRIPTION": "将2张 *猎犬 置入你的手牌。"
+        "DESCRIPTION": "将 !M! 张 *猎犬 置入你的手牌。"
     },
 
     "SlayTheDungeon:Hound": {
@@ -276,7 +276,7 @@
 
     "SlayTheDungeon:Captivate": {
         "NAME": "诱捕",
-        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫。 NL 造成 !D! 点伤害2次。 NL 额外给予目标身上 slaythedungeon:流血 层数的 slaythedungeon:瘟疫 。"
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 造成 !D! 点伤害2次。 NL 额外给予目标身上 slaythedungeon:流血 层数的 slaythedungeon:瘟疫 。"
     },
 
     "SlayTheDungeon:Puncture": {
@@ -449,5 +449,10 @@
     "SlayTheDungeon:Berserk": {
         "NAME": "狂化",
         "DESCRIPTION": "你每回合打出的前 !M! 张攻击牌给予等同于伤害的 slaythedungeon:流血 。"
+    },
+
+    "SlayTheDungeon:Pray": {
+        "NAME": "祈求",
+        "DESCRIPTION": "75% 概率减少 !M! slaythedungeon:压力 , 25% 概率受到 5 slaythedungeon:压力 。"
     }
 }

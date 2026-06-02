@@ -40,7 +40,7 @@ public class FeminizationPower extends AbstractPower {
     @Override
     public void atEndOfTurn(boolean isPlayer) {
         addToBot(
-            new ChangePressureAction(this.amount)
+            new ChangePressureAction(-this.amount)
         );
     }
 }

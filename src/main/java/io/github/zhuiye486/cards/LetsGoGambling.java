@@ -42,6 +42,7 @@ public class LetsGoGambling extends AbstractDungeonCard{
         }
 
         for (AbstractCard card : exhaustCards) {
+            card.unfadeOut();
             p.exhaustPile.moveToDeck(card, false);
         }
 

@@ -31,12 +31,11 @@ public class NeverCompromise extends AbstractDungeonCard {
     
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        p.energy.energyMaster++;
         addToBot(
             new ApplyPowerAction(
-                p, 
-                p, 
-                new NeverCompromisePower(this.magicNumber)
+                p,
+                p,
+                new NeverCompromisePower(p, this.magicNumber)
             )
         );
     }

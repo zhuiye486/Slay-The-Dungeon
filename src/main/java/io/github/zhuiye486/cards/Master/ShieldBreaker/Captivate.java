@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.powers.BleedPower;
 import io.github.zhuiye486.powers.PlaguePower;
 
 public class Captivate extends AbstractDungeonCard {
@@ -65,16 +66,22 @@ public class Captivate extends AbstractDungeonCard {
                 )
             )
         );
-         addToBot(
-            new ApplyPowerAction(
-                m, 
-                p, 
-                new PlaguePower(
+         int bleedAmount = 0;
+        if (m.hasPower(BleedPower.POWER_ID)) {
+            bleedAmount = m.getPower(BleedPower.POWER_ID).amount;
+        }
+        if (bleedAmount > 0) {
+            addToBot(
+                new ApplyPowerAction(
                     m, 
-                    m.getPower("SlayTheDungeon:Mark").amount
+                    p, 
+                    new PlaguePower(
+                        m, 
+                        bleedAmount
+                    )
                 )
-            )
-        );
+            );
+        }
     }
 
     @Override

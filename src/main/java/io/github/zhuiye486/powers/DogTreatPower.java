@@ -13,7 +13,7 @@ import io.github.zhuiye486.cards.Hound;
 import io.github.zhuiye486.helpers.ModHelper;
 
 public class DogTreatPower extends AbstractPower {
-    public static final String POWER_ID = ModHelper.makePath("Dogfood");
+    public static final String POWER_ID = ModHelper.makePath("DogTreat");
     private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     private static final String NAME = powerStrings.NAME;
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
@@ -29,8 +29,8 @@ public class DogTreatPower extends AbstractPower {
         this.amount = Amount;
         this.isUpgraded = isUpgraded;
 
-        String path128 = "SlayTheDungeonResources/img/powers/DogfoodPower128.png";
-        String path48 = "SlayTheDungeonResources/img/powers/DogfoodPower48.png";
+        String path128 = "SlayTheDungeonResources/img/powers/DogTreatPower128.png";
+        String path48 = "SlayTheDungeonResources/img/powers/DogTreatPower48.png";
         this.region128 = new AtlasRegion(ImageMaster.loadImage(path128), 0, 0, 84, 84);
         this.region48 = new AtlasRegion(ImageMaster.loadImage(path48), 0, 0, 32, 32);
 
@@ -48,7 +48,7 @@ public class DogTreatPower extends AbstractPower {
 
     @Override
     public void atStartOfTurn() {
-        for (int i = 0; i < this.amount * 2; i++) {
+        for (int i = 0; i < this.amount; i++) {
             AbstractCard hound = new Hound();
             if (this.isUpgraded) {
                 hound.upgrade();

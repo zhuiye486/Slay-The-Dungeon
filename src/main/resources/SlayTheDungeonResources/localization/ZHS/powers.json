@@ -19,7 +19,7 @@
         "NAME": "流血",
         "DESCRIPTIONS": [
             "累计到 #b",
-            " 时，在回合开始时，失去当前生命值的 #b",
+            " 时，失去当前生命值的 #b",
             " 。"
         ]
     },
@@ -88,7 +88,7 @@
         ]
     },
 
-    "SlayTheDungeon:Dogfood": {
+    "SlayTheDungeon:DogTreat": {
         "NAME": "狗粮",
         "DESCRIPTIONS": [
             "回合开始时，将 #b2 张 猎犬",

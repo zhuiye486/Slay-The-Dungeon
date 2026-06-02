@@ -34,7 +34,8 @@ public class HoundsRush extends AbstractDungeonCard {
         addToBot(
             new MakeTempCardInHandAction(
                 new Hound(), 
-                this.magicNumber)
+                this.magicNumber
+            )
         );
     }
 

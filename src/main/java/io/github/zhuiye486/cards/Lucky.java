@@ -30,12 +30,14 @@ public class Lucky extends AbstractDungeonCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        new ApplyPowerAction(
-            p, 
-            p, 
-            new LuckyPower(
+        addToBot(    
+            new ApplyPowerAction(
                 p, 
-                this.magicNumber
+                p, 
+                new LuckyPower(
+                    p, 
+                    this.magicNumber
+                )
             )
         );
     }

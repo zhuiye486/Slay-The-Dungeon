@@ -12,6 +12,7 @@ import io.github.zhuiye486.actions.ChangePressureAction;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.CardTagsEnum;
+import io.github.zhuiye486.powers.LuckyPower;
 
 public class Pray extends AbstractDungeonCard{
     public static final String ID = ModHelper.makePath(Pray.class.getSimpleName());
@@ -25,19 +26,20 @@ public class Pray extends AbstractDungeonCard{
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
+    public float chance = 0.75f;
+
     public Pray() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 75;
-        this.secondMagicNumber = this.baseSecondMagicNumber = 15;
+        this.magicNumber = this.baseMagicNumber = 15;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         Random random = AbstractDungeon.cardRandomRng.random;
-        if (random.nextFloat() < this.magicNumber / 100.0f) {
+        if (random.nextFloat() < LuckyPower.getLuckyChance(chance)) {
             addToBot(
-                new ChangePressureAction(-this.secondMagicNumber)
+                new ChangePressureAction(-this.magicNumber)
             );
         } else {
             addToBot(
@@ -50,7 +52,7 @@ public class Pray extends AbstractDungeonCard{
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            this.upgradeSecondMagicNumber(5);
+            this.upgradeMagicNumber(5);
         }
     }
 

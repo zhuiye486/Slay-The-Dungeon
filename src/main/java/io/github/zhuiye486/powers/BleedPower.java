@@ -45,7 +45,8 @@ public class BleedPower extends AbstractPower {
     }
 
     @Override
-    public void onApplyPower(AbstractPower power, AbstractCreature target, AbstractCreature source) {
+    public void stackPower(int stackAmount) {
+        super.stackPower(stackAmount);
         if (this.amount >= this.targetAmount) {
             addToTop(
                 new DamageAction(

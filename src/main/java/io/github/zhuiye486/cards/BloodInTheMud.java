@@ -25,7 +25,7 @@ public class BloodInTheMud extends AbstractDungeonCard {
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
-    private static final CardTarget TARGET = CardTarget.ENEMY;
+    private static final CardTarget TARGET = CardTarget.ALL_ENEMY;
 
     public BloodInTheMud() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
@@ -42,14 +42,14 @@ public class BloodInTheMud extends AbstractDungeonCard {
                         mo,
                         p,
                         new BleedPower(
-                            m, 
+                            mo, 
                             this.magicNumber
                         )
                     )
                 );
                 addToBot(
                     new DamageAction(
-                        m, 
+                        mo, 
                         new DamageInfo(
                             p, 
                             this.damage, 

@@ -37,7 +37,8 @@ public class HoundsHurry extends AbstractDungeonCard {
                 p, 
                 new HoundsHurryPower(
                     p, 
-                    this.magicNumber)
+                    this.magicNumber
+                )
             )
         );
     }

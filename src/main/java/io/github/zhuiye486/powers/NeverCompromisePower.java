@@ -1,8 +1,9 @@
 package io.github.zhuiye486.powers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
@@ -16,9 +17,12 @@ public class NeverCompromisePower extends AbstractPower {
     private static final String NAME = powerStrings.NAME;
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
 
-    public NeverCompromisePower(int Amount) {
+    private static int postfix = 0;
+
+    public NeverCompromisePower(AbstractCreature owner, int Amount) {
         this.name = NAME;
-        this.ID = POWER_ID;
+        this.ID = POWER_ID + postfix++;
+        this.owner = owner;
         this.type = PowerType.DEBUFF;
         this.amount = Amount;
 
@@ -38,12 +42,10 @@ public class NeverCompromisePower extends AbstractPower {
     @Override
     public void atStartOfTurn() {
         addToBot(
+            new GainEnergyAction(1)
+        );
+        addToBot(
             new ChangePressureAction(this.amount)
         );
-    }
-
-    @Override
-    public void atEndOfRound() {
-        AbstractDungeon.player.energy.energyMaster--;
     }
 }
