@@ -35,12 +35,13 @@ public class Heroes extends CustomPlayer {
     public static ArrayList<Integer> selectedHeroes = new ArrayList<>();
     // 静态实例引用
     public static Heroes instance = null;
+    public static Texture composedCorpseTexture = null;
     // 火堆的人物立绘（行动前）
     private static final String CHARACTER_SHOULDER_1 = "SlayTheDungeonResources/img/char/shoulder1.png";
     // 火堆的人物立绘（行动后）
     private static final String CHARACTER_SHOULDER_2 = "SlayTheDungeonResources/img/char/shoulder2.png";
     // 人物死亡图像
-    private static final String CORPSE_IMAGE = "SlayTheDungeonResources/img/char/Corpse.png";
+    private static final String CORPSE = "SlayTheDungeonResources/img/char/Corpse.png";
     // 战斗界面左下角能量图标的每个图层
     private static final String[] ORB_TEXTURES = new String[]{
             "SlayTheDungeonResources/img/UI/orb/layer5.png",
@@ -80,58 +81,93 @@ public class Heroes extends CustomPlayer {
         "Vestal",
     };
 
-    public static void composeCharacterImage(java.util.List<Integer> heroes) {
+    private static Texture composeHeroTexture(java.util.List<Integer> heroes, String suffix) {
         if (heroes == null || heroes.size() != 4) {
             System.out.println("Invalid heroes list for composition.");
-            return;
+            return null;
         }
 
         Pixmap[] heroPixmaps = new Pixmap[4];
         int totalWidth = 0;
-        int height = 512; // Unified height
+        int height = 0;
+        float heroImageScale = 0.5f; // 0.5f 表示缩小到 50%
+        int[] scaledWidths = new int[4];
+        int[] scaledHeights = new int[4];
 
-        // Load hero images
+        // Load hero images and calculate scaled sizes
         for (int i = 0; i < 4; i++) {
             int heroIndex = heroes.get(i) - 1; // 0-based
             String heroName = heroNames[heroIndex];
-            String path = "SlayTheDungeonResources/img/char/" + heroName + ".png";
+            String path = "SlayTheDungeonResources/img/char/" + heroName + suffix;
             try {
                 Texture texture = new Texture(Gdx.files.internal(path));
                 texture.getTextureData().prepare();
                 heroPixmaps[i] = texture.getTextureData().consumePixmap();
-                totalWidth += heroPixmaps[i].getWidth();
+                scaledWidths[i] = Math.max(1, (int) (heroPixmaps[i].getWidth() * heroImageScale));
+                scaledHeights[i] = Math.max(1, (int) (heroPixmaps[i].getHeight() * heroImageScale));
+                totalWidth += scaledWidths[i];
+                height = Math.max(height, scaledHeights[i]);
             } catch (Exception e) {
                 System.out.println("Failed to load hero image: " + path);
                 e.printStackTrace();
-                return;
+                for (Pixmap pix : heroPixmaps) {
+                    if (pix != null) {
+                        pix.dispose();
+                    }
+                }
+                return null;
             }
         }
 
-        // Create composed pixmap
         Pixmap composed = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
         int currentX = 0;
-        for (Pixmap pix : heroPixmaps) {
-            composed.drawPixmap(pix, currentX, 0);
-            currentX += pix.getWidth();
+        for (int i = 0; i < heroPixmaps.length; i++) {
+            Pixmap pix = heroPixmaps[i];
+            int targetWidth = scaledWidths[i];
+            int targetHeight = scaledHeights[i];
+            int targetY = height - targetHeight; // bottom align
+            composed.drawPixmap(pix, 0, 0, pix.getWidth(), pix.getHeight(), currentX, targetY, targetWidth, targetHeight);
+            currentX += targetWidth;
             pix.dispose();
         }
 
-        // Save composed image
-        try {
-            Texture composedTexture = new Texture(composed);
-            System.out.println("Composed hero texture created.");
-            // Set to instance if exists
-            if (instance != null) {
-                instance.img.dispose();
-                instance.img = composedTexture;
-                System.out.println("Composed texture set to player img.");
-            }
-        } catch (Exception e) {
-            System.out.println("Failed to create composed texture.");
-            e.printStackTrace();
-        } finally {
-            composed.dispose();
+        Texture composedTexture = new Texture(composed);
+        composed.dispose();
+        return composedTexture;
+    }
+
+    public static void composeCharacterImage(java.util.List<Integer> heroes) {
+        Texture composedTexture = composeHeroTexture(heroes, ".png");
+        if (composedTexture == null) {
+            return;
         }
+        System.out.println("Composed hero texture created.");
+        if (instance != null) {
+            if (instance.img != null) {
+                instance.img.dispose();
+            }
+            instance.img = composedTexture;
+            System.out.println("Composed texture set to player img.");
+        }
+    }
+
+    public static Texture composeCorpseImage(java.util.List<Integer> heroes) {
+        if (heroes == null || heroes.size() != 4) {
+            System.out.println("Invalid heroes list for corpse image composition.");
+            return null;
+        }
+        if (composedCorpseTexture != null) {
+            composedCorpseTexture.dispose();
+            composedCorpseTexture = null;
+        }
+        composedCorpseTexture = composeHeroTexture(heroes, "_dead.png");
+        if (composedCorpseTexture != null) {
+            System.out.println("Composed corpse texture created.");
+            if (instance != null) {
+                instance.corpseImg = composedCorpseTexture;
+            }
+        }
+        return composedCorpseTexture;
     }
 
     public Heroes(String name, PlayerClass setClass) {
@@ -148,13 +184,17 @@ public class Heroes extends CustomPlayer {
         this.initializeClass(
                 characterImage, // 人物图片
                 CHARACTER_SHOULDER_2, CHARACTER_SHOULDER_1,
-                CORPSE_IMAGE, // 人物死亡图像
+                CORPSE, // 人物死亡图像
                 this.getLoadout(),
                 0.0F, 0.0F,
                 200.0F, 220.0F, // 人物碰撞箱大小，越大的人物模型这个越大
                 new EnergyManager(3) // 初始每回合的能量
         );
 
+        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+            composeCharacterImage(selectedHeroes);
+            composeCorpseImage(selectedHeroes);
+        }
 
         // 如果你的人物没有动画，那么这些不需要写
         // this.loadAnimation("ExampleModResources/img/char/character.atlas", "ExampleModResources/img/char/character.json", 1.8F);
@@ -172,7 +212,7 @@ public class Heroes extends CustomPlayer {
             System.out.println("Using hero image: " + heroPath);
             return heroPath;
         } else {
-            String defaultPath = "SlayTheDungeonResources/img/char/Character_Portrait.png";
+            String defaultPath = "SlayTheDungeonResources/img/char/Stage_Coach.png";
             System.out.println("Using default image: " + defaultPath);
             return defaultPath;
         }
@@ -301,6 +341,9 @@ public class Heroes extends CustomPlayer {
             return;
         }
 
+        composeCharacterImage(selectedHeroes);
+        composeCorpseImage(selectedHeroes);
+
         for (String cardId : buildStartingDeck(selectedHeroes)) {
             AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(cardId));
         }
@@ -335,12 +378,7 @@ public class Heroes extends CustomPlayer {
     // 人物名字（出现在游戏左上角）
     @Override
     public String getTitle(PlayerClass playerClass) {
-        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
-            int primaryHero = selectedHeroes.get(0);
-            return "英雄 " + primaryHero;
-        } else {
-            return characterStrings.NAMES[0];
-        }
+        return "英雄们";
     }
 
     // 你的卡牌颜色（这个枚举在最下方创建）
@@ -439,14 +477,20 @@ public class Heroes extends CustomPlayer {
     }
 
     // Save and Load methods for selectedHeroes
-    public void saveSelectedHeroes() {
-        // Implementation for saving selectedHeroes, e.g., using SpireConfig or similar
-        // For now, placeholder
+    public static void saveSelectedHeroes() {
+        // 保存时通过 BaseMod.addSaveField 统一处理，无需本地实现。
     }
 
-    public void loadSelectedHeroes() {
-        // Implementation for loading selectedHeroes
-        // For now, placeholder
+    public static void loadSelectedHeroes(List<Integer> heroes) {
+        if (heroes == null || heroes.isEmpty()) {
+            selectedHeroes = new ArrayList<>();
+            return;
+        }
+        selectedHeroes = new ArrayList<>(heroes);
+        if (instance != null) {
+            composeCharacterImage(selectedHeroes);
+            composeCorpseImage(selectedHeroes);
+        }
     }
 
     // 以下为原版人物枚举、卡牌颜色枚举扩展的枚举，需要写，接下来要用

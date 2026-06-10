@@ -1,11 +1,15 @@
 package io.github.zhuiye486;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.core.Settings.GameLanguage;
@@ -138,6 +142,35 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
 
     public SlayTheDungeon() {
         BaseMod.subscribe(this);
+        BaseMod.addSaveField("SlayTheDungeonSelectedHeroes", new basemod.abstracts.CustomSavableRaw() {
+            @Override
+            public JsonElement onSaveRaw() {
+                JsonArray array = new JsonArray();
+                for (Integer hero : Heroes.selectedHeroes) {
+                    array.add(new JsonPrimitive(hero));
+                }
+                return array;
+            }
+
+            @Override
+            public void onLoadRaw(JsonElement json) {
+                if (json == null || !json.isJsonArray()) {
+                    Heroes.selectedHeroes = new ArrayList<>();
+                    return;
+                }
+                JsonArray array = json.getAsJsonArray();
+                ArrayList<Integer> loaded = new ArrayList<>();
+                for (JsonElement element : array) {
+                    if (element != null && element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber()) {
+                        loaded.add(element.getAsInt());
+                    }
+                }
+                Heroes.selectedHeroes = loaded;
+                if (!Heroes.selectedHeroes.isEmpty()) {
+                    Heroes.composeCharacterImage(Heroes.selectedHeroes);
+                }
+            }
+        });
         BaseMod.addColor(SlayTheDungeonColorEnum.DEEP_RED, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR,
                 SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR,
                 BG_ATTACK_512, BG_SKILL_512, BG_POWER_512, ENERGY_ORB,
