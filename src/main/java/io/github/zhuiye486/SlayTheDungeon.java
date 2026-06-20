@@ -166,7 +166,7 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
                     }
                 }
                 Heroes.selectedHeroes = loaded;
-                if (!Heroes.selectedHeroes.isEmpty()) {
+                if (Heroes.selectedHeroes.size() == 4) {
                     Heroes.composeCharacterImage(Heroes.selectedHeroes);
                 }
             }

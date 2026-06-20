@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>卡牌美术工具 — Slay The Dungeon</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <h1>卡牌美术工具</h1>
+      <p class="subtitle">Slay The Dungeon · 浏览 · 替换 · 暂存 · 提交</p>
+    </div>
+    <div class="header-stats" id="stats"></div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" id="btn-rescan">重新扫描</button>
+      <button type="button" class="btn btn-primary" id="btn-commit">
+        提交到主项目 <span class="badge" id="staged-badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <section class="panel prompt-panel">
+      <h2>AI 提示词</h2>
+      <label class="field">
+        <span>基础提示词 <small>（全局风格，自动保存）</small></span>
+        <textarea id="base-prompt" rows="5" placeholder="全局风格、画面要求…"></textarea>
+      </label>
+      <details class="template-details">
+        <summary>卡牌信息模板</summary>
+        <label class="field">
+          <span>占位符</span>
+          <p class="placeholder-hint" id="placeholder-hint"></p>
+          <textarea id="card-template" rows="4"></textarea>
+        </label>
+      </details>
+      <p class="hint">详情页提示词 = 基础提示词 + 卡牌信息。修改后可复制到 Midjourney / SD / 其他 AI 工具。</p>
+    </section>
+
+    <section class="panel">
+      <h2>筛选</h2>
+      <label class="field">
+        <span>搜索</span>
+        <input type="search" id="filter-q" placeholder="名称、类名、效果…">
+      </label>
+      <label class="field">
+        <span>职业</span>
+        <select id="filter-hero"><option value="">全部</option></select>
+      </label>
+      <label class="field">
+        <span>类型</span>
+        <select id="filter-type"><option value="">全部</option></select>
+      </label>
+      <label class="field">
+        <span>占位图</span>
+        <select id="filter-placeholder">
+          <option value="">全部</option>
+          <option value="true">仍用占位图</option>
+          <option value="false">已有独立图</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>暂存状态</span>
+        <select id="filter-staged">
+          <option value="">全部</option>
+          <option value="true">已暂存</option>
+          <option value="false">未暂存</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="panel staging-panel">
+      <h2>暂存区 <span id="staging-count">0</span></h2>
+      <div id="staging-list" class="staging-list"></div>
+      <p class="hint">替换图片先进入暂存区，确认后再提交到主项目。</p>
+    </section>
+  </aside>
+
+  <main class="main">
+    <div id="card-grid" class="card-grid"></div>
+    <p id="empty-msg" class="empty-msg hidden">没有匹配的卡牌</p>
+  </main>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-content modal-detail" role="dialog" aria-labelledby="modal-title">
+      <header class="modal-detail-header">
+        <h2 id="modal-title" class="modal-title-top"></h2>
+        <div class="modal-detail-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-undo-crop" disabled>撤销裁剪</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-crop">重置裁剪</button>
+          <button type="button" class="btn btn-danger btn-sm hidden" id="btn-remove-staging">撤销暂存</button>
+          <button type="button" class="modal-close" data-close aria-label="关闭">×</button>
+        </div>
+      </header>
+
+      <section class="art-workspace">
+        <div class="hero-ref-col hidden" id="hero-ref-col">
+          <h3>角色对照</h3>
+          <div class="hero-ref-frame">
+            <img id="hero-ref-image" alt="角色立绘">
+          </div>
+        </div>
+
+        <div class="crop-col">
+          <div class="workspace-header">
+            <h3>原图裁剪 <span class="crop-badge">500×380</span></h3>
+          </div>
+          <div class="crop-canvas-wrap">
+            <canvas id="crop-canvas"></canvas>
+          </div>
+          <div id="modal-drop" class="drop-zone drop-zone-compact">
+            <p>拖拽 PNG、<kbd>Ctrl</kbd>+<kbd>V</kbd> 粘贴，或
+            <label class="btn btn-secondary btn-sm file-label">
+              选择文件
+              <input type="file" id="modal-file" accept="image/png" hidden>
+            </label></p>
+          </div>
+          <ul id="modal-warnings" class="warnings"></ul>
+        </div>
+
+        <div class="preview-col">
+          <h3>套框预览 <span class="crop-badge">mask 合成</span></h3>
+          <div class="preview-canvas-wrap">
+            <canvas id="frame-preview-canvas"></canvas>
+          </div>
+          <p class="hint">预览实时联动裁剪框；已调整裁剪时提交 500×380 PNG。</p>
+        </div>
+      </section>
+
+      <section class="modal-meta-grid">
+        <div class="meta-panel">
+          <h3>卡牌信息</h3>
+          <dl class="info-list">
+            <dt>卡牌 ID</dt><dd id="info-id"></dd>
+            <dt>类名</dt><dd id="info-class"></dd>
+            <dt>职业</dt><dd id="info-hero"></dd>
+            <dt>类型</dt><dd id="info-type"></dd>
+            <dt>费用</dt><dd id="info-cost"></dd>
+            <dt>当前图片</dt><dd id="info-image"></dd>
+            <dt>提交后文件名</dt><dd id="info-target"></dd>
+            <dt>共用情况</dt><dd id="info-shared"></dd>
+          </dl>
+        </div>
+        <div class="meta-panel">
+          <h3>效果描述</h3>
+          <div class="description-box description-box-flat">
+            <p id="info-description"></p>
+          </div>
+        </div>
+        <div class="meta-panel meta-panel-prompt">
+          <div class="prompt-box-header">
+            <h3>合并提示词</h3>
+            <div class="prompt-box-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-regen-prompt">重新生成</button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-copy-prompt">复制</button>
+            </div>
+          </div>
+          <textarea id="merged-prompt" rows="6" spellcheck="false"></textarea>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="commit-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-commit></div>
+    <div class="modal-content modal-sm" role="dialog">
+      <h2>确认提交</h2>
+      <p>将把暂存区的图片复制到主项目，并更新对应 Java 文件的 <code>IMG_PATH</code>。已调整裁剪的图片将导出为 500×380 像素。</p>
+      <ul id="commit-list" class="commit-list"></ul>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close-commit>取消</button>
+        <button type="button" class="btn btn-primary" id="btn-commit-confirm">确认提交</button>
+      </div>
+      <div id="commit-result" class="commit-result hidden"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

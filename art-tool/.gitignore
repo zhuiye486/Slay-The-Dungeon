@@ -1,0 +1,7 @@
+# 暂存图片不纳入版本控制（manifest 可保留空结构）
+staging/images/*.png
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/

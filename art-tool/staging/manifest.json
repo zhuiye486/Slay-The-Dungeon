@@ -1,0 +1,28 @@
+{
+  "entries": {
+    "SlayTheDungeon__DuelistsAdvance": {
+      "card_id": "SlayTheDungeon:DuelistsAdvance",
+      "safe_id": "SlayTheDungeon__DuelistsAdvance",
+      "class_name": "DuelistsAdvance",
+      "name": "决斗突刺",
+      "previous_image_file": "Itsuki_A.png",
+      "previous_img_path": "SlayTheDungeonResources/img/cards/Itsuki_A.png",
+      "target_image_file": "SlayTheDungeon__DuelistsAdvance.png",
+      "target_img_path": "SlayTheDungeonResources/img/cards/SlayTheDungeon__DuelistsAdvance.png",
+      "java_file": "src/main/java/io/github/zhuiye486/cards/Master/HighWayMan/DuelistsAdvance.java",
+      "staged_at": "2026-06-16T06:51:26.638975+00:00",
+      "warnings": [
+        "尺寸为 687×1024，建议 500×380（仅提醒，不阻止提交）"
+      ],
+      "crop": {
+        "x": 131,
+        "y": 251,
+        "width": 552,
+        "height": 419,
+        "applied": true,
+        "sourceWidth": 687,
+        "sourceHeight": 1024
+      }
+    }
+  }
+}

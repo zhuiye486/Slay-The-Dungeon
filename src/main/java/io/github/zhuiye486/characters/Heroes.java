@@ -137,18 +137,21 @@ public class Heroes extends CustomPlayer {
     }
 
     public static void composeCharacterImage(java.util.List<Integer> heroes) {
+        if (instance == null) {
+            System.out.println("composeCharacterImage skipped because Heroes.instance is null.");
+            return;
+        }
+
         Texture composedTexture = composeHeroTexture(heroes, ".png");
         if (composedTexture == null) {
             return;
         }
         System.out.println("Composed hero texture created.");
-        if (instance != null) {
-            if (instance.img != null) {
-                instance.img.dispose();
-            }
-            instance.img = composedTexture;
-            System.out.println("Composed texture set to player img.");
+        if (instance.img != null) {
+            instance.img.dispose();
         }
+        instance.img = composedTexture;
+        System.out.println("Composed texture set to player img.");
     }
 
     public static Texture composeCorpseImage(java.util.List<Integer> heroes) {
@@ -191,7 +194,7 @@ public class Heroes extends CustomPlayer {
                 new EnergyManager(3) // 初始每回合的能量
         );
 
-        if (selectedHeroes != null && !selectedHeroes.isEmpty()) {
+        if (selectedHeroes != null && selectedHeroes.size() == 4) {
             composeCharacterImage(selectedHeroes);
             composeCorpseImage(selectedHeroes);
         }

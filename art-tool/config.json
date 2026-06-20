@@ -1,0 +1,14 @@
+{
+  "projectRoot": "..",
+  "cardsJavaDir": "src/main/java/io/github/zhuiye486/cards",
+  "cardsJsonPath": "src/main/resources/SlayTheDungeonResources/localization/ZHS/cards.json",
+  "imagesDir": "src/main/resources/SlayTheDungeonResources/img/cards",
+  "modId": "SlayTheDungeon",
+  "placeholderImages": ["Itsuki_A.png", "Itsuki_S.png", "Itsuki_P.png"],
+  "recommendedWidth": 500,
+  "recommendedHeight": 380,
+  "charImagesDir": "src/main/resources/SlayTheDungeonResources/img/char",
+  "frameSize": 1024,
+  "frameArtPosition": { "x": 262, "y": 180 },
+  "serverPort": 8765
+}
