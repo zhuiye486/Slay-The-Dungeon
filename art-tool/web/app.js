@@ -347,7 +347,7 @@ async function openModal(safeId) {
   $("#info-type").textContent = card.card_type_zhs;
   $("#info-cost").textContent = card.cost ?? "—";
   $("#info-image").textContent = card.image_file;
-  $("#info-target").textContent = card.target_image_file;
+  $("#info-target").textContent = `${card.target_image_file} / ${card.target_image_file.replace(/\.png$/, "_p.png")}`;
   $("#info-shared").textContent =
     card.shared_count > 1
       ? `与 ${card.shared_with.length} 张卡共用 ${card.image_file}`
@@ -498,7 +498,10 @@ async function openCommitModal() {
   }
   const list = $("#commit-list");
   list.innerHTML = state.staging
-    .map((e) => `<li>${e.name} → ${e.target_image_file}</li>`)
+    .map(
+      (e) =>
+        `<li>${e.name} → ${e.target_image_file} / ${e.target_image_file.replace(/\.png$/, "_p.png")}</li>`
+    )
     .join("");
   $("#commit-result").classList.add("hidden");
   $("#commit-modal").classList.remove("hidden");

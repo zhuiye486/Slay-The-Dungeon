@@ -24,8 +24,9 @@ cd art-tool
 2. **筛选**：按职业、类型、占位图、暂存状态过滤
 3. **替换**：点击卡牌 → 拖拽或选择 PNG → 进入暂存区（不改动主项目）
 4. **提交**：确认暂存列表 → 点击「提交到主项目」
-   - 复制 PNG 到 `src/main/resources/SlayTheDungeonResources/img/cards/`
-   - 更新对应 Java 文件的 `IMG_PATH`
+    - 按卡牌类型 mask 裁剪并生成 `500 × 380` 和 `250 × 190` 两个 PNG 到 `src/main/resources/SlayTheDungeonResources/img/cards/`
+    - 小图使用 `CardName.png`，大图使用 `CardName_p.png`
+    - 更新对应 Java 文件的 `IMG_PATH` 指向小图
 
 ## 命名规则
 
@@ -35,13 +36,14 @@ cd art-tool
 SlayTheDungeon:SniperShot  →  SniperShot.png
 ```
 
-未单独提交过的卡牌仍继续使用占位图 `Itsuki_A.png` / `Itsuki_S.png` / `Itsuki_P.png`。
+未单独提交过的卡牌仍继续使用占位图的小图 `ItsukiA.png` / `ItsukiS.png` / `ItsukiP.png`，以及对应大图 `ItsukiA_p.png` / `ItsukiS_p.png` / `ItsukiP_p.png`。
 
 ## 图片要求
 
 - 格式：**PNG**
-- 建议尺寸：**500 × 380**（与杀戮尖塔卡牌比例一致）
+- 输入图建议尺寸：**500 × 380**（与杀戮尖塔卡牌比例一致）
 - 尺寸或格式不符时**仅提醒**，不阻止暂存或提交
+- 提交时按卡牌类型应用 `attack_mask.png`、`skill_mask.png` 或 `power_mask.png`
 
 ## 目录说明
 
@@ -79,4 +81,4 @@ python -m uvicorn server.main:app --host 127.0.0.1 --port 8765
 - 详情页可对照 **角色立绘**（仅职业技能卡）
 - **裁剪框**（500×380）可拖动/缩放，与套框预览实时联动
 - **mask 合成**后叠加 STS 原版卡框预览
-- 已调整裁剪时，提交导出精确 **500×380** PNG；未调整则提交原图
+- 提交时始终按 mask 导出精确 **500×380** 和 **250×190** PNG

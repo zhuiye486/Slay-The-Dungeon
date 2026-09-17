@@ -1,4 +1,4 @@
-"""卡牌图裁剪为 500×380。"""
+"""卡牌图按裁剪框和卡牌 mask 生成双尺寸 PNG。"""
 
 from __future__ import annotations
 
@@ -9,6 +9,8 @@ from PIL import Image
 OUTPUT_WIDTH = 500
 OUTPUT_HEIGHT = 380
 CROP_ASPECT = OUTPUT_WIDTH / OUTPUT_HEIGHT
+SMALL_WIDTH = 250
+SMALL_HEIGHT = 190
 
 
 def default_crop_rect(width: int, height: int) -> dict[str, Any]:
@@ -69,3 +71,24 @@ def render_card_art(image: Image.Image, crop: dict[str, Any] | None) -> Image.Im
     if src.size != (OUTPUT_WIDTH, OUTPUT_HEIGHT):
         src = src.resize((OUTPUT_WIDTH, OUTPUT_HEIGHT), Image.Resampling.LANCZOS)
     return src
+
+
+def apply_mask(image: Image.Image, mask: Image.Image) -> Image.Image:
+    """使用 mask 的 alpha 通道裁掉卡牌边缘，同时保留图片透明度。"""
+    art = image.convert("RGBA")
+    mask_alpha = mask.convert("RGBA").getchannel("A")
+    alpha = art.getchannel("A")
+    alpha = Image.composite(alpha, Image.new("L", art.size, 0), mask_alpha)
+    art.putalpha(alpha)
+    return art
+
+
+def render_card_variants(
+    image: Image.Image,
+    crop: dict[str, Any] | None,
+    mask: Image.Image,
+) -> tuple[Image.Image, Image.Image]:
+    """生成 500×380 大图和 250×190 小图。"""
+    large = apply_mask(render_card_art(image, crop), mask)
+    small = large.resize((SMALL_WIDTH, SMALL_HEIGHT), Image.Resampling.LANCZOS)
+    return large, small

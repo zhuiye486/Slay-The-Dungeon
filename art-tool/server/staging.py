@@ -12,7 +12,8 @@ from typing import Any
 from PIL import Image
 
 from .card_scanner import CardEntry, safe_id_to_card_id
-from .image_crop import default_crop_rect, normalize_crop, render_card_art
+from .hero_assets import frame_basename
+from .image_crop import default_crop_rect, normalize_crop, render_card_variants
 
 
 def load_manifest(staging_dir: Path) -> dict[str, Any]:
@@ -68,6 +69,7 @@ def _base_entry(card: CardEntry, warnings: list[str]) -> dict[str, Any]:
         "safe_id": card.safe_id,
         "class_name": card.class_name,
         "name": card.name,
+        "card_type": card.card_type,
         "previous_image_file": card.image_file,
         "previous_img_path": card.img_path,
         "target_image_file": card.target_image_file,
@@ -144,16 +146,26 @@ def is_staged(staging_dir: Path, safe_id: str) -> bool:
     return safe_id in load_manifest(staging_dir)["entries"]
 
 
-def prepare_commit_image(staged_file: Path, entry: dict[str, Any]) -> bytes:
+def prepare_commit_images(
+    staged_file: Path,
+    entry: dict[str, Any],
+    config: dict[str, Any],
+    staging_dir: Path,
+) -> tuple[bytes, bytes]:
+    frame_dir = staging_dir.parent / config.get("frameMaskDir", "assets/frames")
+    frame_name = frame_basename(entry.get("card_type", "SKILL"))
+    mask_path = frame_dir / f"{frame_name}_mask.png"
+    if not mask_path.exists():
+        raise FileNotFoundError(f"卡牌 mask 不存在：{mask_path.name}")
+
     with Image.open(staged_file) as img:
-        crop = entry.get("crop")
-        if crop and crop.get("applied"):
-            output = render_card_art(img, crop)
-        else:
-            output = img.convert("RGBA")
-        buf = BytesIO()
-        output.save(buf, format="PNG")
-        return buf.getvalue()
+        with Image.open(mask_path) as mask:
+            large, small = render_card_variants(img, entry.get("crop"), mask)
+            large_buf = BytesIO()
+            small_buf = BytesIO()
+            large.save(large_buf, format="PNG")
+            small.save(small_buf, format="PNG")
+            return large_buf.getvalue(), small_buf.getvalue()
 
 
 def commit_staged(
@@ -188,7 +200,13 @@ def commit_staged(
 
             target_name = entry["target_image_file"]
             target_path = images_dir / target_name
-            target_path.write_bytes(prepare_commit_image(staged_file, entry))
+            large_name = target_name[:-4] + "_p.png"
+            large_path = images_dir / large_name
+            large_bytes, small_bytes = prepare_commit_images(
+                staged_file, entry, config, staging_dir
+            )
+            target_path.write_bytes(small_bytes)
+            large_path.write_bytes(large_bytes)
 
             java_path = project_root / entry["java_file"]
             content = java_path.read_text(encoding="utf-8")
@@ -210,6 +228,7 @@ def commit_staged(
                     "safe_id": safe_id,
                     "name": entry.get("name", card.name),
                     "target_image_file": target_name,
+                    "large_image_file": large_name,
                     "java_file": entry["java_file"],
                     "cropped": crop_applied,
                 }
