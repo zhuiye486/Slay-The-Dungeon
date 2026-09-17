@@ -8,6 +8,16 @@
 2. 双击 `start.bat`
 3. 浏览器会自动打开 `http://127.0.0.1:8765`
 
+对于 macOS 用户：
+
+- 双击 `start.command`（如果无法运行，请先在终端内执行 `chmod +x start.command`）
+- 或在终端运行：
+
+```bash
+cd art-tool
+./start.command
+```
+
 ## 工作流程
 
 1. **浏览**：网格查看所有卡牌的美术、中文名、效果、职业
@@ -22,7 +32,7 @@
 提交后每张卡使用独立文件名：
 
 ```
-SlayTheDungeon:SniperShot  →  SlayTheDungeon__SniperShot.png
+SlayTheDungeon:SniperShot  →  SniperShot.png
 ```
 
 未单独提交过的卡牌仍继续使用占位图 `Itsuki_A.png` / `Itsuki_S.png` / `Itsuki_P.png`。

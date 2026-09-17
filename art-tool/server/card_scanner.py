@@ -68,8 +68,16 @@ def safe_id_to_card_id(safe_id: str) -> str:
     return safe_id.replace("__", ":", 1)
 
 
-def card_id_to_target_filename(card_id: str) -> str:
-    return f"{card_id_to_safe_id(card_id)}.png"
+def card_id_to_target_filename(card_id: str, class_name: str | None = None) -> str:
+    """Return target filename using PascalCase class name and no mod prefix.
+
+    Prefer an explicit `class_name` if provided; otherwise fall back to
+    the part after the colon in `card_id`.
+    """
+    name = class_name or card_id.split(":", 1)[-1]
+    parts = re.split(r"[^0-9A-Za-z]+", name)
+    pascal = "".join(p.capitalize() for p in parts if p)
+    return f"{pascal}.png"
 
 
 def infer_hero(java_rel: str) -> tuple[str, str]:
@@ -137,7 +145,7 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
 
         img_path = img_match.group(1)
         image_file = Path(img_path).name
-        target_image_file = card_id_to_target_filename(card_id)
+        target_image_file = card_id_to_target_filename(card_id, class_name)
 
         entries.append(
             CardEntry(
