@@ -16,7 +16,7 @@ public class HolyWater extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(HolyWater.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/ItsukiS.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Holywater.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
