@@ -128,6 +128,18 @@ export class FramePreview {
       ctx.fillText(cost, 88 * s, 102 * s);
     }
 
+    const stats = [
+      card.damage != null ? `D ${card.damage}` : "",
+      card.block != null ? `B ${card.block}` : "",
+      card.magic_number != null ? `M ${card.magic_number}` : "",
+      card.heal != null ? `H ${card.heal}` : "",
+    ].filter(Boolean).join("  ");
+    if (stats) {
+      ctx.fillStyle = "#ffd43b";
+      ctx.font = `bold ${Math.round(25 * s)}px sans-serif`;
+      ctx.fillText(stats, 512 * s, 818 * s);
+    }
+
     const desc = simplifyDescription(card.description);
     const lines = this.wrapText(desc, 880 * s, Math.round(28 * s));
     ctx.fillStyle = "#dee2e6";

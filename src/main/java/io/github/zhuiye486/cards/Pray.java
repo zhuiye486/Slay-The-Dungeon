@@ -14,7 +14,7 @@ import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.CardTagsEnum;
 import io.github.zhuiye486.powers.LuckyPower;
 
-public class Pray extends AbstractDungeonCard{
+public class Pray extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(Pray.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
@@ -26,11 +26,11 @@ public class Pray extends AbstractDungeonCard{
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
-    public float chance = 0.75f;
 
     public Pray() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 15;
+        this.magicNumber = this.baseMagicNumber = 10;
+        this.baseChance = this.chance = 0.75f;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
@@ -47,6 +47,7 @@ public class Pray extends AbstractDungeonCard{
             );
         }
     }
+
 
     @Override
     public void upgrade() {

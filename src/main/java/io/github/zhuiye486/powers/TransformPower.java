@@ -2,6 +2,7 @@ package io.github.zhuiye486.powers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -15,7 +16,7 @@ import com.megacrit.cardcrawl.powers.PoisonPower;
 
 import io.github.zhuiye486.helpers.ModHelper;
 
-public class TransformPower extends AbstractPower {
+public class TransformPower extends AbstractPower implements CardValueModifier {
     public static final String POWER_ID = ModHelper.makePath("Transform");
     private static final PowerStrings POWER_STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     private static final String NAME = POWER_STRINGS.NAME;
@@ -35,12 +36,19 @@ public class TransformPower extends AbstractPower {
         this.region128 = new AtlasRegion(ImageMaster.loadImage(path128), 0, 0, 84, 84);
         this.region48 = new AtlasRegion(ImageMaster.loadImage(path48), 0, 0, 32, 32);
 
-        this.description = POWER_DESCRIPTIONS[0];
+        updateDescription();
+    }
+
+    @Override
+    public void onInitialApplication() {
+        refreshCards();
     }
 
     @Override
     public void updateDescription() {
-        this.description = POWER_DESCRIPTIONS[0];
+        this.description = POWER_DESCRIPTIONS.length > 1
+            ? POWER_DESCRIPTIONS[0] + this.multi + POWER_DESCRIPTIONS[1]
+            : POWER_DESCRIPTIONS[0];
     }
 
     @Override
@@ -70,6 +78,11 @@ public class TransformPower extends AbstractPower {
     }
 
     @Override
+    public int modifyStatusAmount(AbstractCard card, int amount) {
+        return amount * 2;
+    }
+
+    @Override
     public void onApplyPower(AbstractPower power, AbstractCreature target, AbstractCreature source) {
         if (source != this.owner || power == null) {
             return;
@@ -94,6 +107,20 @@ public class TransformPower extends AbstractPower {
             addToBot(
                 new RemoveSpecificPowerAction(this.owner, this.owner, this)
             );
+            addToBot(new AbstractGameAction() {
+                @Override
+                public void update() {
+                    refreshCards();
+                    this.isDone = true;
+                }
+            });
         }
+    }
+
+    private void refreshCards() {
+        if (AbstractDungeon.player == null || AbstractDungeon.player.hand == null) {
+            return;
+        }
+        AbstractDungeon.player.hand.applyPowers();
     }
 }

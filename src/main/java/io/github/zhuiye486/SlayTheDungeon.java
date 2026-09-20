@@ -122,6 +122,8 @@ import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.relics.PressureIndicator;
 import io.github.zhuiye486.variables.Heal;
 import io.github.zhuiye486.variables.SecondMagicNumber;
+import io.github.zhuiye486.variables.Chance;
+import io.github.zhuiye486.variables.Chance2;
 
 @SpireInitializer
 public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscriber, EditCharactersSubscriber, PostInitializeSubscriber, EditKeywordsSubscriber, EditRelicsSubscriber {
@@ -276,6 +278,8 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new Berserk());
         BaseMod.addDynamicVariable(new Heal());
         BaseMod.addDynamicVariable(new SecondMagicNumber());
+        BaseMod.addDynamicVariable(new Chance());
+        BaseMod.addDynamicVariable(new Chance2());
     }
 
     @Override

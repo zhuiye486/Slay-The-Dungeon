@@ -52,7 +52,7 @@ public class Rake extends AbstractDungeonCard {
                 new PoisonPower(
                     m,
                     p, 
-                    this.magicNumber
+                    this.baseMagicNumber
                 )
             )
         );
@@ -62,10 +62,15 @@ public class Rake extends AbstractDungeonCard {
                 p, 
                 new BleedPower(
                     m, 
-                    this.magicNumber
+                    this.baseMagicNumber
                 )
             )
         );
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
     }
 
     @Override

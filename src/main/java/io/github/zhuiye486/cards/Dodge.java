@@ -27,12 +27,12 @@ public class Dodge extends AbstractDungeonCard {
     private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.SELF;
 
-    public static float chance = 0.5f;
 
     public Dodge() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.block = this.baseBlock = 15;
         this.magicNumber = this.baseMagicNumber  = 5;
+        this.baseChance = this.chance = 0.5f;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
@@ -57,6 +57,7 @@ public class Dodge extends AbstractDungeonCard {
             );
         }
     }
+
 
     @Override
     public void upgrade() {

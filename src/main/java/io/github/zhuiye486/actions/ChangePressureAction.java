@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.relics.PressureIndicator;
 
 public class ChangePressureAction extends AbstractGameAction {
     private int pressureAmount;
@@ -14,14 +15,10 @@ public class ChangePressureAction extends AbstractGameAction {
 
     @Override
     public void update() {
-        int currentPressure = AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter;
-
-        // Clamp to zero when reduction exceeds current pressure.
-        if (pressureAmount < 0 && Math.abs(pressureAmount) > currentPressure) {
-            AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter = 0;
-        } else {
-            AbstractDungeon.player.getRelic(ModHelper.makePath("PressureIndicator")).counter += pressureAmount;
-        }
+        PressureIndicator relic = (PressureIndicator) AbstractDungeon.player.getRelic(
+            ModHelper.makePath("PressureIndicator")
+        );
+        relic.changePressure(pressureAmount);
 
         this.isDone = true; 
     }

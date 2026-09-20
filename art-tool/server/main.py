@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from .card_scanner import CardEntry, entries_to_dicts, scan_cards
+from .card_scanner import CardEntry, TYPE_ZHS, entries_to_dicts, scan_cards
 from .hero_assets import hero_image_filename, hero_image_path, hero_image_url
 from .project_paths import resolve_project_root
 from .staging import (
@@ -23,7 +23,9 @@ from .staging import (
     list_staged,
     load_manifest,
     remove_staged,
+    stage_card_fields,
     staging_image_path,
+    undo_last_commit,
     update_staged_crop,
     validate_png,
 )
@@ -66,6 +68,8 @@ app.add_middleware(
 
 
 def card_with_staging(card: CardEntry) -> dict[str, Any]:
+    manifest_entry = load_manifest(STAGING_DIR)["entries"].get(card.safe_id, {})
+    changes = manifest_entry.get("field_changes", {})
     data = {
         "id": card.id,
         "safe_id": card.safe_id,
@@ -89,13 +93,32 @@ def card_with_staging(card: CardEntry) -> dict[str, Any]:
         "hero_image_url": hero_image_url(
             card.hero_key, project_root, config["charImagesDir"]
         ),
+        "editable": card.editable,
+        "edit_warnings": card.edit_warnings,
     }
+    for field in (
+        "name_en", "description_en", "rarity", "damage", "block", "magic_number", "heal",
+        "upgrade_cost", "upgrade_damage", "upgrade_block", "upgrade_magic_number",
+        "upgrade_heal", "upgrade_description", "tags",
+    ):
+        data[field] = getattr(card, field)
+    for field in (
+        "name", "name_en", "description", "description_en", "cost", "rarity",
+        "damage", "block", "magic_number", "heal", "upgrade_cost", "upgrade_damage",
+        "upgrade_block", "upgrade_magic_number", "upgrade_heal", "upgrade_description", "tags",
+    ):
+        if field in changes:
+            data[field] = changes[field]
+    if "card_type" in changes:
+        data["card_type"] = changes["card_type"]
+        data["card_type_zhs"] = TYPE_ZHS.get(changes["card_type"], changes["card_type"])
     if data["hero_image_url"]:
         data["hero_image_file"] = hero_image_filename(card.hero_key)
     if data["is_staged"]:
-        manifest_entry = load_manifest(STAGING_DIR)["entries"].get(card.safe_id, {})
         data["staging_warnings"] = manifest_entry.get("warnings", [])
         data["crop"] = manifest_entry.get("crop")
+        data["field_changes"] = changes
+        data["has_field_changes"] = bool(changes)
     return data
 
 
@@ -224,6 +247,40 @@ def delete_staging(safe_id: str) -> dict[str, Any]:
     return {"ok": True}
 
 
+@app.put("/api/staging/{safe_id}/fields")
+def save_card_fields(safe_id: str, changes: dict[str, Any] = Body(...)) -> dict[str, Any]:
+    card = cards_by_safe_id.get(safe_id)
+    if not card:
+        raise HTTPException(status_code=404, detail="卡牌不存在")
+    numeric_fields = {
+        "cost", "damage", "block", "magic_number", "heal", "upgrade_cost",
+        "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_heal",
+    }
+    try:
+        for field in numeric_fields:
+            if field in changes and changes[field] not in (None, ""):
+                changes[field] = int(changes[field])
+        if "tags" in changes:
+            if not isinstance(changes["tags"], list):
+                raise ValueError("标签必须是数组")
+            changes["tags"] = [str(tag).strip() for tag in changes["tags"] if str(tag).strip()]
+        if changes.get("card_type") not in (None, "", "ATTACK", "SKILL", "POWER", "CURSE", "STATUS"):
+            raise ValueError("不支持的卡牌类型")
+        if changes.get("rarity") not in (None, "", "BASIC", "COMMON", "UNCOMMON", "RARE", "CURSE"):
+            raise ValueError("不支持的卡牌稀有度")
+        changes = {
+            field: value
+            for field, value in changes.items()
+            if value != getattr(card, field)
+        }
+        if not changes:
+            return {"ok": True, "entry": load_manifest(STAGING_DIR)["entries"].get(safe_id, {}), "card": card_with_staging(card)}
+        entry = stage_card_fields(STAGING_DIR, card, changes)
+        return {"ok": True, "entry": entry, "card": card_with_staging(card)}
+    except (TypeError, ValueError) as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
 @app.post("/api/staging/validate")
 async def validate_upload(file: UploadFile = File(...)) -> dict[str, Any]:
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
@@ -262,6 +319,13 @@ def save_crop(safe_id: str, crop: dict = Body(...)) -> dict[str, Any]:
 def commit() -> dict[str, Any]:
     refresh_cards()
     result = commit_staged(STAGING_DIR, project_root, config, cards_by_safe_id)
+    refresh_cards()
+    return result
+
+
+@app.post("/api/commit/undo")
+def undo_commit() -> dict[str, Any]:
+    result = undo_last_commit(STAGING_DIR, project_root)
     refresh_cards()
     return result
 

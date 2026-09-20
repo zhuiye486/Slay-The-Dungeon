@@ -11,6 +11,7 @@ import io.github.zhuiye486.patches.CardTagsEnum;
 public class DamageAllEnemyPerMusicPlayedAction extends AbstractGameAction{
     public int[] multiDamage;
     private DamageInfo info;
+    private AbstractCard sourceCard;
     
     public DamageAllEnemyPerMusicPlayedAction(DamageInfo info, int[] multiDamage, AttackEffect effect) {
         this.multiDamage = multiDamage;
@@ -23,15 +24,19 @@ public class DamageAllEnemyPerMusicPlayedAction extends AbstractGameAction{
         this(info, multiDamage, AttackEffect.NONE);
     }
 
+    public DamageAllEnemyPerMusicPlayedAction(DamageInfo info, int[] multiDamage, AbstractCard sourceCard) {
+        this(info, multiDamage, AttackEffect.NONE);
+        this.sourceCard = sourceCard;
+    }
+
     @Override
     public void update() {
         int count = 0;
         for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisCombat) {
-            if (c.hasTag(CardTagsEnum.Music)) {
+            if (c != sourceCard && c.hasTag(CardTagsEnum.Music)) {
                 count++;
             }
         }
-        count--;
 
         for (int i = 0; i < count; i++) {
             AbstractDungeon.actionManager.addToTop(

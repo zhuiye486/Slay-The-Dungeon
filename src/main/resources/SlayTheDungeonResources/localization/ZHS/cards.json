@@ -77,7 +77,7 @@
 
     "SlayTheDungeon:IfItBleeds": {
         "NAME": "血溅三尺",
-        "DESCRIPTION": "给予10 slaythedungeon:流血 。 NL 获得 !M! 虚弱 。"
+        "DESCRIPTION": "给予 !SlayTheDungeonM2! slaythedungeon:流血 。 NL 获得 !M! 虚弱 。"
     },
 
     "SlayTheDungeon:DuelistsAdvance": {
@@ -331,7 +331,7 @@
 
     "SlayTheDungeon:Paranoid": {
         "NAME": "偏执",
-        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有50%概率使其无法被打出，受到 7 slaythedungeon:压力 。"
+        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有 !SlayTheDungeonP! % 概率使其无法被打出，受到 7 slaythedungeon:压力 。"
     },
 
     "SlayTheDungeon:Selfish": {
@@ -372,7 +372,7 @@
 
     "SlayTheDungeon:Escape": {
         "NAME": "逃跑",
-        "DESCRIPTION": "50% 概率成功逃跑。 NL 50% 概率结束你的回合。"
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率成功逃跑。 NL !SlayTheDungeonP2! % 概率结束你的回合。"
     },
 
     "SlayTheDungeon:FromBeyond": {
@@ -392,7 +392,7 @@
 
     "SlayTheDungeon:Kleptomaniac": {
         "NAME": "盗窃癖",
-        "DESCRIPTION": " 25% 概率获得 !M! 金币。 NL 75% 概率将1张 受伤 牌加入你的弃牌堆。"
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率获得 !M! 金币。 NL !SlayTheDungeonP2! % 概率将1张 受伤 牌加入你的弃牌堆。"
     },
 
     "SlayTheDungeon:CriticalHit": {
@@ -402,7 +402,7 @@
 
     "SlayTheDungeon:Dodge": {
         "NAME": "闪避",
-        "DESCRIPTION": "50% 概率获得 !B! 点格挡， 50% 概率获得 !M! 点格挡。"
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率获得 !B! 点格挡， !SlayTheDungeonP2! % 概率获得 !M! 点格挡。"
     },
 
     "SlayTheDungeon:NeverCompromise": {
@@ -453,6 +453,6 @@
 
     "SlayTheDungeon:Pray": {
         "NAME": "祈求",
-        "DESCRIPTION": "75% 概率减少 !M! slaythedungeon:压力 , 25% 概率受到 5 slaythedungeon:压力 。"
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率减少 !M! slaythedungeon:压力 , !SlayTheDungeonP2! % 概率受到 5 slaythedungeon:压力 。"
     }
 }

@@ -48,11 +48,12 @@ public class Finale extends AbstractDungeonCard {
                     this.damage, 
                     DamageType.NORMAL
                 ),
-                this.multiDamage
+                this.multiDamage,
+                this
             )
         );
         addToBot(
-            new DrawCardPerMusicPlayedAction(1)
+            new DrawCardPerMusicPlayedAction(1, this)
         );
     }
 
@@ -61,7 +62,7 @@ public class Finale extends AbstractDungeonCard {
         super.applyPowers();
         int count = 0;
         for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisCombat) {
-            if (c.hasTag(CardTagsEnum.Music)) {
+            if (c != this && c.hasTag(CardTagsEnum.Music)) {
                 count++;
             }
         }

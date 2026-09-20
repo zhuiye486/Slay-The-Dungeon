@@ -17,7 +17,7 @@ HERO_ZHS: dict[str, str] = {
     "Flagellant": "苦修者",
     "GraveRobber": "盗墓贼",
     "Hellion": "狂战士",
-    "HighWayMan": "公路侠",
+    "HighWayMan": "强盗",
     "Houndmaster": "驯犬师",
     "Jester": "小丑",
     "Leper": "麻风病人",
@@ -58,6 +58,22 @@ class CardEntry:
     java_file: str
     target_image_file: str
     shared_with: list[str] = field(default_factory=list)
+    editable: bool = True
+    edit_warnings: list[str] = field(default_factory=list)
+    name_en: str = ""
+    description_en: str = ""
+    rarity: str = ""
+    damage: int | None = None
+    block: int | None = None
+    magic_number: int | None = None
+    heal: int | None = None
+    upgrade_cost: int | None = None
+    upgrade_damage: int | None = None
+    upgrade_block: int | None = None
+    upgrade_magic_number: int | None = None
+    upgrade_heal: int | None = None
+    upgrade_description: str = ""
+    tags: list[str] = field(default_factory=list)
 
 
 def card_id_to_safe_id(card_id: str) -> str:
@@ -76,7 +92,11 @@ def card_id_to_target_filename(card_id: str, class_name: str | None = None) -> s
     """
     name = class_name or card_id.split(":", 1)[-1]
     parts = re.split(r"[^0-9A-Za-z]+", name)
-    pascal = "".join(p.capitalize() for p in parts if p)
+    pascal = "".join(
+        part[:1].upper() + part[1:]
+        for part in parts
+        if part
+    )
     return f"{pascal}.png"
 
 
@@ -99,6 +119,60 @@ def load_cards_json(path: Path) -> dict[str, dict[str, str]]:
         return json.load(f)
 
 
+def load_optional_cards_json(path: Path) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    return load_cards_json(path)
+
+
+def _number_assignment(content: str, field_name: str) -> int | None:
+    capitalized = field_name[0].upper() + field_name[1:]
+    match = re.search(
+        rf"(?:this\.)?{field_name}\s*=\s*(?:this\.)?base{capitalized}\s*=\s*(-?\d+)"
+        rf"|(?:this\.)?base{capitalized}\s*=\s*(?:this\.)?{field_name}\s*=\s*(-?\d+)",
+        content,
+    )
+    if not match:
+        return None
+    return int(match.group(1) or match.group(2))
+
+
+def _upgrade_delta(content: str, method_name: str) -> int | None:
+    match = re.search(rf"upgrade{method_name}\s*\(\s*(-?\d+)\s*\)", content)
+    return int(match.group(1)) if match else None
+
+
+def _parse_card_fields(content: str) -> dict[str, Any]:
+    fields: dict[str, Any] = {}
+    for name, pattern in {
+            "cost": r"int COST\s*=\s*(-?\d+)",
+            "card_type": r"CardType TYPE\s*=\s*CardType\.(\w+)",
+            "rarity": r"CardRarity RARITY\s*=\s*CardRarity\.(\w+)",
+    }.items():
+        match = re.search(pattern, content)
+        if name == "cost":
+            fields[name] = int(match.group(1)) if match else None
+        else:
+            fields[name] = match.group(1) if match else ""
+
+    fields["damage"] = _number_assignment(content, "damage")
+    fields["block"] = _number_assignment(content, "block")
+    fields["magic_number"] = _number_assignment(content, "magicNumber")
+    fields["heal"] = _number_assignment(content, "heal")
+    fields["upgrade_cost"] = next(
+        (int(value) for value in re.findall(r"upgradeBaseCost\s*\(\s*(-?\d+)\s*\)", content)),
+        None,
+    )
+    fields["upgrade_damage"] = _upgrade_delta(content, "Damage")
+    fields["upgrade_block"] = _upgrade_delta(content, "Block")
+    fields["upgrade_magic_number"] = _upgrade_delta(content, "MagicNumber")
+    fields["upgrade_heal"] = _upgrade_delta(content, "Heal")
+    fields["tags"] = re.findall(
+        r"(?:this\.)?tags\.add\(\s*((?:CardTags|CardTagsEnum)\.\w+)\s*\)", content
+    )
+    return fields
+
+
 def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
     mod_id = config["modId"]
     cards_dir = project_root / config["cardsJavaDir"]
@@ -106,6 +180,8 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
     placeholders = set(config.get("placeholderImages", []))
 
     localization = load_cards_json(cards_json_path)
+    english_path = cards_json_path.parent.parent / "ENG" / cards_json_path.name
+    english_localization = load_optional_cards_json(english_path)
     entries: list[CardEntry] = []
 
     img_re = re.compile(r'IMG_PATH = "([^"]+)"')
@@ -140,8 +216,15 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
 
         loc_key = card_id
         loc = localization.get(loc_key, {})
+        loc_en = english_localization.get(loc_key, {})
         name = loc.get("NAME", class_name)
         description = loc.get("DESCRIPTION", "")
+        fields = _parse_card_fields(content)
+        edit_warnings: list[str] = []
+        if fields["cost"] is None or not fields["card_type"] or not fields["rarity"]:
+            edit_warnings.append("缺少标准 COST、TYPE 或 RARITY 字段")
+        if "void upgrade()" not in content:
+            edit_warnings.append("未找到标准 upgrade() 方法")
 
         img_path = img_match.group(1)
         image_file = Path(img_path).name
@@ -164,6 +247,22 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
                 is_placeholder=image_file in placeholders,
                 java_file=java_rel,
                 target_image_file=target_image_file,
+                editable=not edit_warnings,
+                edit_warnings=edit_warnings,
+                name_en=loc_en.get("NAME", ""),
+                description_en=loc_en.get("DESCRIPTION", ""),
+                rarity=fields["rarity"],
+                damage=fields["damage"],
+                block=fields["block"],
+                magic_number=fields["magic_number"],
+                heal=fields["heal"],
+                upgrade_cost=fields["upgrade_cost"],
+                upgrade_damage=fields["upgrade_damage"],
+                upgrade_block=fields["upgrade_block"],
+                upgrade_magic_number=fields["upgrade_magic_number"],
+                upgrade_heal=fields["upgrade_heal"],
+                upgrade_description=loc.get("UPGRADE_DESCRIPTION", ""),
+                tags=fields["tags"],
             )
         )
 

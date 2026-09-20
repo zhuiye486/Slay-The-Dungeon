@@ -16,7 +16,7 @@ public class RainOfSorrows extends AbstractDungeonCard{
     public static final String ID = ModHelper.makePath(RainOfSorrows.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Rainofsorrows.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/RainOfSorrows.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
@@ -26,7 +26,7 @@ public class RainOfSorrows extends AbstractDungeonCard{
 
     public RainOfSorrows() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 10;
+        this.magicNumber = this.baseMagicNumber = 12;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RainOfSorrows extends AbstractDungeonCard{
                 p, 
                 new BleedPower(
                     m, 
-                    this.magicNumber
+                    this.baseMagicNumber
                 )
             )
         );
@@ -47,10 +47,15 @@ public class RainOfSorrows extends AbstractDungeonCard{
                 p, 
                 new BleedPower(
                     p, 
-                    this.magicNumber
+                    this.baseMagicNumber
                 )
             )
         );
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
     }
 
     @Override

@@ -26,6 +26,7 @@ let cropEditor = null;
 let framePreview = null;
 let artResizeObserver = null;
 let initialCropSnapshot = null;
+let fieldSaveTimer = null;
 
 function cloneCrop(crop) {
   return crop ? { ...crop } : null;
@@ -157,6 +158,85 @@ function getCardTemplate() {
 
 function generateMergedPrompt(card) {
   return buildMergedPrompt(card, getBasePrompt(), getCardTemplate());
+}
+
+const editorFields = [
+  "name_en", "name", "card_type", "rarity", "cost", "damage", "block", "magic_number",
+  "heal", "tags", "upgrade_cost", "upgrade_damage", "upgrade_block",
+  "upgrade_magic_number", "upgrade_heal", "description", "description_en", "upgrade_description",
+];
+
+function setEditorValue(id, value) {
+  const el = $(`#edit-${id.replaceAll("_", "-")}`);
+  if (!el) return;
+  el.value = Array.isArray(value) ? value.join(", ") : value ?? "";
+}
+
+function fillCardEditor(card) {
+  editorFields.forEach((field) => setEditorValue(field, card[field]));
+  const warning = $("#editor-warning");
+  warning.textContent = card.edit_warnings?.join("；") || "";
+  warning.classList.toggle("hidden", Boolean(card.editable));
+  $("#editor-status").textContent = card.is_staged ? "已暂存" : "未修改";
+  document.querySelectorAll(".card-editor-panel input, .card-editor-panel textarea, .card-editor-panel select")
+    .forEach((el) => { el.disabled = !card.editable; });
+}
+
+function readCardEditor() {
+  const value = (field) => $(`#edit-${field.replaceAll("_", "-")}`).value;
+  const number = (field) => value(field) === "" ? null : Number(value(field));
+  return {
+    name_en: value("name_en"), name: value("name"), card_type: value("card_type"), rarity: value("rarity"),
+    cost: number("cost"), damage: number("damage"), block: number("block"), magic_number: number("magic_number"),
+    heal: number("heal"), tags: value("tags").split(",").map((tag) => tag.trim()).filter(Boolean),
+    upgrade_cost: number("upgrade_cost"), upgrade_damage: number("upgrade_damage"),
+    upgrade_block: number("upgrade_block"), upgrade_magic_number: number("upgrade_magic_number"),
+    upgrade_heal: number("upgrade_heal"), description: value("description"),
+    description_en: value("description_en"), upgrade_description: value("upgrade_description"),
+  };
+}
+
+function applyEditorPreview(changes) {
+  if (!state.activeCard) return;
+  Object.assign(state.activeCard, changes);
+  $("#modal-title").textContent = state.activeCard.name;
+  $("#info-cost").textContent = state.activeCard.cost ?? "—";
+  $("#info-type").textContent = state.activeCard.card_type;
+  $("#info-description").textContent = stripNl(state.activeCard.description);
+  updateFramePreview();
+  refreshActivePrompt(true);
+}
+
+function scheduleFieldSave() {
+  if (!state.activeCard?.editable) return;
+  const changes = readCardEditor();
+  applyEditorPreview(changes);
+  clearTimeout(fieldSaveTimer);
+  fieldSaveTimer = setTimeout(async () => {
+    try {
+      const result = await api(`/api/staging/${state.activeCard.safe_id}/fields`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(changes),
+      });
+      state.activeCard = result.card;
+      fillCardEditor(state.activeCard);
+      $("#editor-status").textContent = "已暂存";
+      await loadCards();
+      await loadStaging();
+      await updateFramePreview();
+    } catch (err) {
+      showToast(`属性暂存失败：${err.message}`, true);
+    }
+  }, 450);
+}
+
+function setupCardEditor() {
+  document.querySelectorAll(".card-editor-panel input, .card-editor-panel textarea, .card-editor-panel select")
+    .forEach((el) => {
+      el.addEventListener("input", scheduleFieldSave);
+      el.addEventListener("change", scheduleFieldSave);
+    });
 }
 
 function refreshActivePrompt(forceRegenerate = false) {
@@ -328,14 +408,12 @@ function renderStagingList() {
 }
 
 async function openModal(safeId) {
-  let card = state.cards.find((c) => c.safe_id === safeId);
-  if (!card) {
-    try {
-      card = await api(`/api/cards/${safeId}`);
-    } catch {
-      showToast("无法加载卡牌详情", true);
-      return;
-    }
+  let card;
+  try {
+    card = await api(`/api/cards/${safeId}`);
+  } catch {
+    showToast("无法加载卡牌详情", true);
+    return;
   }
   state.activeCard = card;
   state.promptDirty = false;
@@ -353,6 +431,7 @@ async function openModal(safeId) {
       ? `与 ${card.shared_with.length} 张卡共用 ${card.image_file}`
       : "独立图片";
   $("#info-description").textContent = stripNl(card.description);
+  fillCardEditor(card);
 
   const warnings = $("#modal-warnings");
   warnings.innerHTML = "";
@@ -367,6 +446,7 @@ async function openModal(safeId) {
   refreshActivePrompt(false);
   $("#btn-remove-staging").classList.toggle("hidden", !card.is_staged);
   $("#modal").classList.remove("hidden");
+  fillCardEditor(card);
   bindArtResizeObserver();
   await loadArtWorkspace(card);
 }
@@ -500,7 +580,7 @@ async function openCommitModal() {
   list.innerHTML = state.staging
     .map(
       (e) =>
-        `<li>${e.name} → ${e.target_image_file} / ${e.target_image_file.replace(/\.png$/, "_p.png")}</li>`
+        `<li>${e.name} ${Object.keys(e.field_changes || {}).length ? "· 属性" : ""} ${e.target_image_file ? `→ ${e.target_image_file} / ${e.target_image_file.replace(/\.png$/, "_p.png")}` : ""}</li>`
     )
     .join("");
   $("#commit-result").classList.add("hidden");
@@ -552,6 +632,19 @@ function bindEvents() {
   });
 
   $("#btn-commit").addEventListener("click", openCommitModal);
+  $("#btn-undo-commit").addEventListener("click", async () => {
+    if (!window.confirm("确定撤销上次提交的所有卡牌编辑吗？")) return;
+    try {
+      const result = await api("/api/commit/undo", { method: "POST" });
+      showToast(result.message, !result.ok);
+      if (result.ok) {
+        await loadCards();
+        await loadStaging();
+      }
+    } catch (err) {
+      showToast(`撤销失败：${err.message}`, true);
+    }
+  });
   $("#btn-commit-confirm").addEventListener("click", doCommit);
   $("#btn-copy-prompt").addEventListener("click", copyPrompt);
   $("#btn-regen-prompt").addEventListener("click", () => {
@@ -615,6 +708,7 @@ async function init() {
   framePreview = new FramePreview($("#frame-preview-canvas"));
   setupDropZone();
   setupPasteHandler();
+  setupCardEditor();
   bindEvents();
   await loadMeta();
   framePreview.applyMeta({

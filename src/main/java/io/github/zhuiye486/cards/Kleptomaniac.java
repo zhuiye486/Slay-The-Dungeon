@@ -29,11 +29,11 @@ public class Kleptomaniac extends AbstractDungeonCard {
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
-    public static float chance = 0.25f;
 
     public Kleptomaniac() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 20;
+        this.baseChance = this.chance = 0.25f;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
@@ -53,6 +53,7 @@ public class Kleptomaniac extends AbstractDungeonCard {
             );
         }
     }
+
 
     @Override
     public void upgrade() {

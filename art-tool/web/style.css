@@ -380,6 +380,39 @@ body {
   flex-shrink: 0;
 }
 
+.card-editor-panel {
+  grid-column: 1 / -1;
+}
+
+.editor-fields {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  gap: 8px 12px;
+}
+
+.editor-fields .field,
+.card-editor-panel > .field {
+  margin-bottom: 8px;
+}
+
+.editor-upgrade {
+  border-top: 1px solid var(--border);
+  margin: 8px 0 10px;
+  padding-top: 10px;
+}
+
+.editor-upgrade h4 {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.warning-text {
+  color: var(--warning);
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+}
+
 .meta-panel {
   background: var(--surface2);
   border: 1px solid var(--border);
@@ -437,6 +470,10 @@ body {
 
   .modal-meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .editor-fields {
+    grid-template-columns: repeat(2, minmax(110px, 1fr));
   }
 }
 

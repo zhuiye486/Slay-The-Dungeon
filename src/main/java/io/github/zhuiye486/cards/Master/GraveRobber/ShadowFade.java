@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.IntangiblePower;
+import com.megacrit.cardcrawl.powers.IntangiblePlayerPower;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -17,12 +17,12 @@ public class ShadowFade extends AbstractDungeonCard{
     public static final String ID = ModHelper.makePath(ShadowFade.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Shadowfade.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/ShadowFade.png";
     private static final int COST = 3;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.COMMON;
+    private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public ShadowFade() {
@@ -38,14 +38,14 @@ public class ShadowFade extends AbstractDungeonCard{
             new DiscardAction(
                 p,
                 p, 
-                3, 
+                this.magicNumber,
                 false)
         );
         addToBot(
             new ApplyPowerAction(
                 p, 
                 p, 
-                new IntangiblePower(
+                new IntangiblePlayerPower(
                     p,
                     this.secondMagicNumber
                 )

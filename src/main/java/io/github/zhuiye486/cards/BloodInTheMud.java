@@ -19,7 +19,7 @@ public class BloodInTheMud extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(BloodInTheMud.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Bloodinthemud.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/BloodInTheMud.png";
     private static final int COST = 2;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.ATTACK;
@@ -43,7 +43,7 @@ public class BloodInTheMud extends AbstractDungeonCard {
                         p,
                         new BleedPower(
                             mo, 
-                            this.magicNumber
+                            this.baseMagicNumber
                         )
                     )
                 );
@@ -59,6 +59,11 @@ public class BloodInTheMud extends AbstractDungeonCard {
                 );
             }
         }
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
     }
 
     @Override

@@ -47,7 +47,7 @@ public class BleedPower extends AbstractPower {
     @Override
     public void stackPower(int stackAmount) {
         super.stackPower(stackAmount);
-        if (this.amount >= this.targetAmount) {
+        while (this.amount >= this.targetAmount) {
             addToTop(
                 new DamageAction(
                     owner, 
@@ -59,10 +59,10 @@ public class BleedPower extends AbstractPower {
                 )
             );
 
+            this.amount -= this.targetAmount;
             this.targetAmount += 10;
-            this.amount = 0;
-            updateDescription();
         }
+        updateDescription();
     }
 
 }

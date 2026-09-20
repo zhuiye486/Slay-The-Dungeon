@@ -69,8 +69,8 @@ public class Heroes extends CustomPlayer {
         "Flagellant",
         "Grave_Robber",
         "Hellion",
-        "Highwayman",
         "Houndmaster",
+        "Highwayman",
         "Jester",
         "Leper",
         "Man_At_Arms",
@@ -173,6 +173,15 @@ public class Heroes extends CustomPlayer {
         return composedCorpseTexture;
     }
 
+    private static void refreshCorpseImage() {
+        if (instance != null && selectedHeroes.size() == 4) {
+            Texture corpseTexture = composeCorpseImage(selectedHeroes);
+            if (corpseTexture != null) {
+                instance.corpseImg = corpseTexture;
+            }
+        }
+    }
+
     public Heroes(String name, PlayerClass setClass) {
         super(name, setClass, ORB_TEXTURES, null, LAYER_SPEED, null, null);
         instance = this;
@@ -196,7 +205,7 @@ public class Heroes extends CustomPlayer {
 
         if (selectedHeroes != null && selectedHeroes.size() == 4) {
             composeCharacterImage(selectedHeroes);
-            composeCorpseImage(selectedHeroes);
+            refreshCorpseImage();
         }
 
         // 如果你的人物没有动画，那么这些不需要写
@@ -345,7 +354,7 @@ public class Heroes extends CustomPlayer {
         }
 
         composeCharacterImage(selectedHeroes);
-        composeCorpseImage(selectedHeroes);
+        refreshCorpseImage();
 
         for (String cardId : buildStartingDeck(selectedHeroes)) {
             AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(cardId));
@@ -492,7 +501,7 @@ public class Heroes extends CustomPlayer {
         selectedHeroes = new ArrayList<>(heroes);
         if (instance != null) {
             composeCharacterImage(selectedHeroes);
-            composeCorpseImage(selectedHeroes);
+            refreshCorpseImage();
         }
     }
 

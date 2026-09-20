@@ -15,6 +15,7 @@
     <div class="header-stats" id="stats"></div>
     <div class="header-actions">
       <button type="button" class="btn btn-secondary" id="btn-rescan">重新扫描</button>
+      <button type="button" class="btn btn-secondary" id="btn-undo-commit">撤销上次提交</button>
       <button type="button" class="btn btn-primary" id="btn-commit">
         提交到主项目 <span class="badge" id="staged-badge">0</span>
       </button>
@@ -131,6 +132,38 @@
       </section>
 
       <section class="modal-meta-grid">
+        <div class="meta-panel card-editor-panel">
+          <div class="prompt-box-header">
+            <h3>卡牌属性编辑</h3>
+            <span id="editor-status" class="hint"></span>
+          </div>
+          <p id="editor-warning" class="warning-text hidden"></p>
+          <div class="editor-fields">
+            <label class="field"><span>英文名称</span><input id="edit-name-en" type="text"></label>
+            <label class="field"><span>中文名称</span><input id="edit-name" type="text"></label>
+            <label class="field"><span>类型</span><select id="edit-card-type"><option value="ATTACK">Attack</option><option value="SKILL">Skill</option><option value="POWER">Power</option><option value="CURSE">Curse</option><option value="STATUS">Status</option></select></label>
+            <label class="field"><span>稀有度</span><select id="edit-rarity"><option value="BASIC">Basic</option><option value="COMMON">Common</option><option value="UNCOMMON">Uncommon</option><option value="RARE">Rare</option><option value="CURSE">Curse</option></select></label>
+            <label class="field"><span>费用</span><input id="edit-cost" type="number" step="1"></label>
+            <label class="field"><span>伤害</span><input id="edit-damage" type="number" step="1"></label>
+            <label class="field"><span>格挡</span><input id="edit-block" type="number" step="1"></label>
+            <label class="field"><span>魔法数字</span><input id="edit-magic-number" type="number" step="1"></label>
+            <label class="field"><span>治疗</span><input id="edit-heal" type="number" step="1"></label>
+            <label class="field"><span>标签（逗号分隔）</span><input id="edit-tags" type="text"></label>
+          </div>
+          <div class="editor-upgrade">
+            <h4>升级后变化</h4>
+            <div class="editor-fields">
+              <label class="field"><span>升级费用变化</span><input id="edit-upgrade-cost" type="number" step="1"></label>
+              <label class="field"><span>升级伤害变化</span><input id="edit-upgrade-damage" type="number" step="1"></label>
+              <label class="field"><span>升级格挡变化</span><input id="edit-upgrade-block" type="number" step="1"></label>
+              <label class="field"><span>升级魔法数字变化</span><input id="edit-upgrade-magic-number" type="number" step="1"></label>
+              <label class="field"><span>升级治疗变化</span><input id="edit-upgrade-heal" type="number" step="1"></label>
+            </div>
+          </div>
+          <label class="field"><span>中文描述</span><textarea id="edit-description" rows="3"></textarea></label>
+          <label class="field"><span>英文描述</span><textarea id="edit-description-en" rows="3"></textarea></label>
+          <label class="field"><span>升级后描述</span><textarea id="edit-upgrade-description" rows="3"></textarea></label>
+        </div>
         <div class="meta-panel">
           <h3>卡牌信息</h3>
           <dl class="info-list">
@@ -180,6 +213,6 @@
 
   <div id="toast" class="toast hidden"></div>
 
-  <script type="module" src="/app.js"></script>
+  <script type="module" src="/app.js?v=card-editor-2"></script>
 </body>
 </html>

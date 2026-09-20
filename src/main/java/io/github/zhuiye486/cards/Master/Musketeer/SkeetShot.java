@@ -18,33 +18,41 @@ public class SkeetShot extends AbstractDungeonCard{
     public static final String ID = ModHelper.makePath(SkeetShot.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Skeetshot.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/SkeetShot.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.COMMON;
+    private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.ALL_ENEMY;
+    private int resolvedDamage;
 
     public SkeetShot() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.damage = this.baseDamage = 5;
+        this.resolvedDamage = this.damage;
     }
     
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        for (int i = this.damage; i > 0; i--) {
+        for (int i = this.resolvedDamage; i > 0; i--) {
             addToBot(
                 new DamageRandomEnemyAction(
                     new DamageInfo(
                         p, 
-                        i, 
+                        i,
                         DamageType.NORMAL
                     ),
                     AttackEffect.SLASH_HORIZONTAL
                 )
             );
         }
+    }
+
+    @Override
+    public void applyPowers() {
+        super.applyPowers();
+        this.resolvedDamage = this.damage;
     }
 
     @Override

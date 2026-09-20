@@ -33,15 +33,16 @@ public class Paranoid extends AbstractDungeonCard {
     private static final CardRarity RARITY = CardRarity.CURSE;
     private static final CardTarget TARGET = CardTarget.NONE;
 
-    private static float chance = 0.5f;
 
     public Paranoid() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.baseChance = this.chance = 0.5f;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {}
+
 
     @Override
     public void upgrade() {}

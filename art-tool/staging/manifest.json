@@ -1,3 +1,93 @@
 {
-  "entries": {}
+  "entries": {},
+  "last_commit": {
+    "id": "20260918T105939342494Z",
+    "directory": "backups/20260918T105939342494Z",
+    "files": [
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Pray.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Flagellant/Redeem.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/ShieldBreaker/Captivate.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Jester/BattleBallad.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Abomination/Transform.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Ambush.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/LastDitchEffort.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Flagellant/RainOfSorrows.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Antiquarian/FortifyingVapours.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Arbalest/SuppressingFire.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/BountyHunter/FinishHim.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/GraveRobber/ShadowFade.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Hellion/IronSawn.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/HighWayMan/PointBlankShoot.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Houndmaster/CryHavoc.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Leper/Intimidate.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/ManAtArms/Defender.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Musketeer/SkeetShot.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Occultist/WyrdReconstruction.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/PlagueDoctor/NoxiousBlast.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Vestal/DivineComfort.java",
+        "exists": true
+      }
+    ]
+  }
 }

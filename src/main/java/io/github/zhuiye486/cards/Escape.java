@@ -21,7 +21,7 @@ import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.CardTagsEnum;
 import io.github.zhuiye486.powers.LuckyPower;
 
-public class Escape extends AbstractDungeonCard{
+public class Escape extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(Escape.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
@@ -33,11 +33,11 @@ public class Escape extends AbstractDungeonCard{
     private static final CardRarity RARITY = CardRarity.RARE;
     private static final CardTarget TARGET = CardTarget.NONE;
 
-    public static float chance = 0.5f;
 
     public Escape() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.exhaust = true;
+        this.baseChance = this.chance = 0.5f;
         this.tags.add(CardTagsEnum.Lucky);
     }
 
@@ -60,6 +60,7 @@ public class Escape extends AbstractDungeonCard{
             );
         }
     }
+
 
     @Override
     public void upgrade() {

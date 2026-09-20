@@ -56,7 +56,7 @@ public class Hound extends AbstractDungeonCard {
                         p, 
                             new BleedPower(
                             mo, 
-                            this.magicNumber
+                            this.baseMagicNumber
                         )
                     )
                 );
@@ -81,11 +81,16 @@ public class Hound extends AbstractDungeonCard {
                     p, 
                         new BleedPower(
                         m, 
-                        this.magicNumber
+                        this.baseMagicNumber
                     )
                 )
             );
         }
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
     }
 
     @Override

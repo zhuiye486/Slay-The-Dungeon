@@ -3,6 +3,7 @@ package io.github.zhuiye486.relics;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import com.megacrit.cardcrawl.actions.unique.AddCardToDeckAction;
 import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -44,16 +45,25 @@ public class PressureIndicator extends CustomRelic{
     };
 
     private boolean cardAddedAt100 = false;
+    private boolean noBlockAtPlayerEndTurn = false;
 
     public PressureIndicator() {
         super(ID, ImageMaster.loadImage(IMG_PATH), RELIC_TIER, LANDING_SOUND);
         this.counter = 0;
         this.cardAddedAt100 = false;
+        this.noBlockAtPlayerEndTurn = false;
     }
 
     @Override
     public void atTurnStart() {
+        this.noBlockAtPlayerEndTurn = false;
         removeAfflictionsIfPressureZero();
+    }
+
+    @Override
+    public void onPlayerEndTurn() {
+        this.noBlockAtPlayerEndTurn = AbstractDungeon.player != null
+            && AbstractDungeon.player.currentBlock == 0;
     }
 
     @Override
@@ -67,27 +77,39 @@ public class PressureIndicator extends CustomRelic{
         }
 
         final int pressureBase = baseAmount;
+        final boolean guaranteedPressure = noBlockAtPlayerEndTurn;
         final int hpBeforeAttack = AbstractDungeon.player.currentHealth;
         addToTop(new com.megacrit.cardcrawl.actions.AbstractGameAction() {
             @Override
             public void update() {
                 // Check HP after the attack action fully resolves (block/buffer/etc already applied).
                 if (AbstractDungeon.player.currentHealth < hpBeforeAttack) {
-                    int pressureAdded = generateRandomNumber(pressureBase);
-                    counter += pressureAdded;
-                    if (counter >= DIE_AMOUNT) {
-                        addToTop(new LoseHPAction(AbstractDungeon.player, null, 99999));
-                    } else if (counter >= TEST_AMOUNT && !cardAddedAt100) {
-                        addRandomVirtueOrAffliction();
-                        cardAddedAt100 = true;
-                    }
-                    removeAfflictionsIfPressureZero();
+                    addPressure(pressureBase, guaranteedPressure);
                 }
                 this.isDone = true;
             }
         });
 
         return damageAmount;
+    }
+
+    private void addPressure(int baseAmount, boolean guaranteed) {
+        int pressureAdded = guaranteed
+            ? generateGuaranteedNumber(baseAmount)
+            : generateRandomNumber(baseAmount);
+        changePressure(pressureAdded);
+    }
+
+    public void changePressure(int amount) {
+        counter = Math.max(0, counter + amount);
+        if (counter >= TEST_AMOUNT && !cardAddedAt100) {
+            addRandomVirtueOrAffliction();
+            cardAddedAt100 = true;
+        }
+        if (counter >= DIE_AMOUNT) {
+            addToTop(new LoseHPAction(AbstractDungeon.player, null, 99999));
+        }
+        removeAfflictionsIfPressureZero();
     }
 
     @Override
@@ -106,9 +128,15 @@ public class PressureIndicator extends CustomRelic{
             return 0;
         }
 
-        // 70% chance to gain a random value in [0.5x, 1.5x] of baseNum.
-        int minAdded = (int) Math.floor(baseNum * 0.5f);
-        int maxAdded = (int) Math.ceil(baseNum * 1.5f);
+        // 70% chance to gain a random value in [1x, 2x] of baseNum.
+        int minAdded = (int) Math.floor(baseNum * 1.0f);
+        int maxAdded = (int) Math.ceil(baseNum * 2.0f);
+        return AbstractDungeon.miscRng.random(minAdded, maxAdded);
+    }
+
+    private int generateGuaranteedNumber(int baseNum) {
+        int minAdded = (int) Math.floor(baseNum * 1.0f);
+        int maxAdded = (int) Math.ceil(baseNum * 2.0f);
         return AbstractDungeon.miscRng.random(minAdded, maxAdded);
     }
 
@@ -118,15 +146,14 @@ public class PressureIndicator extends CustomRelic{
             String cardId = VIRTUE_CARD_IDS[AbstractDungeon.miscRng.random(VIRTUE_CARD_IDS.length - 1)];
             AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
             if (cardToAdd != null) {
-                AbstractDungeon.player.masterDeck.addToTop(cardToAdd);
+                addToBot(new AddCardToDeckAction(cardToAdd));
             }
         } else {
-            // 选择折磨：仅当牌组中还没有折磨时才添加；否则不添加
             if (!hasAfflictionInMasterDeck()) {
                 String cardId = AFFLICTION_CARD_IDS[AbstractDungeon.miscRng.random(AFFLICTION_CARD_IDS.length - 1)];
                 AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
                 if (cardToAdd != null) {
-                    AbstractDungeon.player.masterDeck.addToTop(cardToAdd);
+                    addToBot(new AddCardToDeckAction(cardToAdd));
                 }
             }
         }

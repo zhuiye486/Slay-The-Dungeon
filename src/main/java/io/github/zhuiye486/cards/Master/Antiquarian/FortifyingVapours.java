@@ -17,12 +17,12 @@ public class FortifyingVapours extends AbstractDungeonCard {
      public static final String ID = ModHelper.makePath(FortifyingVapours.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Fortifyingvapours.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/FortifyingVapours.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.COMMON;
+    private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.SELF;
 
     public FortifyingVapours() {
@@ -45,7 +45,7 @@ public class FortifyingVapours extends AbstractDungeonCard {
         );
        if (!this.isInAutoplay) {   
             addToBot(
-                new PlayLastVapoursAction()
+                new PlayLastVapoursAction(this)
             );
         }
     }

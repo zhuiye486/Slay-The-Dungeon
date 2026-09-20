@@ -8,20 +8,25 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import io.github.zhuiye486.patches.CardTagsEnum;
 
 public class DrawCardPerMusicPlayedAction extends AbstractGameAction {
+    private AbstractCard sourceCard;
     public DrawCardPerMusicPlayedAction(int amount) {
         this.actionType = ActionType.DRAW;
         this.amount = amount;
+    }
+
+    public DrawCardPerMusicPlayedAction(int amount, AbstractCard sourceCard) {
+        this(amount);
+        this.sourceCard = sourceCard;
     }
 
     @Override
     public void update() {
         int count = 0;
         for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisCombat) {
-            if (c.hasTag(CardTagsEnum.Music)) {
+            if (c != sourceCard && c.hasTag(CardTagsEnum.Music)) {
                 count++;
             }
         }
-        count--;
 
         for (int i = 0; i < count; i++) {
             AbstractDungeon.actionManager.addToTop(

@@ -38,7 +38,7 @@ public class Reclaim extends AbstractDungeonCard{
                 p, 
                 new RegenPower(
                     p, 
-                    this.magicNumber
+                    this.baseMagicNumber
                 )
             )
         );
@@ -52,6 +52,11 @@ public class Reclaim extends AbstractDungeonCard{
                 )
             )
         );
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
     }
 
     @Override
