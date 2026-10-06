@@ -1,8 +1,12 @@
 package io.github.zhuiye486.powers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.megacrit.cardcrawl.actions.unique.BouncingFlaskAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -10,6 +14,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.powers.PoisonPower;
 
 import io.github.zhuiye486.helpers.ModHelper;
 
@@ -40,16 +45,33 @@ public class PlaguePower extends AbstractPower {
     }
 
     @Override
-    public int onAttacked(DamageInfo info, int damageAmount) {
-        if (info.type == DamageInfo.DamageType.NORMAL) {   
-            AbstractMonster randomMonster = AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
-            addToBot(
-                new BouncingFlaskAction(
-                    randomMonster, 
-                    this.amount, 
-                    1)
-            );
+    public void atEndOfTurn(boolean isPlayer) {
+        AbstractMonster randomMonster = AbstractDungeon.getRandomMonster();
+        if (randomMonster == null) {
+            return;
         }
-        return damageAmount;
+
+        int plagueAmount = this.amount;
+        if (randomMonster == this.owner) {
+            addToBot(new ApplyPowerAction(
+                this.owner,
+                this.owner,
+                new PoisonPower(this.owner, this.owner, plagueAmount)
+            ));
+            addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+            return;
+        }
+
+        addToBot(new DamageAction(
+            this.owner,
+            new DamageInfo(this.owner, plagueAmount, DamageType.HP_LOSS)
+        ));
+        addToBot(new ReducePowerAction(this.owner, this.owner, POWER_ID, plagueAmount / 2));
+
+        addToBot(new ApplyPowerAction(
+            randomMonster,
+            this.owner,
+            new PlaguePower(randomMonster, plagueAmount)
+        ));
     }
 }

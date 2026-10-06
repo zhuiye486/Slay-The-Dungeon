@@ -2,6 +2,7 @@ package io.github.zhuiye486.powers;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -19,17 +20,12 @@ public class BleedPower extends AbstractPower {
     private static final String NAME = powerStrings.NAME;
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
     
-    public static final int BASE_TARGET_AMOUNT = 30;
-    public static final double DAMAGE_PERCENT = 0.5;
-    public int targetAmount;
-
     public BleedPower(AbstractCreature owner, int Amount) {
         this.name = NAME;
         this.ID = POWER_ID;
         this.owner = owner;
         this.type = PowerType.DEBUFF;
         this.amount = Amount;
-        this.targetAmount = BASE_TARGET_AMOUNT;
 
         String path128 = "SlayTheDungeonResources/img/powers/BleedPower128.png";
         String path48 = "SlayTheDungeonResources/img/powers/BleedPower48.png";
@@ -41,28 +37,26 @@ public class BleedPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = DESCRIPTION[0] + this.targetAmount + DESCRIPTION[1] + DAMAGE_PERCENT * 100 + "%" + DESCRIPTION[2];
+        this.description = DESCRIPTION[0];
     }
 
     @Override
     public void stackPower(int stackAmount) {
+        int previousAmount = this.amount;
         super.stackPower(stackAmount);
-        while (this.amount >= this.targetAmount) {
-            addToTop(
-                new DamageAction(
-                    owner, 
-                    new DamageInfo(
-                        owner, 
-                        (int)(owner.currentHealth * DAMAGE_PERCENT),
-                        DamageType.HP_LOSS
-                    )
-                )
-            );
+        dealBleedDamage(previousAmount);
+    }
 
-            this.amount -= this.targetAmount;
-            this.targetAmount += 10;
-        }
-        updateDescription();
+    @Override
+    public void atEndOfTurn(boolean isPlayer) {
+        addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+    }
+
+    private void dealBleedDamage(int damageAmount) {
+        addToBot(new DamageAction(
+            this.owner,
+            new DamageInfo(this.owner, damageAmount, DamageType.HP_LOSS)
+        ));
     }
 
 }

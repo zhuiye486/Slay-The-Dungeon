@@ -66,6 +66,9 @@ class CardEntry:
     damage: int | None = None
     block: int | None = None
     magic_number: int | None = None
+    magic_number_2: int | None = None
+    chance: float | None = None
+    chance_2: float | None = None
     heal: int | None = None
     upgrade_cost: int | None = None
     upgrade_damage: int | None = None
@@ -137,8 +140,21 @@ def _number_assignment(content: str, field_name: str) -> int | None:
     return int(match.group(1) or match.group(2))
 
 
+def _decimal_assignment(content: str, field_name: str) -> float | None:
+    capitalized = field_name[0].upper() + field_name[1:]
+    match = re.search(
+        rf"(?:this\.)?{field_name}\s*=\s*(?:this\.)?base{capitalized}\s*=\s*(-?(?:\d+(?:\.\d*)?|\.\d+))"
+        rf"|(?:this\.)?base{capitalized}\s*=\s*(?:this\.)?{field_name}\s*=\s*(-?(?:\d+(?:\.\d*)?|\.\d+))",
+        content,
+    )
+    return float(match.group(1) or match.group(2)) if match else None
+
+
 def _upgrade_delta(content: str, method_name: str) -> int | None:
     match = re.search(rf"upgrade{method_name}\s*\(\s*(-?\d+)\s*\)", content)
+    if match:
+        return int(match.group(1))
+    match = re.search(rf"(?:this\.)?base{method_name}\s*\+=\s*(-?\d+)", content)
     return int(match.group(1)) if match else None
 
 
@@ -158,6 +174,12 @@ def _parse_card_fields(content: str) -> dict[str, Any]:
     fields["damage"] = _number_assignment(content, "damage")
     fields["block"] = _number_assignment(content, "block")
     fields["magic_number"] = _number_assignment(content, "magicNumber")
+    fields["magic_number_2"] = _number_assignment(content, "secondMagicNumber")
+    raw_chance = _decimal_assignment(content, "chance")
+    fields["chance"] = round(raw_chance * 100.0, 6) if raw_chance is not None else None
+    fields["chance_2"] = (
+        round(100.0 - fields["chance"], 6) if fields["chance"] is not None else None
+    )
     fields["heal"] = _number_assignment(content, "heal")
     fields["upgrade_cost"] = next(
         (int(value) for value in re.findall(r"upgradeBaseCost\s*\(\s*(-?\d+)\s*\)", content)),
@@ -187,17 +209,23 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
     img_re = re.compile(r'IMG_PATH = "([^"]+)"')
     type_re = re.compile(r"CardType TYPE = CardType\.(\w+)")
     cost_re = re.compile(r"int COST = (-?\d+)")
+    placeholder_base_class = "MasterCardPlaceholder"
+    placeholder_img_path = "SlayTheDungeonResources/img/cards/Strike.png"
 
     for java_file in sorted(cards_dir.rglob("*.java")):
-        if java_file.name.startswith("Abstract"):
+        if java_file.name.startswith("Abstract") or java_file.stem == placeholder_base_class:
             continue
 
         content = java_file.read_text(encoding="utf-8")
-        if "IMG_PATH" not in content:
+        is_placeholder_subclass = (
+            java_file.stem != placeholder_base_class
+            and re.search(rf"class\s+\w+\s+extends\s+{placeholder_base_class}\b", content)
+        )
+        if "IMG_PATH" not in content and not is_placeholder_subclass:
             continue
 
         img_match = img_re.search(content)
-        if not img_match:
+        if not img_match and not is_placeholder_subclass:
             continue
 
         class_name = java_file.stem
@@ -209,10 +237,10 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
         hero_zhs, hero_key = infer_hero(str(rel_to_cards))
 
         type_match = type_re.search(content)
-        card_type = type_match.group(1) if type_match else "UNKNOWN"
+        card_type = type_match.group(1) if type_match else ("SKILL" if is_placeholder_subclass else "UNKNOWN")
 
         cost_match = cost_re.search(content)
-        cost = int(cost_match.group(1)) if cost_match else None
+        cost = int(cost_match.group(1)) if cost_match else (1 if is_placeholder_subclass else None)
 
         loc_key = card_id
         loc = localization.get(loc_key, {})
@@ -226,7 +254,7 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
         if "void upgrade()" not in content:
             edit_warnings.append("未找到标准 upgrade() 方法")
 
-        img_path = img_match.group(1)
+        img_path = img_match.group(1) if img_match else placeholder_img_path
         image_file = Path(img_path).name
         target_image_file = card_id_to_target_filename(card_id, class_name)
 
@@ -255,6 +283,9 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
                 damage=fields["damage"],
                 block=fields["block"],
                 magic_number=fields["magic_number"],
+                magic_number_2=fields["magic_number_2"],
+                chance=fields["chance"],
+                chance_2=fields["chance_2"],
                 heal=fields["heal"],
                 upgrade_cost=fields["upgrade_cost"],
                 upgrade_damage=fields["upgrade_damage"],

@@ -86,6 +86,7 @@ def _base_entry(card: CardEntry, warnings: list[str]) -> dict[str, Any]:
 EDITABLE_FIELDS = {
     "name", "name_en", "description", "description_en", "cost", "rarity",
     "card_type", "damage", "block", "magic_number", "heal", "upgrade_cost",
+    "magic_number_2", "chance", "chance_2",
     "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_heal",
     "upgrade_description", "tags",
 }
@@ -202,7 +203,8 @@ def apply_java_changes(content: str, changes: dict[str, Any]) -> str:
         content = _replace_constant(content, field, changes.get(field))
 
     for field_name, java_name in {
-        "damage": "damage", "block": "block", "magic_number": "magicNumber", "heal": "heal"
+        "damage": "damage", "block": "block", "magic_number": "magicNumber",
+        "magic_number_2": "secondMagicNumber", "heal": "heal"
     }.items():
         value = changes.get(field_name)
         if value is None:
@@ -221,12 +223,33 @@ def apply_java_changes(content: str, changes: dict[str, Any]) -> str:
         "upgrade_magic_number": "MagicNumber", "upgrade_heal": "Heal",
     }.items():
         if changes.get(field_name) is not None:
-            content = re.sub(
+            replacement = re.sub(
                 rf"(upgrade{method}\s*\(\s*)-?\d+(\s*\))",
                 rf"\g<1>{int(changes[field_name])}\g<2>",
                 content,
                 count=1,
             )
+            if replacement == content:
+                replacement = re.sub(
+                    rf"((?:this\.)?base{method}\s*\+=\s*)-?\d+",
+                    rf"\g<1>{int(changes[field_name])}",
+                    content,
+                    count=1,
+                )
+            content = replacement
+
+    if changes.get("chance") is not None or changes.get("chance_2") is not None:
+        chance = changes.get("chance")
+        if chance is None:
+            chance = 100.0 - float(changes["chance_2"])
+        chance = max(0.0, min(100.0, float(chance))) / 100.0
+        content = re.sub(
+            r"((?:this\.)?chance\s*=\s*(?:this\.)?baseChance\s*=\s*)-?(?:\d+(?:\.\d*)?|\.\d+)"
+            r"|((?:this\.)?baseChance\s*=\s*(?:this\.)?chance\s*=\s*)-?(?:\d+(?:\.\d*)?|\.\d+)",
+            lambda match: f"{match.group(1) or match.group(2)}{chance:g}",
+            content,
+            count=1,
+        )
     if changes.get("upgrade_cost") is not None:
         content = re.sub(
             r"(upgradeBaseCost\s*\(\s*)-?\d+(\s*\))",

@@ -1,13 +1,8 @@
 package io.github.zhuiye486.cards.Master.Vestal;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.unique.VampireDamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardColor;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardRarity;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardTarget;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardType;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -16,6 +11,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
 
 
 public class DivineGrace extends AbstractDungeonCard {
@@ -33,6 +29,7 @@ public class DivineGrace extends AbstractDungeonCard {
     public DivineGrace() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.damage = this.baseDamage = 6;
+        this.magicNumber = this.baseMagicNumber = 5;
     }
 
     @Override
@@ -48,6 +45,7 @@ public class DivineGrace extends AbstractDungeonCard {
                 AbstractGameAction.AttackEffect.LIGHTNING
             )
         );
+        addToBot(new ChangeBrightnessAction(this.magicNumber));
     }
 
     @Override

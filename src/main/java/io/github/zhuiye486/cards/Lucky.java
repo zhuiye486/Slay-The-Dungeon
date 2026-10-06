@@ -25,7 +25,7 @@ public class Lucky extends AbstractDungeonCard {
 
     public Lucky() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 25;
+        this.magicNumber = this.baseMagicNumber = 15;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Lucky extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             this.upgradeName();
-            this.upgradeMagicNumber(25);
+            this.upgradeMagicNumber(10);
         }
     }
     

@@ -37,7 +37,7 @@ public class Paranoid extends AbstractDungeonCard {
     public Paranoid() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.baseChance = this.chance = 0.5f;
-        this.tags.add(CardTagsEnum.Lucky);
+        this.tags.add(CardTagsEnum.Probability);
     }
 
     @Override

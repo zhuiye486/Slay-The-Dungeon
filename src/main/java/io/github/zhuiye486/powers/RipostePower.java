@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
+import io.github.zhuiye486.actions.ChooseDrawPileCardAction;
 import io.github.zhuiye486.helpers.ModHelper;
 
 public class RipostePower extends AbstractPower {
@@ -20,6 +21,7 @@ public class RipostePower extends AbstractPower {
     private static final String[] DESCRIPTION = powerStrings.DESCRIPTIONS;
 
     public int count = 0;
+    private boolean chooseDrawPileCardNext;
 
     public RipostePower(AbstractCreature owner, int Amount) {
         this.name = NAME;
@@ -41,6 +43,10 @@ public class RipostePower extends AbstractPower {
         this.description = DESCRIPTION[0] + this.amount + DESCRIPTION[1];
     }
 
+    public void setNextRiposteToChooseDrawPileCard() {
+        this.chooseDrawPileCardNext = true;
+    }
+
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
         if (info.type == DamageInfo.DamageType.NORMAL && info.owner != null && info.owner != this.owner) {    
@@ -52,9 +58,14 @@ public class RipostePower extends AbstractPower {
     @Override
     public void atStartOfTurn() {
         for (int i = 0; i < count; i++) {
-            addToBot(
-                new PlayTopCardAction(AbstractDungeon.getCurrRoom().monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng), false)
-            );
+            if (this.chooseDrawPileCardNext) {
+                addToBot(new ChooseDrawPileCardAction());
+                this.chooseDrawPileCardNext = false;
+            } else {
+                addToBot(
+                    new PlayTopCardAction(AbstractDungeon.getCurrRoom().monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng), false)
+                );
+            }
         }
         
         addToBot(

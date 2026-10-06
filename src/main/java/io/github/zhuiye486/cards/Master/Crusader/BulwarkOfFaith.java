@@ -12,6 +12,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.powers.MarkPower;
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
 
 public class BulwarkOfFaith extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(BulwarkOfFaith.class.getSimpleName());
@@ -29,6 +30,8 @@ public class BulwarkOfFaith extends AbstractDungeonCard {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.block = this.baseBlock = 20;
         this.magicNumber = this.baseMagicNumber = 2;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 5;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 5;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class BulwarkOfFaith extends AbstractDungeonCard {
                 )
             )
         );
+        addToBot(new ChangeBrightnessAction(this.secondMagicNumber));
     }
 
     @Override

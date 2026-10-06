@@ -7,6 +7,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -33,17 +35,28 @@ public class LetsGoGambling extends AbstractDungeonCard{
         ArrayList<AbstractCard> discardCards = new ArrayList<>(p.discardPile.group);
         ArrayList<AbstractCard> exhaustCards = new ArrayList<>(p.exhaustPile.group);
 
-        for (AbstractCard card : drawCards) {
-            p.drawPile.moveToDiscardPile(card);
-        }
+        p.drawPile.group.clear();
+        p.discardPile.group.clear();
+        p.exhaustPile.group.clear();
+
+        p.discardPile.group.addAll(drawCards);
+        p.exhaustPile.group.addAll(discardCards);
+        p.drawPile.group.addAll(exhaustCards);
 
         for (AbstractCard card : discardCards) {
-            p.discardPile.moveToExhaustPile(card);
+            for (AbstractRelic relic : p.relics) {
+                relic.onExhaust(card);
+            }
+            for (AbstractPower power : p.powers) {
+                power.onExhaust(card);
+            }
+            card.triggerOnExhaust();
         }
 
         for (AbstractCard card : exhaustCards) {
             card.unfadeOut();
-            p.exhaustPile.moveToDeck(card, false);
+            card.untip();
+            card.unhover();
         }
 
         p.drawPile.shuffle();

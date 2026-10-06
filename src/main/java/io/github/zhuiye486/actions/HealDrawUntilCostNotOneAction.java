@@ -11,6 +11,15 @@ public class HealDrawUntilCostNotOneAction extends AbstractGameAction {
     public int maxDraws = 10;
     public AbstractPlayer p;
     public int baseHeal;
+    private Runnable onComplete;
+
+    public void setOnComplete(Runnable onComplete) {
+        this.onComplete = onComplete;
+    }
+
+    public void complete() {
+        if (onComplete != null) onComplete.run();
+    }
 
     public HealDrawUntilCostNotOneAction(AbstractPlayer p, int baseHeal) {
         this.p = p;

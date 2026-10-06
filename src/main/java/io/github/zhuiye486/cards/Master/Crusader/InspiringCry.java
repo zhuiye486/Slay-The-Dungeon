@@ -1,6 +1,7 @@
 package io.github.zhuiye486.cards.Master.Crusader;
 
 import com.megacrit.cardcrawl.actions.common.HealAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -12,6 +13,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.HealPatch;
+import io.github.zhuiye486.powers.RoarPower;
 
 public class InspiringCry extends AbstractDungeonCard{
     public static final String ID = ModHelper.makePath(InspiringCry.class.getSimpleName());
@@ -28,22 +30,29 @@ public class InspiringCry extends AbstractDungeonCard{
     public InspiringCry() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 3;
         this.heal = this.baseHeal = 3;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(
-            new HealAction(
-                p, 
-                p,
-                this.heal)
-        );
-        addToBot(
-            new ChangePressureAction(
-                -this.magicNumber
-            )
-        );
+        final int healAmount = this.heal;
+        final int pressureAmount = this.magicNumber;
+        addToBot(new ApplyPowerAction(
+            p,
+            p,
+            new RoarPower(p, this.secondMagicNumber, () -> {
+                com.megacrit.cardcrawl.actions.AbstractGameAction effect = new com.megacrit.cardcrawl.actions.AbstractGameAction() {
+                    @Override
+                    public void update() {
+                        addToBot(new HealAction(p, p, healAmount));
+                        addToBot(new ChangePressureAction(-pressureAmount));
+                        this.isDone = true;
+                    }
+                };
+                return effect;
+            })
+        ));
     }
 
     @Override

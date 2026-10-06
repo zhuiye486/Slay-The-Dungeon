@@ -97,14 +97,16 @@ def card_with_staging(card: CardEntry) -> dict[str, Any]:
         "edit_warnings": card.edit_warnings,
     }
     for field in (
-        "name_en", "description_en", "rarity", "damage", "block", "magic_number", "heal",
+        "name_en", "description_en", "rarity", "damage", "block", "magic_number",
+        "magic_number_2", "chance", "chance_2", "heal",
         "upgrade_cost", "upgrade_damage", "upgrade_block", "upgrade_magic_number",
         "upgrade_heal", "upgrade_description", "tags",
     ):
         data[field] = getattr(card, field)
     for field in (
         "name", "name_en", "description", "description_en", "cost", "rarity",
-        "damage", "block", "magic_number", "heal", "upgrade_cost", "upgrade_damage",
+        "damage", "block", "magic_number", "magic_number_2", "chance", "chance_2", "heal",
+        "upgrade_cost", "upgrade_damage",
         "upgrade_block", "upgrade_magic_number", "upgrade_heal", "upgrade_description", "tags",
     ):
         if field in changes:
@@ -112,6 +114,9 @@ def card_with_staging(card: CardEntry) -> dict[str, Any]:
     if "card_type" in changes:
         data["card_type"] = changes["card_type"]
         data["card_type_zhs"] = TYPE_ZHS.get(changes["card_type"], changes["card_type"])
+    if "chance" in changes and changes["chance"] is not None:
+        data["chance"] = changes["chance"]
+        data["chance_2"] = round(100.0 - float(changes["chance"]), 6)
     if data["hero_image_url"]:
         data["hero_image_file"] = hero_image_filename(card.hero_key)
     if data["is_staged"]:
@@ -253,13 +258,19 @@ def save_card_fields(safe_id: str, changes: dict[str, Any] = Body(...)) -> dict[
     if not card:
         raise HTTPException(status_code=404, detail="卡牌不存在")
     numeric_fields = {
-        "cost", "damage", "block", "magic_number", "heal", "upgrade_cost",
+        "cost", "damage", "block", "magic_number", "magic_number_2", "heal", "upgrade_cost",
         "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_heal",
+        "chance", "chance_2",
     }
     try:
         for field in numeric_fields:
             if field in changes and changes[field] not in (None, ""):
                 changes[field] = int(changes[field])
+        for field in ("chance", "chance_2"):
+            if field in changes and changes[field] not in (None, ""):
+                changes[field] = float(changes[field])
+                if not 0.0 <= changes[field] <= 100.0:
+                    raise ValueError(f"{field} 必须在 0 到 100 之间")
         if "tags" in changes:
             if not isinstance(changes["tags"], list):
                 raise ValueError("标签必须是数组")
@@ -268,6 +279,16 @@ def save_card_fields(safe_id: str, changes: dict[str, Any] = Body(...)) -> dict[
             raise ValueError("不支持的卡牌类型")
         if changes.get("rarity") not in (None, "", "BASIC", "COMMON", "UNCOMMON", "RARE", "CURSE"):
             raise ValueError("不支持的卡牌稀有度")
+        original_chance = getattr(card, "chance")
+        if "chance_2" in changes and "chance" in changes:
+            chance_changed = changes["chance"] != original_chance
+            chance_2_changed = changes["chance_2"] != getattr(card, "chance_2")
+            if chance_2_changed and not chance_changed:
+                changes["chance"] = 100.0 - changes["chance_2"]
+            changes.pop("chance_2", None)
+        elif "chance_2" in changes:
+            changes["chance"] = 100.0 - changes.pop("chance_2")
+
         changes = {
             field: value
             for field, value in changes.items()

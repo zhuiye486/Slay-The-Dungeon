@@ -162,6 +162,7 @@ function generateMergedPrompt(card) {
 
 const editorFields = [
   "name_en", "name", "card_type", "rarity", "cost", "damage", "block", "magic_number",
+  "magic_number_2", "chance", "chance_2",
   "heal", "tags", "upgrade_cost", "upgrade_damage", "upgrade_block",
   "upgrade_magic_number", "upgrade_heal", "description", "description_en", "upgrade_description",
 ];
@@ -188,6 +189,7 @@ function readCardEditor() {
   return {
     name_en: value("name_en"), name: value("name"), card_type: value("card_type"), rarity: value("rarity"),
     cost: number("cost"), damage: number("damage"), block: number("block"), magic_number: number("magic_number"),
+    magic_number_2: number("magic_number_2"), chance: number("chance"), chance_2: number("chance_2"),
     heal: number("heal"), tags: value("tags").split(",").map((tag) => tag.trim()).filter(Boolean),
     upgrade_cost: number("upgrade_cost"), upgrade_damage: number("upgrade_damage"),
     upgrade_block: number("upgrade_block"), upgrade_magic_number: number("upgrade_magic_number"),

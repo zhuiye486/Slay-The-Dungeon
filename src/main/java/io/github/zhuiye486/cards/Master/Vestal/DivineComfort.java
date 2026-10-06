@@ -1,11 +1,5 @@
 package io.github.zhuiye486.cards.Master.Vestal;
 
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardColor;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardRarity;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardTarget;
-import com.megacrit.cardcrawl.cards.AbstractCard.CardType;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -14,11 +8,8 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import io.github.zhuiye486.helpers.ModHelper;
-import com.megacrit.cardcrawl.actions.common.HealAction;
 import io.github.zhuiye486.actions.HealDrawUntilCostNotOneAction;
-
-
-import basemod.devcommands.draw.Draw;
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
 
 public class DivineComfort extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(DivineComfort.class.getSimpleName());
@@ -36,11 +27,15 @@ public class DivineComfort extends AbstractDungeonCard {
 
     public DivineComfort() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.amount = 5;
+        this.magicNumber = this.baseMagicNumber = 5;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new HealDrawUntilCostNotOneAction(p, amount));
+        HealDrawUntilCostNotOneAction action = new HealDrawUntilCostNotOneAction(p, amount);
+        action.setOnComplete(() -> addToBot(new ChangeBrightnessAction(action.draws)));
+        addToBot(action);
     }
 
     @Override

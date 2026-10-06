@@ -8,8 +8,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 public class CheckDrawAction extends AbstractGameAction {
-    private HealDrawUntilCostNotOneAction parent;
-    private int previousHandSize;
+    private final HealDrawUntilCostNotOneAction parent;
+    private final int previousHandSize;
 
     public CheckDrawAction(HealDrawUntilCostNotOneAction parent, int previousHandSize) {
         this.parent = parent;
@@ -33,10 +33,12 @@ public class CheckDrawAction extends AbstractGameAction {
             } else {
                 // 停止，治疗
                 AbstractDungeon.actionManager.addToBottom(new HealAction(parent.p, parent.p, parent.baseHeal + parent.draws));
+                parent.complete();
             }
         } else {
             // 没有抽到牌，停止，治疗
             AbstractDungeon.actionManager.addToBottom(new HealAction(parent.p, parent.p, parent.baseHeal + parent.draws));
+            parent.complete();
         }
         this.isDone = true;
     }

@@ -13,7 +13,7 @@ public class Heal extends DynamicVariable{
 
     @Override
     public boolean isModified(AbstractCard card) {
-        return HealPatch.isHealModified.get(card);
+        return HealPatch.isHealModified.get(card) || card.heal != card.baseHeal;
     }
 
     @Override
@@ -33,6 +33,6 @@ public class Heal extends DynamicVariable{
 
     @Override
     public boolean upgraded(AbstractCard card) {
-        return HealPatch.upgradedHeal.get(card);
+        return HealPatch.upgradedHeal.get(card) || (card.upgraded && card.heal != card.baseHeal);
     }
 }

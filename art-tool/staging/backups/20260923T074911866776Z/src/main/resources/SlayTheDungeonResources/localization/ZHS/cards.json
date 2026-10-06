@@ -1,0 +1,657 @@
+{
+    "SlayTheDungeon:Strike": {
+        "NAME": "打击",
+        "DESCRIPTION": "造成 !D! 点伤害。",
+        "UPGRADE_DESCRIPTION": " 固有 。 NL 造成 !D! 点伤害。"
+    },
+    "SlayTheDungeon:SniperShot": {
+        "NAME": "狙击",
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有1 slaythedungeon:标记 ，额外触发一次。"
+    },
+    "SlayTheDungeon:SnipersMark": {
+        "NAME": "狙击标记",
+        "DESCRIPTION": "给予敌人 !M! slaythedungeon:标记 。 NL 给予敌人 !M! 虚弱 。"
+    },
+    "SlayTheDungeon:SuppressingFire": {
+        "NAME": "压制射击",
+        "DESCRIPTION": "对随机敌人造成 !D! 点伤害，所有敌人每有1 slaythedungeon:标记 ，额外触发一次。"
+    },
+    "SlayTheDungeon:FinishHim": {
+        "NAME": "了结他！",
+        "DESCRIPTION": "造成 !D! 点伤害，敌人每有 slaythedungeon:标记 和 slaythedungeon:眩晕 中的一项，额外触发一次。"
+    },
+    "SlayTheDungeon:MarkForDeath": {
+        "NAME": "死亡标记",
+        "DESCRIPTION": "给予敌人 !M! slaythedungeon:标记 。 NL 给予敌人 !M! 易伤 。"
+    },
+    "SlayTheDungeon:Uppercut": {
+        "NAME": "上勾拳",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL slaythedungeon:眩晕 敌人1回合。"
+    },
+    "SlayTheDungeon:BulwarkOfFaith": {
+        "NAME": "信仰壁障",
+        "DESCRIPTION": "获得 !B! 点格挡。 NL 给予自己 !M! slaythedungeon:标记 。"
+    },
+    "SlayTheDungeon:InspiringCry": {
+        "NAME": "鼓舞呐喊",
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命。 NL 减少 !M! slaythedungeon:压力 。 NL 吼叫3 。"
+    },
+    "SlayTheDungeon:StunningBlow": {
+        "NAME": "眩晕击",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL slaythedungeon:眩晕 敌人1回合。"
+    },
+    "SlayTheDungeon:ShadowFade": {
+        "NAME": "影遁",
+        "DESCRIPTION": "弃 !M! 张牌。 NL 获得 !SlayTheDungeonM2! 无实体 。"
+    },
+    "SlayTheDungeon:PoisonDart": {
+        "NAME": "毒镖",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:ToxinTrickery": {
+        "NAME": "敏捷药剂",
+        "DESCRIPTION": "抽2张牌。你每有1 slaythedungeon:瘟疫 ，额外抽1张牌。"
+    },
+    "SlayTheDungeon:IronSawn": {
+        "NAME": "钢铁天鹅",
+        "DESCRIPTION": "只有在此牌在你手牌最右边时才能被打出。 NL 造成 !D! 点伤害。"
+    },
+    "SlayTheDungeon:BleedOut": {
+        "NAME": "血如泉涌",
+        "DESCRIPTION": "本回合中你打出的下一张攻击牌给予等同于造成伤害的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:IfItBleeds": {
+        "NAME": "血溅三尺",
+        "DESCRIPTION": "给予 !SlayTheDungeonM2! slaythedungeon:流血 。 NL 获得 !M! 虚弱 。"
+    },
+    "SlayTheDungeon:DuelistsAdvance": {
+        "NAME": "决斗突刺",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 抽1张牌。 NL 获得 !M! slaythedungeon:反击 。"
+    },
+    "SlayTheDungeon:OpenVein": {
+        "NAME": "切开血管",
+        "DESCRIPTION": "给予 !M! slaythedungeon:流血 。 NL 本场战斗中你每打出过此牌一次，额外给予 !SlayTheDungeonM2! slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:PointBlankShoot": {
+        "NAME": "抵近射击",
+        "DESCRIPTION": "只有在此牌在你手牌最右边时才能被打出。 NL 造成 !D! 点伤害。 NL 抽1张牌。 NL 弃1张牌。 NL 此牌受3倍 力量 加成。"
+    },
+    "SlayTheDungeon:CryHavoc": {
+        "NAME": "振奋犬嚎",
+        "DESCRIPTION": "你的每一张手牌有66%几率使你减少 !M! slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:HoundsHurry": {
+        "NAME": "猎犬骚扰",
+        "DESCRIPTION": "本回合中，你的下 !M! 张 *猎犬 会对所有敌人生效。"
+    },
+    "SlayTheDungeon:HoundsRush": {
+        "NAME": "猎犬突袭",
+        "DESCRIPTION": "将 !M! 张 *猎犬 置入你的手牌。"
+    },
+    "SlayTheDungeon:Hound": {
+        "NAME": "猎犬",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Finale": {
+        "NAME": "终曲",
+        "DESCRIPTION": "对所有敌人造成 !D! 点伤害，抽1张牌。 NL 你在本场战斗中每打出过1张 音乐 ，额外触发一次。 NL 消耗 。 音乐 。 ",
+        "EXTENDED_DESCRIPTION": [
+            " NL (你本场战斗中打出过",
+            "张 音乐 。)"
+        ]
+    },
+    "SlayTheDungeon:BattleBallad": {
+        "NAME": "战歌",
+        "DESCRIPTION": "获得等同于场上所有能力数量的 [E] 。 NL 音乐 。",
+        "EXTENDED_DESCRIPTION": [
+            " NL (场上共有",
+            "个能力。)"
+        ]
+    },
+    "SlayTheDungeon:InspiringTune": {
+        "NAME": "鼓舞乐章",
+        "DESCRIPTION": "减少 !M! slaythedungeon:压力 。 NL 音乐 。"
+    },
+    "SlayTheDungeon:Intimidate": {
+        "NAME": "威吓",
+        "DESCRIPTION": "使一名敌人减少 !M! 力量 。 NL 获得 !M! 力量 。"
+    },
+    "SlayTheDungeon:Revenge": {
+        "NAME": "复仇",
+        "DESCRIPTION": "获得等同于你当前格挡值的临时 力量 。"
+    },
+    "SlayTheDungeon:Withstand": {
+        "NAME": "抵挡",
+        "DESCRIPTION": "获得 !B! 点格挡。 NL 在下一回合获得 !B! 点格挡。 NL 获得2 易伤 。"
+    },
+    "SlayTheDungeon:Solemnity": {
+        "NAME": "肃穆",
+        "DESCRIPTION": "结束你的回合。下回合开始时，获得等同于剩余 [E] 的 [E]  。"
+    },
+    "SlayTheDungeon:Smite": {
+        "NAME": "惩戒",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:ZealousAccusation": {
+        "NAME": "热诚控诉",
+        "DESCRIPTION": "随机给予2个敌人 !M! slaythedunegon:标记 。"
+    },
+    "SlayTheDungeon:BattleHeal": {
+        "NAME": "战斗治疗",
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命值。 NL 移除 slaythedungeon:标记 。"
+    },
+    "SlayTheDungeon:HolyLance": {
+        "NAME": "圣矛",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌。 NL 当你打出该牌时，将一张复制洗入你的抽牌堆。 NL 每当你打出4张 圣矛，在每个回合开始时额外打出一张。 NL 消耗 。"
+    },
+    "SlayTheDungeon:SacrificialStab": {
+        "NAME": "献祭刺击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:AbyssalArtillery": {
+        "NAME": "深渊炮击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:VulnerabilityHex": {
+        "NAME": "弱点术式",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:DaemonsPull": {
+        "NAME": "恶魔牵引",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Manacles": {
+        "NAME": "锁链",
+        "DESCRIPTION": " slaythedungeon:眩晕 一个敌人。 NL 给予 !M! 虚弱 。"
+    },
+    "SlayTheDungeon:BeastBile": {
+        "NAME": "恶兽胆汁",
+        "DESCRIPTION": " slaythedungeon:瘟疫 传播自身时改为留下一半的 slaythedungeon:腐蚀 。"
+    },
+    "SlayTheDungeon:Absolution": {
+        "NAME": "赎罪",
+        "DESCRIPTION": "减少 !M! 点压力。 NL 移除 slaythedungeon:瘟疫 和 slaythedungeon:流血 效果。"
+    },
+    "SlayTheDungeon:Rage": {
+        "NAME": "狂暴",
+        "DESCRIPTION": "本回合中，你每抽到一张牌，给予所有角色 !M! slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:TargetWhistle": {
+        "NAME": "标记口哨",
+        "DESCRIPTION": "每当你获得 *猎犬 时，额外获得一张。"
+    },
+    "SlayTheDungeon:GuardDog": {
+        "NAME": "猎犬守护",
+        "DESCRIPTION": "本回合中，你的下一张 *猎犬 会使你获得 !B! 点 格挡 。"
+    },
+    "SlayTheDungeon:LickWounds": {
+        "NAME": "舔舐伤口",
+        "DESCRIPTION": "你的本回合中，你的下一张 *猎犬 会为你回复 !SlayTheDungeonH! 点生命值。"
+    },
+    "SlayTheDungeon:Blackjack": {
+        "NAME": "棍闷",
+        "DESCRIPTION": " slaythedungeon:眩晕 一个敌人，将 !M! 张 *猎犬 置入你的手牌。"
+    },
+    "SlayTheDungeon:MaceBash": {
+        "NAME": "锤击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Judgement": {
+        "NAME": "审判",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Illumination": {
+        "NAME": "强光",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:HandOfLight": {
+        "NAME": "圣光之手",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:DirkStab": {
+        "NAME": "匕首刺击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Harvest": {
+        "NAME": "收割",
+        "DESCRIPTION": "对所有敌人造成 !D! 点伤害，若敌人具有 slaythedungeon:流血 ，则改为给予其 !M! 点 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Solo": {
+        "NAME": "独奏",
+        "DESCRIPTION": " 消耗 一张手牌。 NL 获得 !M! 点 力量 。 NL 音乐 。"
+    },
+    "SlayTheDungeon:SliceOff": {
+        "NAME": "切割",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:BlindingGas": {
+        "NAME": "致盲气体",
+        "DESCRIPTION": "随机 slaythedungeon:眩晕 !M! 个敌人。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+    "SlayTheDungeon:Incision": {
+        "NAME": "放血",
+        "DESCRIPTION": "给予 !M! slaythedungeon:流血 两次。"
+    },
+    "SlayTheDungeon:EmboldeningVapours": {
+        "NAME": "壮胆药雾",
+        "DESCRIPTION": "获得 !M! 点 力量 。 触发你打出的上一张蒸汽的效果。"
+    },
+    "SlayTheDungeon:DisorientingBlast": {
+        "NAME": "迷惑冲击",
+        "DESCRIPTION": "随机给予敌人总计 !M! 点 中毒 ， slaythedungeon:标记 ， slaythedungeon:流血 ， slaythedungeon:瘟疫 和 slaythedungeon:腐蚀。 NL 消耗 。 NL 重复你使用的上一张蒸汽牌效果。"
+    },
+    "SlayTheDungeon:PickToTheFace": {
+        "NAME": "劈头盖脸",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Lunge": {
+        "NAME": "突刺",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:FlashingDaggers": {
+        "NAME": "闪光匕首",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:ThrownDagger": {
+        "NAME": "投掷匕首",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Bola": {
+        "NAME": "拌索",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Blindfire": {
+        "NAME": "盲射",
+        "DESCRIPTION": " !SlayTheDungeonP! %概率对随机敌人造成 !D! 点伤害，!SlayTheDungeonP2! %概率对自己造成 !D! 点伤害。"
+    },
+    "SlayTheDungeon:BattlefieldBandage": {
+        "NAME": "战场包扎",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:RallyingFlare": {
+        "NAME": "照明弹",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Punish": {
+        "NAME": "责罚",
+        "DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Exsanguinate": {
+        "NAME": "除血",
+        "DESCRIPTION": "移除 slaythedungeon:流血 ，使敌人随机获得等量的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Endure": {
+        "NAME": "忍耐",
+        "DESCRIPTION": "受到 !D! 点伤害，下回合开始时回复 !SlayTheDungeonH! 点生命。"
+    },
+    "SlayTheDungeon:Suffer": {
+        "NAME": "受难",
+        "DESCRIPTION": "获得 !M! 点 slaythedungeon:流血 。 NL 获得 !B! 点 格挡 。"
+    },
+    "SlayTheDungeon:WickedSlice": {
+        "NAME": "邪恶切割",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:PistolShot": {
+        "NAME": "手枪射击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:GrapeshotBlast": {
+        "NAME": "霰弹轰扫",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:TrackingShot": {
+        "NAME": "追踪射击",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Chop": {
+        "NAME": "挥砍",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Hew": {
+        "NAME": "劈砍",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Purge": {
+        "NAME": "净化",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Pierce": {
+        "NAME": "扎透",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Impale": {
+        "NAME": "伏袭",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:AddersKiss": {
+        "NAME": "蝰蛇之吻",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Expose": {
+        "NAME": "觅踪",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Crush": {
+        "NAME": "粉碎",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Rampart": {
+        "NAME": "盾击",
+        "DESCRIPTION": "造成 !D! 点 伤害。 NL slaythedungeon:眩晕 一个敌人 !M! 回合。"
+    },
+    "SlayTheDungeon:Bellow": {
+        "NAME": "怒吼",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Command": {
+        "NAME": "指挥",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:WickedHack": {
+        "NAME": "邪恶劈砍",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:BarbaricYawp": {
+        "NAME": "野蛮咆哮！",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Breakthrough": {
+        "NAME": "突破",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:AdrenalineRush": {
+        "NAME": "腺素飙升",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:CollectBounty": {
+        "NAME": "收集赏金",
+        "DESCRIPTION": "造成 !D! 点伤害。NL 敌人每有 slaythedungeon:眩晕 和 slaythedungeon:流血 中的一项，获得 !M! 金币。"
+    },
+    "SlayTheDungeon:ComeHither": {
+        "NAME": "靠近点！",
+        "DESCRIPTION": "本回合中，你的下一张 slaythedungeon:概率 牌成功率提升 !SlayTheDungeonP! %。"
+    },
+    "SlayTheDungeon:Flashbang": {
+        "NAME": "闪光弹",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Caltrops": {
+        "NAME": "绳勾切削",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:NervousStab": {
+        "NAME": "紧张戳击",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 获得 !M! 点 slaythedungeon:压力  。"
+    },
+    "SlayTheDungeon:GetDown": {
+        "NAME": "卧倒！",
+        "DESCRIPTION": " !SlayTheDungeonP! %概率获得 !M! 层 无实体。"
+    },
+    "SlayTheDungeon:Flashpowder": {
+        "NAME": "闪光粉末",
+        "DESCRIPTION": "本回合中，每当你抽到，使用，弃掉或消耗一张牌，有 !SlayTheDungeonP! 概率获得5金币。"
+    },
+    "SlayTheDungeon:ProtectMe": {
+        "NAME": "保护我",
+        "DESCRIPTION": "受到 !M! 点 slaythedungeon:压力 。 NL 获得 !B! 点 格挡 。"
+    },
+    "SlayTheDungeon:Smokescreen": {
+        "NAME": "烟雾弹",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:CallTheShot": {
+        "NAME": "瞄准指令",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Buckshot": {
+        "NAME": "猎兽铅弹",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Sidearm": {
+        "NAME": "副械手枪",
+        "DESCRIPTION": ""
+    },
+    "SlayTheDungeon:Bolster": {
+        "NAME": "支援",
+        "DESCRIPTION": "获得等同于你手牌数的临时 敏捷 。"
+    },
+    "SlayTheDungeon:Defender": {
+        "NAME": "保护",
+        "DESCRIPTION": "获得 !M! 金属化 。 NL 额外获得等同于你 敏捷 的 金属化 。 NL 消耗 。"
+    },
+    "SlayTheDungeon:Retribution": {
+        "NAME": "报复",
+        "DESCRIPTION": "获得 !M! slaythedungeon:标记 。 NL 获得1 slaythedungeon:反击 。"
+    },
+    "SlayTheDungeon:AimedShot": {
+        "NAME": "瞄准射击",
+        "DESCRIPTION": "对所有敌人造成 !D! 点伤害，每命中一个敌人，伤害减少 !M! 。"
+    },
+    "SlayTheDungeon:PatchUp": {
+        "NAME": "包扎",
+        "DESCRIPTION": "获得2 slaythedungeon:愈合 。 NL 回复 !SlayTheDungeonH! 点生命。"
+    },
+    "SlayTheDungeon:SkeetShot": {
+        "NAME": "多重射击",
+        "DESCRIPTION": "重复对随机敌人造成 !D! 点伤害, 每次伤害减少1, 直到伤害为0。"
+    },
+    "SlayTheDungeon:HandsFromTheAbyss": {
+        "NAME": "深渊之手",
+        "DESCRIPTION": " slaythedungeon:眩晕 一个敌人。 NL 给予 !M! 易伤 。"
+    },
+    "SlayTheDungeon:WeakeningCurse": {
+        "NAME": "削弱诅咒",
+        "DESCRIPTION": "造成 4 点伤害。 NL 在本回合中减少2点 力量 。 NL 给予 !M! 虚弱 。"
+    },
+    "SlayTheDungeon:WyrdReconstruction": {
+        "NAME": "命运重构",
+        "DESCRIPTION": "恢复0～ !M! 点生命。 NL 获得等量的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:PlagueGrenade": {
+        "NAME": "瘟疫手雷",
+        "DESCRIPTION": "给予 !M! 中毒 。 NL 给予 !SlayTheDungeonM2! slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:NoxiousBlast": {
+        "NAME": "瘟毒炸裂",
+        "DESCRIPTION": "触发一个敌人身上的 中毒 。 NL 使 !M! 个随机敌人获得其 slaythedungeon:瘟疫 层数的 slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:BattlefieldMedicine": {
+        "NAME": "战地医疗",
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命。 NL 移除 中毒 和 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:DazzlingLight": {
+        "NAME": "炫目圣光",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 击晕敌人1回合。"
+    },
+    "SlayTheDungeon:DivineGrace": {
+        "NAME": "神圣治疗",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 回复造成伤害的生命值。"
+    },
+    "SlayTheDungeon:DivineComfort": {
+        "NAME": "神圣抚慰",
+        "DESCRIPTION": "抽牌直到抽到消耗不为1的牌。 NL 回复抽牌数量的生命值。"
+    },
+    "SlayTheDungeon:Transform": {
+        "NAME": "变形",
+        "DESCRIPTION": "本回合中，你只能打出手牌最右边的牌。 NL 你造成的伤害，给予的 中毒 和 slaythedungeon:流血 变为 !M! 倍。"
+    },
+    "SlayTheDungeon:Rake": {
+        "NAME": "撕扯",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 中毒， !M! slaythedungeon:流血 和 !M! slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:Slam": {
+        "NAME": "冲撞",
+        "DESCRIPTION": "每有一个敌人，抽 !M! 张牌，弃 !M! 张牌。"
+    },
+    "SlayTheDungeon:FesteringVapours": {
+        "NAME": "溃烂蒸汽",
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+    "SlayTheDungeon:FortifyingVapours": {
+        "NAME": "强健蒸汽",
+        "DESCRIPTION": "获得 !M! 敏捷 。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+    "SlayTheDungeon:InvigoratingVapours": {
+        "NAME": "提神蒸汽",
+        "DESCRIPTION": "弃最多 !M! 张牌，每弃一张牌获得 !B! 点格挡。 NL 触发你打出的上一张蒸汽的效果。"
+    },
+    "SlayTheDungeon:RainOfSorrows": {
+        "NAME": "伤痛之雨",
+        "DESCRIPTION": "给予 !M! slaythedungeon:流血 。 NL 获得等量的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Reclaim": {
+        "NAME": "授教",
+        "DESCRIPTION": "获得 !M! 再生 和 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Redeem": {
+        "NAME": "偿赎",
+        "DESCRIPTION": "回复30%最大生命值的生命。 NL !M! 回合内受到的治疗减少50%。"
+    },
+    "SlayTheDungeon:Captivate": {
+        "NAME": "诱捕",
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 造成 !D! 点伤害2次。 NL 额外给予目标身上 slaythedungeon:流血 层数的 slaythedungeon:瘟疫 。"
+    },
+    "SlayTheDungeon:Puncture": {
+        "NAME": "贯穿",
+        "DESCRIPTION": "移除目标的所有格挡。 NL 造成 !D! 点伤害。"
+    },
+    "SlayTheDungeon:SerpentSway": {
+        "NAME": "蝰蛇之舞",
+        "DESCRIPTION": "获得 !M! 缓冲 。"
+    },
+    "SlayTheDungeon:Shovel": {
+        "NAME": "铁锹",
+        "DESCRIPTION": "造成 !D! 点伤害。"
+    },
+    "SlayTheDungeon:Food": {
+        "NAME": "食物",
+        "DESCRIPTION": "回复 !M! 点生命。 NL 消耗 。"
+    },
+    "SlayTheDungeon:HolyWater": {
+        "NAME": "圣水",
+        "DESCRIPTION": "获得 !B! 点格挡。"
+    },
+    "SlayTheDungeon:Abusive": {
+        "NAME": "暴虐",
+        "DESCRIPTION": "无法被打出。 NL 你每打出一张牌，失去 5 点生命，受到 7 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Fearful": {
+        "NAME": "恐惧",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，结束你的回合，受到 15 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Hopeless": {
+        "NAME": "绝望",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，受到 40 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Irrational": {
+        "NAME": "狂乱",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，20%概率受到失去 10 点生命，20%概率失去2点 能量 ，20%概率结束你的回合，20%概率将一张 铁锹 加入你的牌组，20%概率随机消耗两张手牌。"
+    },
+    "SlayTheDungeon:Masochistic": {
+        "NAME": "自虐",
+        "DESCRIPTION": "此牌在你手中时，你不能打出其他牌。 NL 失去 10 点生命，受到 15 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Paranoid": {
+        "NAME": "偏执",
+        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有 !SlayTheDungeonP! % 概率使其无法被打出，受到 7 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Selfish": {
+        "NAME": "自私",
+        "DESCRIPTION": "无法被打出。 NL 此牌被抽到时，随机打出你手牌中的一张牌，受到 10 slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Courageous": {
+        "NAME": "英勇",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时额外抽 !M! 张牌。"
+    },
+    "SlayTheDungeon:Focused": {
+        "NAME": "专注",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 [E] 。",
+        "UPGRADE_DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 [E] [E] 。"
+    },
+    "SlayTheDungeon:Powerful": {
+        "NAME": "勇猛",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点临时 力量 。"
+    },
+    "SlayTheDungeon:Stalwart": {
+        "NAME": "坚定",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合结束时获得 !M! 点格挡。"
+    },
+    "SlayTheDungeon:Vigorous": {
+        "NAME": "振奋",
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合开始时获得 !M! 点临时 敏捷 。"
+    },
+    "SlayTheDungeon:LetsGoGambling": {
+        "NAME": "Let's Go Gambling!",
+        "DESCRIPTION": "逆时针旋转你的抽牌堆，弃牌堆和消耗牌堆。"
+    },
+    "SlayTheDungeon:Escape": {
+        "NAME": "逃跑",
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率成功逃跑。 NL !SlayTheDungeonP2! % 概率结束你的回合。"
+    },
+    "SlayTheDungeon:FromBeyond": {
+        "NAME": "从冥界而来",
+        "DESCRIPTION": "随机将一名英雄的初始卡牌加入你的抽牌堆，它们在本场战斗中费用变为0点。 NL 消耗 。"
+    },
+    "SlayTheDungeon:RainInTheForest": {
+        "NAME": "林中落雨",
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 减少 !M! slaythedungeon:压力 。 NL 你的下一场攻击牌可以免费打出。"
+    },
+    "SlayTheDungeon:OldRoad": {
+        "NAME": "老路",
+        "DESCRIPTION": "造成 !D! 点伤害 2 次。 NL 将此牌的一张复制加入你的弃牌堆。 NL 本场战斗中所有 老路 牌的伤害增加 !M! 点。"
+    },
+    "SlayTheDungeon:Kleptomaniac": {
+        "NAME": "盗窃癖",
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率获得 !M! 金币。 NL !SlayTheDungeonP2! % 概率将1张 受伤 牌加入你的弃牌堆。"
+    },
+    "SlayTheDungeon:CriticalHit": {
+        "NAME": "暴击",
+        "DESCRIPTION": "本牌造成 2 倍伤害。 NL 造成 !D! 点伤害。 NL 减少 !M! slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Dodge": {
+        "NAME": "闪避",
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率获得 !B! 点格挡， !SlayTheDungeonP2! % 概率获得 !M! 点格挡。"
+    },
+    "SlayTheDungeon:NeverCompromise": {
+        "NAME": "永不妥协",
+        "DESCRIPTION": "在你的回合开始时，获得 [E] , 受到 !M! slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Lucky": {
+        "NAME": "幸运",
+        "DESCRIPTION": "使你打出的牌的正面效果触发的概率提高 !M! % 。"
+    },
+    "SlayTheDungeon:BloodInTheMud": {
+        "NAME": "血泥相间",
+        "DESCRIPTION": "对所有敌人造成 !D! 点伤害，给予 !M! slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:LastDitchEffort": {
+        "NAME": "拼死一搏",
+        "DESCRIPTION": "造成等同于你已损失生命值的伤害。"
+    },
+    "SlayTheDungeon:Ambush": {
+        "NAME": "伏击",
+        "DESCRIPTION": " 固有 。 保留 。 NL 击晕一个敌人。 NL 抽 !M! 张牌。 NL 消耗 。"
+    },
+    "SlayTheDungeon:DogTreat": {
+        "NAME": "狗粮",
+        "DESCRIPTION": "你的回合开始时，将两张 *猎犬 置入你的手牌。",
+        "UPGRADE_DESCRIPTION": "你的回合开始时，将两张升级后的 *猎犬 置入你的手牌。"
+    },
+    "SlayTheDungeon:Topspeed": {
+        "NAME": "极速",
+        "DESCRIPTION": "抽2张牌。 NL 获得 [E] 。 NL 减少 !M! slaythedungeon:压力 NL 消耗 。"
+    },
+    "SlayTheDungeon:Feminization": {
+        "NAME": "娘化",
+        "DESCRIPTION": "你的回合开始时，减少 !M! slaythedungeon:压力 。"
+    },
+    "SlayTheDungeon:Berserk": {
+        "NAME": "狂化",
+        "DESCRIPTION": "你每回合打出的前 !M! 张攻击牌给予等同于伤害的 slaythedungeon:流血 。"
+    },
+    "SlayTheDungeon:Pray": {
+        "NAME": "祈求",
+        "DESCRIPTION": "!SlayTheDungeonP! % 概率减少 !M! slaythedungeon:压力 , !SlayTheDungeonP2! % 概率受到 5 slaythedungeon:压力 。"
+    }
+}

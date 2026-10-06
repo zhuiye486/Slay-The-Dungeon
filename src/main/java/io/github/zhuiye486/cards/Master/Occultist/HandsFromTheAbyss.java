@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
@@ -22,7 +23,7 @@ public class HandsFromTheAbyss extends AbstractDungeonCard {
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.COMMON;
+    private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public HandsFromTheAbyss() {
@@ -48,6 +49,9 @@ public class HandsFromTheAbyss extends AbstractDungeonCard {
                     false
                 )
             )
+        );
+        addToBot(
+            new ApplyPowerAction(m, p, new ArtifactPower(m, 1))
         );
     }
 

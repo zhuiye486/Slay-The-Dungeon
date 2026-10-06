@@ -5,5 +5,12 @@
         "DESCRIPTIONS": [
             "显示队伍的当前压力值。"
         ]
+    },
+    "SlayTheDungeon:BrightnessIndicator": {
+        "NAME": "亮度指示器",
+        "FLAVOR": "光明仍未熄灭。",
+        "DESCRIPTIONS": [
+            "显示玩家的当前亮度值。"
+        ]
     }
 }

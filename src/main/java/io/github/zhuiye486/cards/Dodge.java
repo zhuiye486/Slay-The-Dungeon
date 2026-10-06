@@ -33,7 +33,7 @@ public class Dodge extends AbstractDungeonCard {
         this.block = this.baseBlock = 15;
         this.magicNumber = this.baseMagicNumber  = 5;
         this.baseChance = this.chance = 0.5f;
-        this.tags.add(CardTagsEnum.Lucky);
+        this.tags.add(CardTagsEnum.Probability);
     }
 
     @Override

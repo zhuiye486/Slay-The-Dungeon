@@ -27,6 +27,7 @@ import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import basemod.abstracts.CustomPlayer;
 import io.github.zhuiye486.SlayTheDungeon;
 import io.github.zhuiye486.cards.Strike;
+import io.github.zhuiye486.relics.BrightnessIndicator;
 import io.github.zhuiye486.relics.PressureIndicator;
 
 // 继承CustomPlayer类
@@ -366,6 +367,7 @@ public class Heroes extends CustomPlayer {
     public ArrayList<String> getStartingRelics() {
         ArrayList<String> retVal = new ArrayList<>();
         retVal.add(PressureIndicator.ID);
+        retVal.add(BrightnessIndicator.ID);
 
         return retVal;
     }

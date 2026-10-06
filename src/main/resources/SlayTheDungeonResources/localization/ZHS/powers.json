@@ -10,7 +10,15 @@
     "SlayTheDungeon:Plague": {
         "NAME": "瘟疫",
         "DESCRIPTIONS": [
-            "当受到伤害时，使随机敌人获得 #b",
+            "回合结束时，随机使一个敌人获得 #b",
+            " 层瘟疫；若自己为传播目标，获得等同于瘟疫层数的 #y中毒 并消除瘟疫；否则自身受到等同于当前瘟疫层数的伤害，然后层数减半。"
+        ]
+    },
+
+    "SlayTheDungeon:Corrosion": {
+        "NAME": "腐蚀",
+        "DESCRIPTIONS": [
+            "受到攻击伤害时，随机使一个敌人获得 #b",
             " 层 #y中毒 。"
         ]
     },
@@ -18,9 +26,7 @@
     "SlayTheDungeon:Bleed": {
         "NAME": "流血",
         "DESCRIPTIONS": [
-            "累计到 #b",
-            " 时，失去当前生命值的 #b",
-            " 。"
+            "每次获得流血时，受到施加前流血层数的伤害。回合结束时消除。"
         ]
     },
 
@@ -88,11 +94,76 @@
         ]
     },
 
+    "SlayTheDungeon:Crusade": {
+        "NAME": "东征",
+        "DESCRIPTIONS": [
+            "本轮已打出 #b",
+            " 张圣矛。"
+        ]
+    },
+
+    "SlayTheDungeon:HolyLanceStart": {
+        "NAME": "圣矛回响",
+        "DESCRIPTIONS": [
+            "每回合开始额外打出 #b",
+            " 张圣矛。"
+        ]
+    },
+
+    "SlayTheDungeon:ComeHither": {
+        "NAME": "靠近点！",
+        "DESCRIPTIONS": [
+            "下一张概率牌成功率提高 #b",
+            "%。"
+        ]
+    },
+
     "SlayTheDungeon:DogTreat": {
         "NAME": "狗粮",
         "DESCRIPTIONS": [
             "回合开始时，将 #b2 张 猎犬",
             " 置入手牌。"
+        ]
+    },
+
+    "SlayTheDungeon:HoundSupport": {
+        "NAME": "猎犬战术",
+        "DESCRIPTIONS": [
+            "获得猎犬时额外获得一张猎犬。",
+            "下一张猎犬使你获得格挡。",
+            "下一张猎犬为你回复生命。"
+        ]
+    },
+
+    "SlayTheDungeon:Endure": {
+        "NAME": "忍耐",
+        "DESCRIPTIONS": [
+            "回合开始时回复",
+            "点生命。"
+        ]
+    },
+
+    "SlayTheDungeon:Flashpowder": {
+        "NAME": "闪光粉末",
+        "DESCRIPTIONS": [
+            "触发概率为 #b",
+            "%。"
+        ]
+    },
+
+    "SlayTheDungeon:Solemnity": {
+        "NAME": "肃穆",
+        "DESCRIPTIONS": [
+            "下回合开始时获得 #b",
+            " 点能量。"
+        ]
+    },
+
+    "SlayTheDungeon:Roar": {
+        "NAME": "吼叫",
+        "DESCRIPTIONS": [
+            "还会持续 #b",
+            " 回合，并在回合结束时生效。"
         ]
     },
 
@@ -109,6 +180,96 @@
         "DESCRIPTIONS": [
             "回合开始时，减少 #b",
             " #压力 。"
+        ]
+    },
+    "SlayTheDungeon:AdrenalineRush": {
+        "NAME": "腺素飙升",
+        "DESCRIPTIONS": [
+            "每当你使用一张牌，额外打出手牌中的另一张牌，并获得其消耗倍数的流血。"
+        ]
+    },
+    "SlayTheDungeon:BeastBile": {
+        "NAME": "恶兽胆汁",
+        "DESCRIPTIONS": [
+            "瘟疫传播时，传播源留下相当于瘟疫层数一半的腐蚀。"
+        ]
+    },
+    "SlayTheDungeon:BrightnessGain": {
+        "NAME": "亮度变化",
+        "DESCRIPTIONS": [
+            "增加 #b",
+            " 点亮度。"
+        ]
+    },
+    "SlayTheDungeon:Buckshot": {
+        "NAME": "猎兽铅弹",
+        "DESCRIPTIONS": [
+            "每回合中使用的第 #b",
+            " 张攻击牌会被替换为两张伤害减半的相同攻击牌。"
+        ]
+    },
+    "SlayTheDungeon:Caltrops": {
+        "NAME": "绳勾切削",
+        "DESCRIPTIONS": [
+            "回合开始时随机给予敌人 #b",
+            " 层标记，每次重复概率为 #b",
+            "%，重复次数为 #b",
+            "。"
+        ]
+    },
+    "SlayTheDungeon:Command": {
+        "NAME": "指挥",
+        "DESCRIPTIONS": [
+            "回合结束时获得 #b",
+            " 点敏捷。"
+        ]
+    },
+    "SlayTheDungeon:FlashingDaggers": {
+        "NAME": "闪光匕首",
+        "DESCRIPTIONS": [
+            "每当你弃牌时，有 #b",
+            "%概率将其打出。"
+        ]
+    },
+    "SlayTheDungeon:Illumination": {
+        "NAME": "强光",
+        "DESCRIPTIONS": [
+            "回合开始时获得 #b",
+            " 点亮度。"
+        ]
+    },
+    "SlayTheDungeon:MaceBash": {
+        "NAME": "锤击",
+        "DESCRIPTIONS": [
+            "亮度变化时，将锤击放回手牌。"
+        ]
+    },
+    "SlayTheDungeon:Rage": {
+        "NAME": "狂暴",
+        "DESCRIPTIONS": [
+            "本回合每当你抽牌，给予所有角色 #b",
+            " 层瘟疫。"
+        ]
+    },
+    "SlayTheDungeon:RallyingFlare": {
+        "NAME": "照明弹",
+        "DESCRIPTIONS": [
+            "你造成的每次伤害有 #b",
+            "%概率使敌人眩晕。打出的每张攻击牌获得 #b",
+            " 点亮度。"
+        ]
+    },
+    "SlayTheDungeon:Smite": {
+        "NAME": "惩戒",
+        "DESCRIPTIONS": [
+            "回合结束时，对随机敌人造成当前亮度的 #b",
+            "%伤害。"
+        ]
+    },
+    "SlayTheDungeon:WickedHack": {
+        "NAME": "邪恶劈砍",
+        "DESCRIPTIONS": [
+            "下回合你的下一次攻击造成伤害时，给予等量流血。"
         ]
     }
 }

@@ -31,7 +31,7 @@ public class Pray extends AbstractDungeonCard {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 10;
         this.baseChance = this.chance = 0.75f;
-        this.tags.add(CardTagsEnum.Lucky);
+        this.tags.add(CardTagsEnum.Probability);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.relics.BrightnessIndicator;
 
 public class LuckyPower extends AbstractPower {
     public static final String POWER_ID = ModHelper.makePath("Lucky");
@@ -28,7 +29,7 @@ public class LuckyPower extends AbstractPower {
         this.region128 = new AtlasRegion(ImageMaster.loadImage(path128), 0, 0, 84, 84);
         this.region48 = new AtlasRegion(ImageMaster.loadImage(path48), 0, 0, 32, 32);
 
-        this.updateDescription();
+        this.description = DESCRIPTION[0] + this.amount + DESCRIPTION[1];
     }
 
     @Override
@@ -37,10 +38,19 @@ public class LuckyPower extends AbstractPower {
     }
 
     public static float getLuckyChance(float baseChance) {
+        float brightnessBonus = 0.0f;
+        if (AbstractDungeon.player != null) {
+            BrightnessIndicator brightness = (BrightnessIndicator) AbstractDungeon.player.getRelic(BrightnessIndicator.ID);
+            if (brightness != null) {
+                brightnessBonus = (brightness.getBrightness() - 50) / 100.0f;
+            }
+        }
         if (AbstractDungeon.player != null && AbstractDungeon.player.hasPower(POWER_ID)) {
             float bonus = AbstractDungeon.player.getPower(POWER_ID).amount / 100.0f;
-            return Math.min(1.0f, Math.max(0.0f, baseChance + bonus));
+            bonus += ComeHitherPower.getBonus(AbstractDungeon.player) / 100.0f;
+            return Math.min(1.0f, Math.max(0.0f, baseChance + bonus + brightnessBonus));
         }
-        return baseChance;
+        return Math.min(1.0f, Math.max(0.0f, baseChance
+                + ComeHitherPower.getBonus(AbstractDungeon.player) / 100.0f + brightnessBonus));
     }
 }

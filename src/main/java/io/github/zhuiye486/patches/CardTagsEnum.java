@@ -9,5 +9,5 @@ public class CardTagsEnum{
     @SpireEnum
     public static CardTags Vapours;
     @SpireEnum
-    public static CardTags Lucky;
+    public static CardTags Probability;
 }
