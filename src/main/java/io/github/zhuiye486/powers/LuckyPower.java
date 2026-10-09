@@ -42,7 +42,8 @@ public class LuckyPower extends AbstractPower {
         if (AbstractDungeon.player != null) {
             BrightnessIndicator brightness = (BrightnessIndicator) AbstractDungeon.player.getRelic(BrightnessIndicator.ID);
             if (brightness != null) {
-                brightnessBonus = (brightness.getBrightness() - 50) / 100.0f;
+                brightnessBonus = Math.max(-0.25f,
+                        Math.min(0.25f, (brightness.getBrightness() - 50) / 100.0f));
             }
         }
         if (AbstractDungeon.player != null && AbstractDungeon.player.hasPower(POWER_ID)) {

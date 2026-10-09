@@ -71,7 +71,9 @@ public class LastDitchEffort extends AbstractDungeonCard {
     private void updateDamageDescription() {
         AbstractPlayer player = AbstractDungeon.player;
         int damageAmount = player == null ? 0 : getDamageAmount(player);
-        this.rawDescription = CARD_STRINGS.DESCRIPTION + "（造成" + damageAmount + "点伤害）";
+        this.rawDescription = CARD_STRINGS.DESCRIPTION
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[0] + damageAmount
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[1];
         this.initializeDescription();
     }
 }

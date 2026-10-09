@@ -21,9 +21,14 @@ public class PlayLastVapoursAction extends AbstractGameAction {
 
     @Override
     public void update() {
+        boolean skippedSourceCard = false;
         for (int i = AbstractDungeon.actionManager.cardsPlayedThisCombat.size() - 1; i >= 0; i--) {
             AbstractCard c = AbstractDungeon.actionManager.cardsPlayedThisCombat.get(i);
-            if (c != sourceCard && !c.purgeOnUse && c.hasTag(CardTagsEnum.Vapours)) {
+            if (!skippedSourceCard && c == sourceCard) {
+                skippedSourceCard = true;
+                continue;
+            }
+            if (!c.purgeOnUse && c.hasTag(CardTagsEnum.Vapours)) {
                 AbstractCard queuedVapoursCard = c.makeStatEquivalentCopy();
                 queuedVapoursCard.purgeOnUse = true;
                 addToBot(

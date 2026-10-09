@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>卡牌美术工具 — Slay The Dungeon</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css?v=20261009-crop-scroll-lock-1">
 </head>
 <body>
   <header class="header">
@@ -14,12 +14,16 @@
     </div>
     <div class="header-stats" id="stats"></div>
     <div class="header-actions">
-      <button type="button" class="btn btn-secondary" id="btn-rescan">重新扫描</button>
-      <button type="button" class="btn btn-secondary" id="btn-undo-commit">撤销上次提交</button>
+      <button type="button" class="btn btn-secondary" id="btn-rescan"><span class="action-full">重新扫描</span><span class="action-short">扫描</span></button>
+      <button type="button" class="btn btn-secondary" id="btn-undo-commit"><span class="action-full">撤销上次提交</span><span class="action-short">撤销</span></button>
       <button type="button" class="btn btn-primary" id="btn-commit">
-        提交到主项目 <span class="badge" id="staged-badge">0</span>
+        <span class="action-full">提交到主项目</span><span class="action-short">提交</span> <span class="badge" id="staged-badge">0</span>
       </button>
     </div>
+    <nav class="mode-switch" role="tablist" aria-label="资源编辑模式">
+      <button type="button" class="mode-tab is-active" role="tab" data-mode="cards" aria-selected="true">卡牌</button>
+      <button type="button" class="mode-tab" role="tab" data-mode="powers" aria-selected="false">能力</button>
+    </nav>
   </header>
 
   <aside class="sidebar">
@@ -40,7 +44,7 @@
       <p class="hint">详情页提示词 = 基础提示词 + 卡牌信息。修改后可复制到 Midjourney / SD / 其他 AI 工具。</p>
     </section>
 
-    <section class="panel">
+    <section class="panel card-filters">
       <h2>筛选</h2>
       <label class="field">
         <span>搜索</span>
@@ -80,8 +84,13 @@
   </aside>
 
   <main class="main">
+    <section class="power-library">
+      <div id="power-grid" class="power-grid"></div>
+    </section>
+    <nav id="powers-pagination" class="pagination hidden" aria-label="能力图片分页"></nav>
     <div id="card-grid" class="card-grid"></div>
     <p id="empty-msg" class="empty-msg hidden">没有匹配的卡牌</p>
+    <nav id="cards-pagination" class="pagination hidden" aria-label="卡牌分页"></nav>
   </main>
 
   <div id="modal" class="modal hidden" aria-hidden="true">
@@ -107,7 +116,18 @@
 
         <div class="crop-col">
           <div class="workspace-header">
-            <h3>原图裁剪 <span class="crop-badge">500×380</span></h3>
+            <h3 id="crop-title">原图裁剪 <span class="crop-badge">500×380</span></h3>
+            <div class="power-draw-tools hidden" id="power-draw-tools" role="toolbar" aria-label="能力图片编辑工具">
+              <div class="tool-segment" role="group" aria-label="编辑工具">
+                <button type="button" class="btn btn-secondary btn-sm is-active" data-power-tool="crop" title="裁剪" aria-label="裁剪">裁剪</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-power-tool="brush" title="画笔" aria-label="画笔">画笔</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-power-tool="eraser" title="橡皮擦" aria-label="橡皮擦">橡皮</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-power-tool="eyedropper" title="取色" aria-label="取色">取色</button>
+              </div>
+              <label class="brush-control">颜色 <input id="power-brush-color" type="color" value="#ff3b30" aria-label="画笔颜色"></label>
+              <label class="brush-control">笔刷 <input id="power-brush-size" type="range" min="1" max="32" value="6" aria-label="笔刷大小"></label>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-power-save-drawing" disabled>保存绘图</button>
+            </div>
           </div>
           <div class="crop-canvas-wrap">
             <canvas id="crop-canvas"></canvas>
@@ -129,6 +149,20 @@
           </div>
           <p class="hint">预览实时联动裁剪框；提交时按卡牌 mask 裁剪，并生成 500×380 与 250×190 PNG。</p>
         </div>
+        <div class="power-preview-col hidden" id="power-preview-col">
+          <h3>能力图标预览 <span class="crop-badge">128×128 / 48×48</span></h3>
+          <div class="power-preview-frame">
+            <img id="power-preview-image" alt="能力图标预览">
+          </div>
+          <label class="rotation-control" for="power-rotation">
+            旋转 <output id="power-rotation-value">0°</output>
+            <input id="power-rotation" type="range" min="0" max="359" value="0" aria-label="旋转角度">
+          </label>
+          <div class="power-edit-controls" role="group" aria-label="能力图片调整">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-power-flip" title="水平翻转" aria-label="水平翻转">⇋ 翻转</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-power-reset" title="重置旋转和翻转" aria-label="重置旋转和翻转">重置变换</button>
+          </div>
+        </div>
       </section>
 
       <section class="modal-meta-grid">
@@ -141,7 +175,7 @@
           <div class="editor-fields">
             <label class="field"><span>英文名称</span><input id="edit-name-en" type="text"></label>
             <label class="field"><span>中文名称</span><input id="edit-name" type="text"></label>
-            <label class="field"><span>类型</span><select id="edit-card-type"><option value="ATTACK">Attack</option><option value="SKILL">Skill</option><option value="POWER">Power</option><option value="CURSE">Curse</option><option value="STATUS">Status</option></select></label>
+            <label class="field"><span>类型</span><select id="edit-card-type"><option value="ATTACK">Attack</option><option value="SKILL">Skill</option><option value="POWER">能力</option><option value="CURSE">Curse</option><option value="STATUS">Status</option></select></label>
             <label class="field"><span>稀有度</span><select id="edit-rarity"><option value="BASIC">Basic</option><option value="COMMON">Common</option><option value="UNCOMMON">Uncommon</option><option value="RARE">Rare</option><option value="CURSE">Curse</option></select></label>
             <label class="field"><span>费用</span><input id="edit-cost" type="number" step="1"></label>
             <label class="field"><span>伤害</span><input id="edit-damage" type="number" step="1"></label>
@@ -160,7 +194,9 @@
               <label class="field"><span>升级伤害变化</span><input id="edit-upgrade-damage" type="number" step="1"></label>
               <label class="field"><span>升级格挡变化</span><input id="edit-upgrade-block" type="number" step="1"></label>
               <label class="field"><span>升级魔法数字变化</span><input id="edit-upgrade-magic-number" type="number" step="1"></label>
+              <label class="field"><span>升级魔法数字 2（M2）变化</span><input id="edit-upgrade-magic-number-2" type="number" step="1"></label>
               <label class="field"><span>升级治疗变化（H）</span><input id="edit-upgrade-heal" type="number" step="1"></label>
+              <label class="field"><span>升级概率变化（P，百分点）</span><input id="edit-upgrade-chance" type="number" step="0.1"></label>
             </div>
           </div>
           <label class="field"><span>中文描述</span><textarea id="edit-description" rows="3"></textarea></label>
@@ -216,6 +252,6 @@
 
   <div id="toast" class="toast hidden"></div>
 
-  <script type="module" src="/app.js?v=card-editor-2"></script>
+  <script type="module" src="/app.js?v=20261009-drawing-save-fix-4"></script>
 </body>
 </html>

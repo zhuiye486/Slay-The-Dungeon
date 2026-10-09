@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.EnergyManager;
@@ -80,6 +81,11 @@ public class Heroes extends CustomPlayer {
         "Plague_Doctor",
         "Shieldbreaker",
         "Vestal",
+    };
+    private static final String[] heroCardPackages = new String[]{
+        "Abomination", "Antiquarian", "Arbalest", "BountyHunter", "Crusader", "Flagellant",
+        "GraveRobber", "Hellion", "Houndmaster", "HighWayMan", "Jester", "Leper",
+        "ManAtArms", "Musketeer", "Occultist", "PlagueDoctor", "ShieldBreaker", "Vestal"
     };
 
     private static Texture composeHeroTexture(java.util.List<Integer> heroes, String suffix) {
@@ -238,6 +244,9 @@ public class Heroes extends CustomPlayer {
         retVal.add("SlayTheDungeon:Shovel");
         retVal.add("SlayTheDungeon:Shovel");
         retVal.add("SlayTheDungeon:Shovel");
+        retVal.add("SlayTheDungeon:Shovel");
+        retVal.add("SlayTheDungeon:HolyWater");
+        retVal.add("SlayTheDungeon:HolyWater");
         retVal.add("SlayTheDungeon:HolyWater");
         retVal.add("SlayTheDungeon:HolyWater");
         retVal.add("SlayTheDungeon:Food");
@@ -246,101 +255,16 @@ public class Heroes extends CustomPlayer {
 
     public static ArrayList<String> buildStartingDeck(List<Integer> heroes) {
         ArrayList<String> retVal = new ArrayList<>();
-
         for (Integer hero : heroes) {
-            switch (hero) {
-                case 1:
-                    retVal.add("SlayTheDungeon:Transform");
-                    retVal.add("SlayTheDungeon:Rake");
-                    retVal.add("SlayTheDungeon:Slam");
-                    break;
-                case 2:
-                    retVal.add("SlayTheDungeon:FesteringVapours");
-                    retVal.add("SlayTheDungeon:FortifyingVapours");
-                    retVal.add("SlayTheDungeon:InvigoratingVapours");
-                    break;
-                case 3:
-                    retVal.add("SlayTheDungeon:SniperShot");
-                    retVal.add("SlayTheDungeon:SnipersMark");
-                    retVal.add("SlayTheDungeon:SuppressingFire");
-                    break;
-                case 4:
-                    retVal.add("SlayTheDungeon:FinishHim");
-                    retVal.add("SlayTheDungeon:MarkForDeath");
-                    retVal.add("SlayTheDungeon:Uppercut");
-                    break;
-                case 5:
-                    retVal.add("SlayTheDungeon:BulwarkOfFaith");
-                    retVal.add("SlayTheDungeon:InspiringCry");
-                    retVal.add("SlayTheDungeon:StunningBlow");
-                    break;
-                case 6:
-                    retVal.add("SlayTheDungeon:RainOfSorrows");
-                    retVal.add("SlayTheDungeon:Reclaim");
-                    retVal.add("SlayTheDungeon:Redeem");
-                    break;
-                case 7:
-                    retVal.add("SlayTheDungeon:ShadowFade");
-                    retVal.add("SlayTheDungeon:PoisonDart");
-                    retVal.add("SlayTheDungeon:ToxinTrickery");
-                    break;
-                case 8:
-                    retVal.add("SlayTheDungeon:IronSawn");
-                    retVal.add("SlayTheDungeon:BleedOut");
-                    retVal.add("SlayTheDungeon:IfItBleeds");
-                    break;
-                case 9:
-                    retVal.add("SlayTheDungeon:DuelistsAdvance");
-                    retVal.add("SlayTheDungeon:OpenVein");
-                    retVal.add("SlayTheDungeon:PointBlankShoot");
-                    break;
-                case 10:
-                    retVal.add("SlayTheDungeon:CryHavoc");
-                    retVal.add("SlayTheDungeon:HoundsHurry");
-                    retVal.add("SlayTheDungeon:HoundsRush");
-                    break;
-                case 11:
-                    retVal.add("SlayTheDungeon:Finale");
-                    retVal.add("SlayTheDungeon:BattleBallad");
-                    retVal.add("SlayTheDungeon:InspiringTune");
-                    break;
-                case 12:
-                    retVal.add("SlayTheDungeon:Intimidate");
-                    retVal.add("SlayTheDungeon:Revenge");
-                    retVal.add("SlayTheDungeon:Withstand");
-                    break;
-                case 13:
-                    retVal.add("SlayTheDungeon:Bolster");
-                    retVal.add("SlayTheDungeon:Defender");
-                    retVal.add("SlayTheDungeon:Retribution");
-                    break;
-                case 14:
-                    retVal.add("SlayTheDungeon:AimedShot");
-                    retVal.add("SlayTheDungeon:PatchUp");
-                    retVal.add("SlayTheDungeon:SkeetShot");
-                    break;
-                case 15:
-                    retVal.add("SlayTheDungeon:HandsFromTheAbyss");
-                    retVal.add("SlayTheDungeon:WeakeningCurse");
-                    retVal.add("SlayTheDungeon:WyrdReconstruction");
-                    break;
-                case 16:
-                    retVal.add("SlayTheDungeon:PlagueGrenade");
-                    retVal.add("SlayTheDungeon:NoxiousBlast");
-                    retVal.add("SlayTheDungeon:BattlefieldMedicine");
-                    break;
-                case 17:
-                    retVal.add("SlayTheDungeon:Captivate");
-                    retVal.add("SlayTheDungeon:Puncture");
-                    retVal.add("SlayTheDungeon:SerpentSway");
-                    break;
-                case 18:
-                    retVal.add("SlayTheDungeon:DazzlingLight");
-                    retVal.add("SlayTheDungeon:DivineGrace");
-                    retVal.add("SlayTheDungeon:DivineComfort");
-                    break;
-                default:
-                    break;
+            if (hero == null || hero < 1 || hero > heroCardPackages.length) {
+                continue;
+            }
+
+            String packageName = "io.github.zhuiye486.cards.Master." + heroCardPackages[hero - 1];
+            for (AbstractCard card : CardLibrary.cards.values()) {
+                if (card.getClass().getPackage().getName().equals(packageName)) {
+                    retVal.add(card.cardID);
+                }
             }       
         }
 
@@ -349,6 +273,7 @@ public class Heroes extends CustomPlayer {
 
     public static void updateStartingDeckForSelection(List<Integer> heroes) {
         selectedHeroes = new ArrayList<>(heroes);
+        filterCardPoolsForSelection();
 
         if (!(AbstractDungeon.player instanceof Heroes)) {
             return;
@@ -357,9 +282,91 @@ public class Heroes extends CustomPlayer {
         composeCharacterImage(selectedHeroes);
         refreshCorpseImage();
 
-        for (String cardId : buildStartingDeck(selectedHeroes)) {
-            AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(cardId));
+    }
+
+    public static void replaceSelectedHero(int selectedIndex, int replacementHero) {
+        if (selectedHeroes == null || selectedIndex < 0 || selectedIndex >= selectedHeroes.size()
+                || replacementHero < 1 || replacementHero > heroCardPackages.length) {
+            return;
         }
+        ArrayList<Integer> updatedHeroes = new ArrayList<>(selectedHeroes);
+        updatedHeroes.set(selectedIndex, replacementHero);
+        selectedHeroes = updatedHeroes;
+        composeCharacterImage(selectedHeroes);
+        refreshCorpseImage();
+        filterCardPoolsForSelection();
+        saveSelectedHeroes();
+    }
+
+    public static void filterCardPoolsForSelection() {
+        removeExcludedCards(AbstractDungeon.commonCardPool, AbstractDungeon.srcCommonCardPool);
+        removeExcludedCards(AbstractDungeon.uncommonCardPool, AbstractDungeon.srcUncommonCardPool);
+        removeExcludedCards(AbstractDungeon.rareCardPool, AbstractDungeon.srcRareCardPool);
+        removeExcludedCards(AbstractDungeon.curseCardPool, AbstractDungeon.srcCurseCardPool);
+        removeExcludedCards(AbstractDungeon.colorlessCardPool, AbstractDungeon.srcColorlessCardPool);
+
+        if (selectedHeroes == null || selectedHeroes.isEmpty()) {
+            return;
+        }
+
+        ArrayList<String> selectedPackages = new ArrayList<>();
+        for (Integer hero : selectedHeroes) {
+            if (hero != null && hero >= 1 && hero <= heroCardPackages.length) {
+                selectedPackages.add("io.github.zhuiye486.cards.Master." + heroCardPackages[hero - 1]);
+            }
+        }
+
+        updateCardPool(AbstractDungeon.commonCardPool, AbstractDungeon.srcCommonCardPool, selectedPackages);
+        updateCardPool(AbstractDungeon.uncommonCardPool, AbstractDungeon.srcUncommonCardPool, selectedPackages);
+        updateCardPool(AbstractDungeon.rareCardPool, AbstractDungeon.srcRareCardPool, selectedPackages);
+        updateCardPool(AbstractDungeon.curseCardPool, AbstractDungeon.srcCurseCardPool, selectedPackages);
+        updateCardPool(AbstractDungeon.colorlessCardPool, AbstractDungeon.srcColorlessCardPool, selectedPackages);
+    }
+
+    private static void updateCardPool(CardGroup pool, CardGroup sourcePool, List<String> selectedPackages) {
+        if (pool == null || sourcePool == null) {
+            return;
+        }
+
+        pool.group.removeIf(card -> {
+            Package cardPackage = card.getClass().getPackage();
+            if (cardPackage == null) {
+                return false;
+            }
+            String packageName = cardPackage.getName();
+            if (packageName.startsWith("io.github.zhuiye486.cards.Virtue.")) {
+                return true;
+            }
+            return packageName.startsWith("io.github.zhuiye486.cards.Master.")
+                    && !selectedPackages.contains(packageName);
+        });
+
+        ArrayList<String> existingIds = new ArrayList<>();
+        for (AbstractCard card : pool.group) {
+            existingIds.add(card.cardID);
+        }
+        for (AbstractCard card : sourcePool.group) {
+            Package cardPackage = card.getClass().getPackage();
+            if (cardPackage != null
+                    && selectedPackages.contains(cardPackage.getName())
+                    && !existingIds.contains(card.cardID)) {
+                pool.addToBottom(card.makeCopy());
+                existingIds.add(card.cardID);
+            }
+        }
+    }
+
+    private static void removeExcludedCards(CardGroup pool, CardGroup sourcePool) {
+        if (pool != null) {
+            pool.group.removeIf(Heroes::isExcludedFromRandomPools);
+        }
+        if (sourcePool != null) {
+            sourcePool.group.removeIf(Heroes::isExcludedFromRandomPools);
+        }
+    }
+
+    private static boolean isExcludedFromRandomPools(AbstractCard card) {
+        return card.cardID.equals(io.github.zhuiye486.cards.Strike.ID);
     }
 
     // 初始遗物的ID，可以先写个原版遗物凑数

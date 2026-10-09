@@ -58,7 +58,7 @@ public class OldRoad extends AbstractDungeonCard {
             new MakeTempCardInDiscardAction(this, 1)
         );
         addToBot(
-            new ExperiencedAction(this, 1)
+            new ExperiencedAction(this, this.magicNumber)
         );
         
     }

@@ -12,6 +12,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.actions.PlayLastVapoursAction;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.patches.CardTagsEnum;
 
 public class BlindingGas extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(BlindingGas.class.getSimpleName());
@@ -28,6 +29,7 @@ public class BlindingGas extends AbstractDungeonCard {
     public BlindingGas() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        this.tags.add(CardTagsEnum.Vapours);
     }
 
     @Override

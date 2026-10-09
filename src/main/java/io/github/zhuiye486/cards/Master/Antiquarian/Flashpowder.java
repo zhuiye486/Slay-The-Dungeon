@@ -25,12 +25,14 @@ public class Flashpowder extends AbstractDungeonCard {
 
     public Flashpowder() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.baseChance = this.chance = 0.5f;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player, new FlashpowderPower(player, 50)));
+        addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player,
+            new FlashpowderPower(player, Math.round(this.baseChance * 100.0f))));
     }
 
     

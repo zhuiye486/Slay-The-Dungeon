@@ -17,12 +17,15 @@ from .card_scanner import CardEntry, TYPE_ZHS, entries_to_dicts, scan_cards
 from .hero_assets import hero_image_filename, hero_image_path, hero_image_url
 from .project_paths import resolve_project_root
 from .staging import (
+    add_staged_power_image,
     add_staged_image,
     commit_staged,
     is_staged,
     list_staged,
     load_manifest,
     remove_staged,
+    scan_powers,
+    stage_new_power,
     stage_card_fields,
     staging_image_path,
     undo_last_commit,
@@ -100,14 +103,15 @@ def card_with_staging(card: CardEntry) -> dict[str, Any]:
         "name_en", "description_en", "rarity", "damage", "block", "magic_number",
         "magic_number_2", "chance", "chance_2", "heal",
         "upgrade_cost", "upgrade_damage", "upgrade_block", "upgrade_magic_number",
-        "upgrade_heal", "upgrade_description", "tags",
+        "upgrade_magic_number_2", "upgrade_heal", "upgrade_chance", "upgrade_description", "tags",
     ):
         data[field] = getattr(card, field)
     for field in (
         "name", "name_en", "description", "description_en", "cost", "rarity",
         "damage", "block", "magic_number", "magic_number_2", "chance", "chance_2", "heal",
         "upgrade_cost", "upgrade_damage",
-        "upgrade_block", "upgrade_magic_number", "upgrade_heal", "upgrade_description", "tags",
+        "upgrade_block", "upgrade_magic_number", "upgrade_magic_number_2", "upgrade_heal",
+        "upgrade_chance", "upgrade_description", "tags",
     ):
         if field in changes:
             data[field] = changes[field]
@@ -135,7 +139,8 @@ def health() -> dict[str, str]:
 @app.post("/api/rescan")
 def rescan() -> dict[str, Any]:
     entries = refresh_cards()
-    return {"count": len(entries)}
+    powers = scan_powers(project_root, config, STAGING_DIR)
+    return {"count": len(entries), "card_count": len(entries), "power_count": len(powers)}
 
 
 @app.get("/api/meta")
@@ -203,6 +208,28 @@ def get_card(safe_id: str) -> dict[str, Any]:
     return card_with_staging(card)
 
 
+@app.get("/api/powers")
+def list_powers() -> dict[str, Any]:
+    return {"powers": scan_powers(project_root, config, STAGING_DIR)}
+
+
+@app.post("/api/powers")
+async def create_power(name: str = Body(...), file: UploadFile = File(...)) -> dict[str, Any]:
+    suffix = Path(file.filename or "").suffix.lower()
+    if suffix and suffix != ".png":
+        raise HTTPException(status_code=400, detail="仅支持 PNG 图片")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
+        shutil.copyfileobj(file.file, tmp)
+        tmp_path = Path(tmp.name)
+    try:
+        entry = stage_new_power(STAGING_DIR, name, tmp_path, config)
+        return {"ok": True, "entry": entry}
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    finally:
+        tmp_path.unlink(missing_ok=True)
+
+
 @app.get("/api/image/card/{safe_id}")
 def get_card_image(safe_id: str) -> FileResponse:
     card = cards_by_safe_id.get(safe_id)
@@ -219,6 +246,25 @@ def get_card_image(safe_id: str) -> FileResponse:
     return FileResponse(image_path, media_type="image/png")
 
 
+@app.get("/api/image/power/{safe_id}")
+def get_power_image(safe_id: str) -> FileResponse:
+    if not safe_id.startswith("power__"):
+        raise HTTPException(status_code=404, detail="Power 图标不存在")
+    staged = staging_image_path(STAGING_DIR, safe_id)
+    if staged.exists():
+        return FileResponse(staged, media_type="image/png")
+    name = safe_id.removeprefix("power__")
+    powers_dir = project_root / config.get(
+        "powersDir", "src/main/resources/SlayTheDungeonResources/img/powers"
+    )
+    path = powers_dir / f"{name}Power128.png"
+    if not path.exists():
+        path = powers_dir / "LuckyPower128.png"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Power 占位图不存在")
+    return FileResponse(path, media_type="image/png")
+
+
 @app.get("/api/staging")
 def get_staging() -> dict[str, Any]:
     return {"entries": list_staged(STAGING_DIR), "count": len(list_staged(STAGING_DIR))}
@@ -226,6 +272,23 @@ def get_staging() -> dict[str, Any]:
 
 @app.post("/api/staging/{safe_id}")
 async def upload_staging(safe_id: str, file: UploadFile = File(...)) -> dict[str, Any]:
+    if safe_id.startswith("power__"):
+        powers = scan_powers(project_root, config, STAGING_DIR)
+        power = next((item for item in powers if item["safe_id"] == safe_id), None)
+        if power is None:
+            raise HTTPException(status_code=404, detail="Power 图标不存在")
+        suffix = Path(file.filename or "").suffix.lower()
+        if suffix and suffix != ".png":
+            raise HTTPException(status_code=400, detail="仅支持 PNG 图片")
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = Path(tmp.name)
+        try:
+            entry = add_staged_power_image(STAGING_DIR, power, tmp_path, config)
+            return {"ok": True, "entry": entry}
+        finally:
+            tmp_path.unlink(missing_ok=True)
+
     card = cards_by_safe_id.get(safe_id)
     if not card:
         raise HTTPException(status_code=404, detail="卡牌不存在")
@@ -259,13 +322,18 @@ def save_card_fields(safe_id: str, changes: dict[str, Any] = Body(...)) -> dict[
         raise HTTPException(status_code=404, detail="卡牌不存在")
     numeric_fields = {
         "cost", "damage", "block", "magic_number", "magic_number_2", "heal", "upgrade_cost",
-        "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_heal",
-        "chance", "chance_2",
+        "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_magic_number_2",
+        "upgrade_heal",
     }
     try:
         for field in numeric_fields:
             if field in changes and changes[field] not in (None, ""):
                 changes[field] = int(changes[field])
+        if "upgrade_chance" in changes and changes["upgrade_chance"] not in (None, ""):
+            changes["upgrade_chance"] = float(changes["upgrade_chance"])
+            base_chance = getattr(card, "chance")
+            if base_chance is not None and not 0.0 <= base_chance + changes["upgrade_chance"] <= 100.0:
+                raise ValueError("升级后的概率必须在 0 到 100 之间")
         for field in ("chance", "chance_2"):
             if field in changes and changes[field] not in (None, ""):
                 changes[field] = float(changes[field])
@@ -325,7 +393,14 @@ def get_hero_image(hero_key: str) -> FileResponse:
 
 @app.put("/api/staging/{safe_id}/crop")
 def save_crop(safe_id: str, crop: dict = Body(...)) -> dict[str, Any]:
-    if safe_id not in cards_by_safe_id:
+    if safe_id.startswith("power__"):
+        power = next(
+            (item for item in scan_powers(project_root, config, STAGING_DIR) if item["safe_id"] == safe_id),
+            None,
+        )
+        if power is None:
+            raise HTTPException(status_code=404, detail="能力图片不存在")
+    elif safe_id not in cards_by_safe_id:
         raise HTTPException(status_code=404, detail="卡牌不存在")
     if not is_staged(STAGING_DIR, safe_id):
         raise HTTPException(status_code=400, detail="请先上传图片到暂存区")

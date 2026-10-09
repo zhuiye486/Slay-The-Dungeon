@@ -22,12 +22,16 @@ public class HoundSupportPower extends AbstractPower {
     private final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 
     public HoundSupportPower(AbstractCreature owner, int mode) {
+        this(owner, mode, mode == GUARD ? 8 : mode == HEAL ? 5 : 1);
+    }
+
+    public HoundSupportPower(AbstractCreature owner, int mode, int amount) {
         this.owner = owner;
         this.mode = mode;
         this.name = strings.NAME;
         this.ID = POWER_ID + mode;
         this.type = PowerType.BUFF;
-        this.amount = mode == GUARD ? 8 : mode == HEAL ? 5 : 1;
+        this.amount = amount;
         this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
                 ImageMaster.loadImage("SlayTheDungeonResources/img/powers/DogTreatPower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(

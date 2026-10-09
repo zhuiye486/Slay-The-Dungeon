@@ -25,13 +25,14 @@ public class GuardDog extends AbstractDungeonCard {
 
     public GuardDog() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.block = this.baseBlock = 8;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player,
-                new HoundSupportPower(player, HoundSupportPower.GUARD)));
+            new HoundSupportPower(player, HoundSupportPower.GUARD, this.block)));
     }
 
     

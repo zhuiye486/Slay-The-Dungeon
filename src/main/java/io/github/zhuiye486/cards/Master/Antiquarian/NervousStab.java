@@ -21,20 +21,22 @@ public class NervousStab extends AbstractDungeonCard {
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/NervousStab.png";
     private static final int COST = 0;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
-    private static final CardType TYPE = CardType.SKILL;
+    private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public NervousStab() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.damage = this.baseDamage = 8;
+        this.magicNumber = this.baseMagicNumber = 5;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(monster, new DamageInfo(player, 8, DamageInfo.DamageType.NORMAL)));
-        addToBot(new ChangePressureAction(5));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new ChangePressureAction(this.magicNumber));
     }
 
     

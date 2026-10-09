@@ -27,14 +27,14 @@ public class Suffer extends AbstractDungeonCard {
 
     public Suffer() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
-        this.secondMagicNumber = this.baseSecondMagicNumber = 8;
+        this.magicNumber = this.baseMagicNumber = 5;
+        this.block = this.baseBlock = 8;
     }
 
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new ApplyPowerAction(player, player, new BleedPower(player, this.magicNumber)));
-        addToBot(new GainBlockAction(player, this.secondMagicNumber));
+        addToBot(new GainBlockAction(player, this.block));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Suffer extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);
-            upgradeSecondMagicNumber(3);
+            upgradeBlock(3);
         }
     }
 

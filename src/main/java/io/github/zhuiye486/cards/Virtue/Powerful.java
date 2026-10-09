@@ -25,7 +25,7 @@ public class Powerful extends AbstractDungeonCard {
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Powerful.png";
     private static final int COST = -2;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
-    private static final CardType TYPE = CardType.SKILL;
+    private static final CardType TYPE = CardType.STATUS;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.SPECIAL;
     private static final CardTarget TARGET = CardTarget.NONE;

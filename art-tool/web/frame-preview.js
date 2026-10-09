@@ -132,6 +132,8 @@ export class FramePreview {
       card.damage != null ? `D ${card.damage}` : "",
       card.block != null ? `B ${card.block}` : "",
       card.magic_number != null ? `M ${card.magic_number}` : "",
+      card.magic_number_2 != null ? `M2 ${card.magic_number_2}${card.upgrade_magic_number_2 ? `→${card.magic_number_2 + card.upgrade_magic_number_2}` : ""}` : "",
+      card.chance != null ? `P ${card.chance}%${card.upgrade_chance ? `→${Number(card.chance) + Number(card.upgrade_chance)}%` : ""}` : "",
       card.heal != null ? `H ${card.heal}` : "",
     ].filter(Boolean).join("  ");
     if (stats) {

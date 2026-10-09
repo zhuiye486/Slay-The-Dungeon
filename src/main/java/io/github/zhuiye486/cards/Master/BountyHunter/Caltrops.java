@@ -26,9 +26,9 @@ public class Caltrops extends AbstractDungeonCard {
 
     public Caltrops() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
-        this.secondMagicNumber = this.baseSecondMagicNumber = 2;
-        this.baseChance = this.chance = 0.5f;
+        this.magicNumber = this.baseMagicNumber = 1;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 1;
+        this.baseChance = this.chance = 0.25f;
         this.tags.add(CardTagsEnum.Probability);
     }
 
@@ -44,8 +44,8 @@ public class Caltrops extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(1);
-            upgradeSecondMagicNumber(1);
+            upgradeMagicNumber(2);
+            upgradeSecondMagicNumber(2);
             this.baseChance = this.chance = 0.75f;
         }
     }

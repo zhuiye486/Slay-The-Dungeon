@@ -1,0 +1,15 @@
+{
+    "SlayTheDungeon:CampfireHeroSwap": {
+        "NAME": "Change Hero",
+        "DESCRIPTIONS": [
+            "Choose an unselected hero to join your team.",
+            "Choose the hero to add.",
+            "Choose a team member to replace."
+        ],
+        "OPTIONS": [
+            "Change Hero",
+            "Add: ",
+            "Replace: "
+        ]
+    }
+}

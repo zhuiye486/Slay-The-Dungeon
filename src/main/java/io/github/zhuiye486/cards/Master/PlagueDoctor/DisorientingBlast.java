@@ -15,8 +15,10 @@ import io.github.zhuiye486.powers.MarkPower;
 import io.github.zhuiye486.powers.CorrosionPower;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
+import io.github.zhuiye486.actions.PlayLastVapoursAction;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.patches.CardTagsEnum;
 
 public class DisorientingBlast extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(DisorientingBlast.class.getSimpleName());
@@ -34,6 +36,7 @@ public class DisorientingBlast extends AbstractDungeonCard {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 40;
         this.exhaust = true;
+        this.tags.add(CardTagsEnum.Vapours);
     }
 
     
@@ -51,6 +54,9 @@ public class DisorientingBlast extends AbstractDungeonCard {
                 case 3: addToBot(new ApplyPowerAction(target, player, new io.github.zhuiye486.powers.PlaguePower(target, 1))); break;
                 default: addToBot(new ApplyPowerAction(target, player, new CorrosionPower(target, 1))); break;
             }
+        }
+        if (!this.isInAutoplay) {
+            addToBot(new PlayLastVapoursAction(this));
         }
     }
 

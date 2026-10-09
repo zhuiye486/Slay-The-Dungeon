@@ -25,13 +25,14 @@ public class LickWounds extends AbstractDungeonCard {
 
     public LickWounds() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.heal = this.baseHeal = 5;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player,
-                new HoundSupportPower(player, HoundSupportPower.HEAL)));
+            new HoundSupportPower(player, HoundSupportPower.HEAL, this.heal)));
     }
 
     

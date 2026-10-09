@@ -21,6 +21,13 @@ public class ChooseHeroes extends AbstractImageEvent {
     private static final String[] DESCRIPTIONS = EVENT_STRINGS.DESCRIPTIONS;
     private static final String[] OPTIONS = EVENT_STRINGS.OPTIONS;
 
+    public static String getHeroOption(int heroNumber) {
+        if (heroNumber < 1 || heroNumber > OPTIONS.length) {
+            return Integer.toString(heroNumber);
+        }
+        return OPTIONS[heroNumber - 1];
+    }
+
     private static Set<Integer> allUsedNumbers = new HashSet<>();
     private int choiceCount = 0;
     private List<Integer> selectedHeroes = new ArrayList<>();
@@ -35,7 +42,7 @@ public class ChooseHeroes extends AbstractImageEvent {
 
         for (int i = 0; i < this.currentSequence.size(); i++) {
             int number = this.currentSequence.get(i);
-            this.imageEventText.setDialogOption(OPTIONS[number - 1]); 
+            this.imageEventText.setDialogOption(getHeroOption(number));
         }
     }
 
@@ -65,7 +72,7 @@ public class ChooseHeroes extends AbstractImageEvent {
 
             for (int i = 0; i < this.currentSequence.size(); i++) {
                 int number = this.currentSequence.get(i);
-                this.imageEventText.setDialogOption(OPTIONS[number - 1]);
+                this.imageEventText.setDialogOption(getHeroOption(number));
             }
         } else {
             // 选择完成

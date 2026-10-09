@@ -29,9 +29,29 @@ python -m pip install -r requirements.txt || {
   exit 1
 }
 
+PORT=8765
+PORT_PIDS="$(lsof -nP -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)"
+if [ -n "$PORT_PIDS" ]; then
+  echo "Port $PORT is occupied; stopping existing listener(s): $PORT_PIDS"
+  for pid in $PORT_PIDS; do
+    kill "$pid" 2>/dev/null || true
+  done
+
+  for attempt in {1..10}; do
+    PORT_PIDS="$(lsof -nP -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)"
+    [ -z "$PORT_PIDS" ] && break
+    sleep 1
+  done
+
+  if [ -n "$PORT_PIDS" ]; then
+    echo "Port $PORT is still occupied by process(es): $PORT_PIDS"
+    exit 1
+  fi
+fi
+
 echo "Starting Slay The Dungeon art-tool (FastAPI + Uvicorn)..."
-# open the browser in background
-open "http://127.0.0.1:8765" || true
+# Start the browser after the server has bound the port, avoiding stale pages.
+(until curl -fsS "http://127.0.0.1:$PORT/api/health" >/dev/null; do sleep 1; done; open "http://127.0.0.1:$PORT") &
 
 # Run the server (blocks). Ctrl-C to stop.
-exec python -m uvicorn server.main:app --host 127.0.0.1 --port 8765
+exec python -m uvicorn server.main:app --host 127.0.0.1 --port "$PORT"

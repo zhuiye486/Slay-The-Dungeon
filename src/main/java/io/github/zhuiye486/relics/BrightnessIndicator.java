@@ -1,5 +1,6 @@
 package io.github.zhuiye486.relics;
 
+import io.github.zhuiye486.cards.Master.Vestal.MaceBash;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -25,7 +26,11 @@ public class BrightnessIndicator extends CustomRelic {
     }
 
     public void setBrightness(int brightness) {
-        this.counter = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, brightness));
+        int updatedBrightness = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, brightness));
+        if (updatedBrightness != this.counter) {
+            this.counter = updatedBrightness;
+            MaceBash.onBrightnessChanged();
+        }
     }
 
     public void changeBrightness(int amount) {
@@ -34,7 +39,7 @@ public class BrightnessIndicator extends CustomRelic {
 
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
-        float damageMultiplier = (150.0f - getBrightness()) / 100.0f;
+        float damageMultiplier = (120.0f - getBrightness()) / 100.0f;
         return Math.max(0, Math.round(damageAmount * damageMultiplier));
     }
 

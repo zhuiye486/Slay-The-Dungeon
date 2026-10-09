@@ -26,13 +26,15 @@ public class ProtectMe extends AbstractDungeonCard {
 
     public ProtectMe() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        this.block = this.baseBlock = 12;
+        this.magicNumber = this.baseMagicNumber = 5;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new ChangePressureAction(5));
-        addToBot(new GainBlockAction(player, 12));
+        addToBot(new ChangePressureAction(this.magicNumber));
+        addToBot(new GainBlockAction(player, this.block));
     }
 
     
@@ -40,6 +42,7 @@ public class ProtectMe extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeBlock(3);
         }
     }
 

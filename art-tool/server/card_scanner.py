@@ -74,7 +74,9 @@ class CardEntry:
     upgrade_damage: int | None = None
     upgrade_block: int | None = None
     upgrade_magic_number: int | None = None
+    upgrade_magic_number_2: int | None = None
     upgrade_heal: int | None = None
+    upgrade_chance: float | None = None
     upgrade_description: str = ""
     tags: list[str] = field(default_factory=list)
 
@@ -158,6 +160,22 @@ def _upgrade_delta(content: str, method_name: str) -> int | None:
     return int(match.group(1)) if match else None
 
 
+def _upgrade_method_content(content: str) -> str:
+    method = re.search(r"void\s+upgrade\s*\(\s*\)\s*\{", content)
+    if not method:
+        return ""
+    start = method.end()
+    depth = 1
+    for index in range(start, len(content)):
+        if content[index] == "{":
+            depth += 1
+        elif content[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return content[start:index]
+    return content[start:]
+
+
 def _parse_card_fields(content: str) -> dict[str, Any]:
     fields: dict[str, Any] = {}
     for name, pattern in {
@@ -188,7 +206,16 @@ def _parse_card_fields(content: str) -> dict[str, Any]:
     fields["upgrade_damage"] = _upgrade_delta(content, "Damage")
     fields["upgrade_block"] = _upgrade_delta(content, "Block")
     fields["upgrade_magic_number"] = _upgrade_delta(content, "MagicNumber")
+    fields["upgrade_magic_number_2"] = _upgrade_delta(content, "SecondMagicNumber")
     fields["upgrade_heal"] = _upgrade_delta(content, "Heal")
+    chance_upgrade = re.search(
+        r"(?:this\.)?baseChance\s*=\s*(?:this\.)?chance\s*=\s*(-?(?:\d+(?:\.\d*)?|\.\d+))",
+        _upgrade_method_content(content),
+    )
+    fields["upgrade_chance"] = (
+        round((float(chance_upgrade.group(1)) - (raw_chance or 0.0)) * 100.0, 6)
+        if chance_upgrade and raw_chance is not None else None
+    )
     fields["tags"] = re.findall(
         r"(?:this\.)?tags\.add\(\s*((?:CardTags|CardTagsEnum)\.\w+)\s*\)", content
     )
@@ -291,7 +318,9 @@ def scan_cards(project_root: Path, config: dict[str, Any]) -> list[CardEntry]:
                 upgrade_damage=fields["upgrade_damage"],
                 upgrade_block=fields["upgrade_block"],
                 upgrade_magic_number=fields["upgrade_magic_number"],
+                upgrade_magic_number_2=fields["upgrade_magic_number_2"],
                 upgrade_heal=fields["upgrade_heal"],
+                upgrade_chance=fields["upgrade_chance"],
                 upgrade_description=loc.get("UPGRADE_DESCRIPTION", ""),
                 tags=fields["tags"],
             )

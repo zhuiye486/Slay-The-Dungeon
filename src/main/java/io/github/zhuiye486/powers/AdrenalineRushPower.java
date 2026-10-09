@@ -42,6 +42,7 @@ public class AdrenalineRushPower extends AbstractPower {
             addToBot(new ApplyPowerAction(this.owner, this.owner,
                     new BleedPower(this.owner, cost * this.amount)));
         }
+        chosen.purgeOnUse = true;
         addToBot(new NewQueueCardAction(chosen, true, true, true));
     }
 }

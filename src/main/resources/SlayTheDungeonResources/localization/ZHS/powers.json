@@ -194,13 +194,6 @@
             "瘟疫传播时，传播源留下相当于瘟疫层数一半的腐蚀。"
         ]
     },
-    "SlayTheDungeon:BrightnessGain": {
-        "NAME": "亮度变化",
-        "DESCRIPTIONS": [
-            "增加 #b",
-            " 点亮度。"
-        ]
-    },
     "SlayTheDungeon:Buckshot": {
         "NAME": "猎兽铅弹",
         "DESCRIPTIONS": [

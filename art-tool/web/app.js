@@ -7,15 +7,25 @@ import {
   savePromptOverride,
   savePromptSettings,
 } from "./prompt.js";
-import { CropEditor } from "./crop-editor.js";
+import { CropEditor, renderArtCanvas } from "./crop-editor.js?v=20261009-power-crop-frame-3";
 import { FramePreview } from "./frame-preview.js";
 
 const state = {
+  mode: localStorage.getItem("art-tool-mode") === "powers" ? "powers" : "cards",
   cards: [],
+  powers: [],
+  cardsPage: 1,
+  powersPage: 1,
+  cardsPageSize: 24,
+  powersPageSize: 12,
+  cardsPageRows: 4,
+  powersPageRows: 3,
   meta: null,
   staging: [],
   activeCard: null,
+  activeAssetType: "card",
   promptDirty: false,
+  drawingDirty: false,
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -70,6 +80,21 @@ function showToast(msg, isError = false) {
   setTimeout(() => el.classList.add("hidden"), 3200);
 }
 
+function setMode(mode) {
+  state.mode = mode === "powers" ? "powers" : "cards";
+  document.body.dataset.mode = state.mode;
+  localStorage.setItem("art-tool-mode", state.mode);
+  document.querySelectorAll(".mode-tab").forEach((button) => {
+    const active = button.dataset.mode === state.mode;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  renderStats();
+  if (state.mode === "powers") loadPowers();
+  else loadCards();
+  requestAnimationFrame(() => requestAnimationFrame(recalibrateActiveGrid));
+}
+
 function stripNl(text) {
   return (text || "").replace(/\s*NL\s*/g, " ").trim();
 }
@@ -78,15 +103,53 @@ function imageUrl(safeId) {
   return `/api/image/card/${safeId}?t=${Date.now()}`;
 }
 
+function powerImageUrl(safeId) {
+  return `/api/image/power/${safeId}?t=${Date.now()}`;
+}
+
+function pageSizeForGrid(selector, rows, fallback) {
+  const grid = $(selector);
+  if (!grid.clientWidth) return fallback;
+  const columns = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+  return columns * rows;
+}
+
+function recalibrateActiveGrid() {
+  if (state.mode === "cards") {
+    const nextPageSize = pageSizeForGrid("#card-grid", state.cardsPageRows, state.cardsPageSize);
+    if (nextPageSize === state.cardsPageSize) return;
+    state.cardsPageSize = nextPageSize;
+    state.cardsPage = Math.min(state.cardsPage, Math.max(1, Math.ceil(state.cards.length / nextPageSize)));
+    renderGrid();
+    return;
+  }
+
+  const nextPageSize = pageSizeForGrid("#power-grid", state.powersPageRows, state.powersPageSize);
+  if (nextPageSize === state.powersPageSize) return;
+  state.powersPageSize = nextPageSize;
+  state.powersPage = Math.min(state.powersPage, Math.max(1, Math.ceil(state.powers.length / nextPageSize)));
+  renderPowerGrid();
+}
+
 function scheduleCropSave(crop) {
-  if (!state.activeCard?.is_staged) return;
+  if (!state.activeCard?.is_staged && !state.activePower?.staged) return;
+  const isPower = state.activeAssetType === "power";
+  const safeId = isPower ? state.activePower.safe_id : state.activeCard.safe_id;
+  const cropToSave = isPower
+    ? {
+        ...crop,
+        rotation: state.activePower.crop?.rotation || 0,
+        flipX: Boolean(state.activePower.crop?.flipX),
+      }
+    : crop;
+  if (isPower) state.activePower.crop = cropToSave;
   clearTimeout(cropSaveTimer);
   cropSaveTimer = setTimeout(async () => {
     try {
-      await api(`/api/staging/${state.activeCard.safe_id}/crop`, {
+      await api(`/api/staging/${safeId}/crop`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(crop),
+        body: JSON.stringify(cropToSave),
       });
     } catch (err) {
       showToast(`裁剪保存失败：${err.message}`, true);
@@ -107,6 +170,18 @@ function updateHeroRef(card) {
 }
 
 async function updateFramePreview() {
+  if (state.activeAssetType === "power") {
+    if (!cropEditor?.image) return;
+    const source = cropEditor.getSourceCanvas();
+    const square = renderPowerPreview(source, {
+      ...cropEditor.crop,
+      rotation: cropEditor.rotation,
+      flipX: Boolean(state.activePower.crop?.flipX),
+    }, 256);
+    const preview = $("#power-preview-image");
+    preview.src = square.toDataURL("image/png");
+    return;
+  }
   if (!state.activeCard || !cropEditor?.image) return;
   const source = cropEditor.getSourceCanvas();
   await framePreview.render({
@@ -116,25 +191,121 @@ async function updateFramePreview() {
   });
 }
 
+function renderPowerPreview(source, crop, size) {
+  const cropped = renderArtCanvas(source, crop, size, size);
+  const radians = ((crop?.rotation || 0) % 360) * Math.PI / 180;
+  const bound = Math.abs(Math.cos(radians)) + Math.abs(Math.sin(radians));
+  const expanded = document.createElement("canvas");
+  expanded.width = Math.ceil(size * bound);
+  expanded.height = Math.ceil(size * bound);
+  const expandedCtx = expanded.getContext("2d");
+  expandedCtx.translate(expanded.width / 2, expanded.height / 2);
+  expandedCtx.rotate(radians);
+  expandedCtx.scale(crop?.flipX ? -1 : 1, 1);
+  expandedCtx.drawImage(cropped, -size / 2, -size / 2, size, size);
+  const transformed = document.createElement("canvas");
+  transformed.width = size;
+  transformed.height = size;
+  const ctx = transformed.getContext("2d");
+  ctx.drawImage(expanded, 0, 0, size, size);
+  return transformed;
+}
+
+function updatePowerEditButtons() {
+  const enabled = Boolean(state.activePower?.staged);
+  ["#power-rotation", "#btn-power-flip", "#btn-power-reset"].forEach((selector) => {
+    $(selector).disabled = !enabled;
+  });
+  $("#btn-power-save-drawing").disabled = !state.drawingDirty;
+  $("#btn-power-flip").classList.toggle("is-active", Boolean(state.activePower?.crop?.flipX));
+  const rotation = cropEditor?.rotation ?? state.activePower?.crop?.rotation ?? 0;
+  $("#power-rotation").value = String(Math.round(rotation));
+  $("#power-rotation-value").value = `${Math.round(rotation)}°`;
+}
+
+async function savePowerTransform(changes) {
+  if (!state.activePower?.staged) {
+    showToast("先上传能力图片，再进行调整", true);
+    return;
+  }
+  state.activePower.crop = {
+    ...cropEditor.crop,
+    ...state.activePower.crop,
+    ...changes,
+  };
+  if (Object.hasOwn(changes, "rotation")) cropEditor.setRotation(changes.rotation);
+  updatePowerEditButtons();
+  await updateFramePreview();
+  scheduleCropSave(state.activePower.crop);
+}
+
+async function savePowerDrawing() {
+  if (!state.activePower || !cropEditor?.image || !state.drawingDirty) return;
+  const button = $("#btn-power-save-drawing");
+  button.disabled = true;
+  button.textContent = "保存中…";
+  let imageSaved = false;
+  try {
+    const file = await cropEditor.persistImage();
+    const crop = {
+      ...cropEditor.crop,
+      ...state.activePower.crop,
+      rotation: cropEditor.rotation,
+    };
+    const form = new FormData();
+    form.append("file", file);
+    const result = await api(`/api/staging/${state.activePower.safe_id}`, {
+      method: "POST",
+      body: form,
+    });
+    await api(`/api/staging/${state.activePower.safe_id}/crop`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(crop),
+    });
+    state.activePower.crop = crop;
+    state.activePower.staged = true;
+    imageSaved = true;
+    await cropEditor.loadImage(powerImageUrl(state.activePower.safe_id));
+    cropEditor.setCrop(crop);
+    cropEditor.setRotation(crop.rotation);
+    await updateFramePreview();
+    state.drawingDirty = false;
+    await loadPowers();
+    await loadStaging();
+    updatePowerEditButtons();
+    showToast(`绘图已保存：${result.entry.name}`);
+  } catch (err) {
+    showToast(imageSaved ? `图片已保存，但刷新预览失败：${err.message}` : `绘图保存失败：${err.message}`, true);
+  } finally {
+    button.textContent = "保存绘图";
+    button.disabled = !state.drawingDirty;
+  }
+}
+
 function resizeArtCanvases() {
   const cropWrap = document.querySelector(".crop-canvas-wrap");
   if (cropWrap && cropEditor) {
-    cropEditor.resizeCanvas(cropWrap.clientWidth, cropWrap.clientHeight);
+    const rect = cropWrap.getBoundingClientRect();
+    cropEditor.resizeCanvas(rect.width, rect.height);
   }
 }
 
 function bindArtResizeObserver() {
   artResizeObserver?.disconnect();
   const workspace = document.querySelector(".art-workspace");
-  if (!workspace) return;
+  const cropWrap = document.querySelector(".crop-canvas-wrap");
+  if (!workspace || !cropWrap) return;
   artResizeObserver = new ResizeObserver(() => {
     resizeArtCanvases();
     updateFramePreview();
   });
   artResizeObserver.observe(workspace);
+  artResizeObserver.observe(cropWrap);
 }
 
 async function loadArtWorkspace(card) {
+  cropEditor.aspectRatio = 500 / 380;
   updateHeroRef(card);
   await cropEditor.loadImage(imageUrl(card.safe_id));
   if (card.crop) {
@@ -146,6 +317,27 @@ async function loadArtWorkspace(card) {
     resizeArtCanvases();
     updateFramePreview();
   });
+}
+
+async function loadPowerWorkspace(power) {
+  cropEditor.aspectRatio = 1;
+  cropEditor.setTool("crop");
+  $("#hero-ref-col").classList.add("hidden");
+  await cropEditor.loadImage(powerImageUrl(power.safe_id));
+  if (power.crop) cropEditor.setCrop(power.crop);
+  cropEditor.setRotation(power.crop?.rotation || 0);
+  cropEditor.setBrushColor($("#power-brush-color").value);
+  cropEditor.setBrushSize($("#power-brush-size").value);
+  $("#power-draw-tools").classList.remove("hidden");
+  $("#btn-power-save-drawing").disabled = true;
+  updatePowerEditButtons();
+  initialCropSnapshot = cloneCrop(cropEditor.crop);
+  updateUndoCropButton();
+  await new Promise(resolve => requestAnimationFrame(() => {
+    resizeArtCanvases();
+    resolve();
+  }));
+  await updateFramePreview();
 }
 
 function getBasePrompt() {
@@ -164,7 +356,8 @@ const editorFields = [
   "name_en", "name", "card_type", "rarity", "cost", "damage", "block", "magic_number",
   "magic_number_2", "chance", "chance_2",
   "heal", "tags", "upgrade_cost", "upgrade_damage", "upgrade_block",
-  "upgrade_magic_number", "upgrade_heal", "description", "description_en", "upgrade_description",
+  "upgrade_magic_number", "upgrade_magic_number_2", "upgrade_heal", "upgrade_chance",
+  "description", "description_en", "upgrade_description",
 ];
 
 function setEditorValue(id, value) {
@@ -193,7 +386,8 @@ function readCardEditor() {
     heal: number("heal"), tags: value("tags").split(",").map((tag) => tag.trim()).filter(Boolean),
     upgrade_cost: number("upgrade_cost"), upgrade_damage: number("upgrade_damage"),
     upgrade_block: number("upgrade_block"), upgrade_magic_number: number("upgrade_magic_number"),
-    upgrade_heal: number("upgrade_heal"), description: value("description"),
+    upgrade_magic_number_2: number("upgrade_magic_number_2"), upgrade_heal: number("upgrade_heal"),
+    upgrade_chance: number("upgrade_chance"), description: value("description"),
     description_en: value("description_en"), upgrade_description: value("upgrade_description"),
   };
 }
@@ -317,12 +511,10 @@ async function loadMeta() {
 
 function renderStats() {
   if (!state.meta) return;
-  $("#stats").innerHTML = `
-    <span>卡牌 <strong>${state.meta.total}</strong></span>
-    <span>占位图 <strong>${state.meta.placeholder_count}</strong></span>
-    <span>暂存 <strong>${state.meta.staged_count}</strong></span>
-    <span>建议尺寸 <strong>${state.meta.recommended_size.width}×${state.meta.recommended_size.height}</strong></span>
-  `;
+  const assetStats = state.mode === "powers"
+    ? `<span>能力 <strong>${state.powers.length}</strong></span><span>占位图 <strong>${state.powers.filter((power) => power.is_placeholder).length}</strong></span>`
+    : `<span>卡牌 <strong>${state.meta.total}</strong></span><span>占位图 <strong>${state.meta.placeholder_count}</strong></span><span>建议尺寸 <strong>${state.meta.recommended_size.width}×${state.meta.recommended_size.height}</strong></span>`;
+  $("#stats").innerHTML = `${assetStats}<span>暂存 <strong>${state.meta.staged_count}</strong></span>`;
   $("#staged-badge").textContent = state.meta.staged_count;
   $("#staging-count").textContent = state.meta.staged_count;
 }
@@ -342,7 +534,41 @@ async function loadCards() {
 
   const data = await api(`/api/cards?${params}`);
   state.cards = data.cards;
+  state.cardsPageSize = pageSizeForGrid("#card-grid", state.cardsPageRows, state.cardsPageSize);
+  state.cardsPage = Math.min(state.cardsPage, Math.max(1, Math.ceil(state.cards.length / state.cardsPageSize)));
   renderGrid();
+}
+
+async function loadPowers() {
+  const data = await api("/api/powers");
+  state.powers = data.powers;
+  state.powersPageSize = pageSizeForGrid("#power-grid", state.powersPageRows, state.powersPageSize);
+  state.powersPage = Math.min(state.powersPage, Math.max(1, Math.ceil(state.powers.length / state.powersPageSize)));
+  renderPowerGrid();
+  renderStats();
+}
+
+function renderPowerGrid() {
+  const grid = $("#power-grid");
+  const start = (state.powersPage - 1) * state.powersPageSize;
+  grid.innerHTML = state.powers.slice(start, start + state.powersPageSize).map((power) => `
+    <button type="button" class="power-item ${power.staged ? "is-staged" : ""}" data-safe-id="${power.safe_id}">
+      <img src="${powerImageUrl(power.safe_id)}" alt="${power.name}${power.is_placeholder ? "（占位图）" : ""}">
+      <span class="power-item-name">${power.name}</span>
+      <span class="tags">
+        ${power.is_placeholder ? '<span class="tag placeholder">占位图</span>' : ""}
+        ${power.staged ? '<span class="tag staged">已暂存</span>' : ""}
+      </span>
+    </button>
+  `).join("");
+  grid.querySelectorAll(".power-item").forEach((el) => {
+    if (el.dataset.safeId) el.addEventListener("click", () => openPowerModal(el.dataset.safeId));
+  });
+  renderPagination("#powers-pagination", state.powers.length, state.powersPage, state.powersPageSize, (page) => {
+    state.powersPage = page;
+    renderPowerGrid();
+  });
+  requestAnimationFrame(recalibrateActiveGrid);
 }
 
 async function loadStaging() {
@@ -358,11 +584,14 @@ function renderGrid() {
   if (!state.cards.length) {
     grid.innerHTML = "";
     empty.classList.remove("hidden");
+    $("#cards-pagination").classList.add("hidden");
+    $("#cards-pagination").innerHTML = "";
     return;
   }
   empty.classList.add("hidden");
 
-  grid.innerHTML = state.cards
+  const start = (state.cardsPage - 1) * state.cardsPageSize;
+  grid.innerHTML = state.cards.slice(start, start + state.cardsPageSize)
     .map(
       (c) => `
     <article class="card-item ${c.is_staged ? "is-staged" : ""}" data-safe-id="${c.safe_id}">
@@ -386,6 +615,29 @@ function renderGrid() {
   grid.querySelectorAll(".card-item").forEach((el) => {
     el.addEventListener("click", () => openModal(el.dataset.safeId));
   });
+  renderPagination("#cards-pagination", state.cards.length, state.cardsPage, state.cardsPageSize, (page) => {
+    state.cardsPage = page;
+    renderGrid();
+  });
+  requestAnimationFrame(recalibrateActiveGrid);
+}
+
+function renderPagination(selector, total, page, pageSize, onPageChange) {
+  const container = $(selector);
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  container.classList.toggle("hidden", pageCount <= 1);
+  container.innerHTML = `
+    <button type="button" class="btn btn-secondary btn-sm" data-page="${page - 1}" ${page <= 1 ? "disabled" : ""}>上一页</button>
+    <span>第 ${page} / ${pageCount} 页 · 共 ${total} 项</span>
+    <button type="button" class="btn btn-secondary btn-sm" data-page="${page + 1}" ${page >= pageCount ? "disabled" : ""}>下一页</button>
+  `;
+  container.querySelectorAll("button[data-page]").forEach((button) => {
+    button.addEventListener("click", () => {
+      onPageChange(Number(button.dataset.page));
+      document.querySelector(selector === "#cards-pagination" ? "#card-grid" : ".power-library")
+        .scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 }
 
 function renderStagingList() {
@@ -398,14 +650,18 @@ function renderStagingList() {
     .map(
       (e) => `
     <div class="staging-item" data-safe-id="${e.safe_id}">
-      <img src="/api/image/card/${e.safe_id}?t=${Date.now()}" alt="">
-      <span>${e.name}</span>
+      <img src="${e.asset_type === "power" ? powerImageUrl(e.safe_id) : imageUrl(e.safe_id)}" alt="">
+      <span>${e.name}${e.asset_type === "power" ? " · 能力" : ""}</span>
     </div>
   `
     )
     .join("");
   list.querySelectorAll(".staging-item").forEach((el) => {
-    el.addEventListener("click", () => openModal(el.dataset.safeId));
+    el.addEventListener("click", () => {
+      const safeId = el.dataset.safeId;
+      if (safeId.startsWith("power__")) openPowerModal(safeId);
+      else openModal(safeId);
+    });
   });
 }
 
@@ -418,6 +674,8 @@ async function openModal(safeId) {
     return;
   }
   state.activeCard = card;
+  state.activePower = null;
+  state.activeAssetType = "card";
   state.promptDirty = false;
 
   $("#modal-title").textContent = card.name;
@@ -447,21 +705,55 @@ async function openModal(safeId) {
 
   refreshActivePrompt(false);
   $("#btn-remove-staging").classList.toggle("hidden", !card.is_staged);
+  document.body.classList.add("crop-modal-open");
   $("#modal").classList.remove("hidden");
+  $("#modal .modal-content").classList.remove("is-power");
   fillCardEditor(card);
   bindArtResizeObserver();
   await loadArtWorkspace(card);
 }
 
+async function openPowerModal(safeId) {
+  const power = state.powers.find((item) => item.safe_id === safeId);
+  if (!power) return;
+  const staging = await api("/api/staging");
+  const entry = staging.entries.find((item) => item.safe_id === safeId);
+  state.activeCard = null;
+  state.activePower = { ...power, crop: entry?.crop || null, staged: Boolean(entry) };
+  state.drawingDirty = false;
+  state.activeAssetType = "power";
+  $("#modal-title").textContent = `${power.name} 能力图片`;
+  $(".crop-col h3").innerHTML = '原图裁剪 <span class="crop-badge">1:1</span>';
+  $("#info-description").textContent = "能力图标裁剪";
+  $("#modal .modal-content").classList.add("is-power");
+  $("#modal .modal-meta-grid").classList.add("hidden");
+  $("#power-preview-col").classList.remove("hidden");
+  $("#power-preview-image").src = powerImageUrl(safeId);
+  $("#btn-remove-staging").classList.toggle("hidden", !entry);
+  updatePowerEditButtons();
+  document.body.classList.add("crop-modal-open");
+  $("#modal").classList.remove("hidden");
+  bindArtResizeObserver();
+  await loadPowerWorkspace(state.activePower);
+}
+
 function closeModal() {
+  if (state.activeAssetType === "power" && state.drawingDirty
+      && !window.confirm("绘图尚未保存，确定关闭并丢弃吗？")) return;
   artResizeObserver?.disconnect();
   artResizeObserver = null;
   if (state.activeCard) {
     savePromptOverride(state.activeCard.safe_id, $("#merged-prompt").value);
   }
+  $("#modal .modal-content").classList.remove("is-power");
+  $("#modal .modal-meta-grid").classList.remove("hidden");
   $("#modal").classList.add("hidden");
+  document.body.classList.remove("crop-modal-open");
   state.activeCard = null;
+  state.activePower = null;
+  state.activeAssetType = "card";
   state.promptDirty = false;
+  state.drawingDirty = false;
   initialCropSnapshot = null;
   updateUndoCropButton();
 }
@@ -490,6 +782,45 @@ async function uploadForCard(safeId, file) {
   }
 }
 
+async function uploadForPower(safeId, file, { keepEdits = false } = {}) {
+  const previousCrop = state.activePower?.crop || {};
+  const previousRotation = keepEdits ? (previousCrop.rotation || 0) : 0;
+  const previousFlipX = keepEdits && Boolean(previousCrop.flipX);
+  if (file.type !== "image/png" && !file.name.toLowerCase().endsWith(".png")) {
+    showToast("请使用 PNG 图片", true);
+    return;
+  }
+  const form = new FormData();
+  form.append("file", file);
+  try {
+    await api(`/api/staging/${safeId}`, { method: "POST", body: form });
+    await loadPowers();
+    await loadStaging();
+    const entry = (await api("/api/staging")).entries.find((item) => item.safe_id === safeId);
+    const crop = {
+      ...(entry?.crop || {}),
+      ...(keepEdits ? previousCrop : {}),
+      rotation: previousRotation,
+      flipX: previousFlipX,
+    };
+    state.activePower = { ...state.activePower, crop, staged: true };
+    if (keepEdits || previousRotation || previousFlipX) {
+      await api(`/api/staging/${safeId}/crop`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state.activePower.crop),
+      });
+    }
+    await loadPowerWorkspace(state.activePower);
+    updatePowerEditButtons();
+    $("#btn-remove-staging").classList.remove("hidden");
+    if (!keepEdits) showToast(`已暂存能力图标：${state.activePower.name}`);
+  } catch (err) {
+    showToast(err.message, true);
+    throw err;
+  }
+}
+
 function setupDropZone() {
   const zone = $("#modal-drop");
   ["dragenter", "dragover"].forEach((ev) => {
@@ -506,14 +837,18 @@ function setupDropZone() {
   });
   zone.addEventListener("drop", (e) => {
     const file = e.dataTransfer.files[0];
-    if (file && state.activeCard) {
+    if (file && state.activeAssetType === "power" && state.activePower) {
+      uploadForPower(state.activePower.safe_id, file);
+    } else if (file && state.activeCard) {
       uploadForCard(state.activeCard.safe_id, file);
     }
   });
 
   $("#modal-file").addEventListener("change", (e) => {
     const file = e.target.files[0];
-    if (file && state.activeCard) {
+    if (file && state.activeAssetType === "power" && state.activePower) {
+      uploadForPower(state.activePower.safe_id, file);
+    } else if (file && state.activeCard) {
       uploadForCard(state.activeCard.safe_id, file);
     }
     e.target.value = "";
@@ -547,7 +882,7 @@ async function clipboardItemToPngFile(item) {
 
 function setupPasteHandler() {
   document.addEventListener("paste", async (e) => {
-    if ($("#modal").classList.contains("hidden") || !state.activeCard) return;
+    if ($("#modal").classList.contains("hidden") || (!state.activeCard && !state.activePower)) return;
 
     const target = e.target;
     if (target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
@@ -566,7 +901,11 @@ function setupPasteHandler() {
         showToast("无法读取剪贴板图片", true);
         return;
       }
-      await uploadForCard(state.activeCard.safe_id, file);
+      if (state.activeAssetType === "power" && state.activePower) {
+        await uploadForPower(state.activePower.safe_id, file);
+      } else if (state.activeCard) {
+        await uploadForCard(state.activeCard.safe_id, file);
+      }
       return;
     }
   });
@@ -609,6 +948,7 @@ async function doCommit() {
       box.textContent = result.message;
     }
     await loadCards();
+    await loadPowers();
     await loadStaging();
     showToast(result.message);
   } catch (err) {
@@ -619,18 +959,33 @@ async function doCommit() {
 }
 
 function bindEvents() {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("#modal").classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  document.querySelectorAll(".mode-tab").forEach((button) => {
+    button.addEventListener("click", () => setMode(button.dataset.mode));
+  });
+
   ["filter-q", "filter-hero", "filter-type", "filter-placeholder", "filter-staged"].forEach(
     (id) => {
-      $(`#${id}`).addEventListener("input", () => loadCards());
-      $(`#${id}`).addEventListener("change", () => loadCards());
+      const resetAndLoadCards = () => {
+        state.cardsPage = 1;
+        loadCards();
+      };
+      $(`#${id}`).addEventListener("input", resetAndLoadCards);
+      $(`#${id}`).addEventListener("change", resetAndLoadCards);
     }
   );
 
   $("#btn-rescan").addEventListener("click", async () => {
-    await api("/api/rescan", { method: "POST" });
+    const result = await api("/api/rescan", { method: "POST" });
     await loadMeta();
     await loadCards();
-    showToast("已重新扫描卡牌索引");
+    await loadPowers();
+    showToast(`扫描完成：${result.card_count} 张卡牌，${result.power_count} 个能力图标`);
   });
 
   $("#btn-commit").addEventListener("click", openCommitModal);
@@ -641,6 +996,7 @@ function bindEvents() {
       showToast(result.message, !result.ok);
       if (result.ok) {
         await loadCards();
+        await loadPowers();
         await loadStaging();
       }
     } catch (err) {
@@ -672,6 +1028,28 @@ function bindEvents() {
     showToast("已恢复打开时的裁剪");
   });
 
+  $("#power-rotation").addEventListener("input", (event) => {
+    const rotation = Number(event.target.value);
+    $("#power-rotation-value").value = `${rotation}°`;
+    savePowerTransform({ rotation });
+  });
+  $("#btn-power-flip").addEventListener("click", () => {
+    savePowerTransform({ flipX: !state.activePower?.crop?.flipX });
+  });
+  $("#btn-power-reset").addEventListener("click", () => {
+    cropEditor.setRotation(0);
+    savePowerTransform({ rotation: 0, flipX: false });
+  });
+  document.querySelectorAll("[data-power-tool]").forEach((button) => {
+    button.addEventListener("click", () => {
+      cropEditor.setTool(button.dataset.powerTool);
+      setPowerToolButton(button.dataset.powerTool);
+      if (button.dataset.powerTool === "eyedropper") showToast("点击原图取色");
+    });
+  });
+  $("#power-brush-color").addEventListener("input", (event) => cropEditor.setBrushColor(event.target.value));
+  $("#power-brush-size").addEventListener("input", (event) => cropEditor.setBrushSize(event.target.value));
+  $("#btn-power-save-drawing").addEventListener("click", savePowerDrawing);
   $("#merged-prompt").addEventListener("input", () => {
     state.promptDirty = true;
     schedulePromptOverrideSave();
@@ -685,16 +1063,24 @@ function bindEvents() {
   });
 
   $("#btn-remove-staging").addEventListener("click", async () => {
-    if (!state.activeCard) return;
+    if (!state.activeCard && !state.activePower) return;
+    const safeId = state.activeAssetType === "power" ? state.activePower.safe_id : state.activeCard.safe_id;
     try {
-      await api(`/api/staging/${state.activeCard.safe_id}`, { method: "DELETE" });
+      await api(`/api/staging/${safeId}`, { method: "DELETE" });
       showToast("已撤销暂存");
       closeModal();
       await loadCards();
+      await loadPowers();
       await loadStaging();
     } catch (err) {
       showToast(err.message, true);
     }
+  });
+}
+
+function setPowerToolButton(tool) {
+  document.querySelectorAll("[data-power-tool]").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.powerTool === tool);
   });
 }
 
@@ -706,18 +1092,45 @@ async function init() {
       scheduleCropSave(crop);
       updateUndoCropButton();
     },
+    onPaint: () => {
+      state.drawingDirty = true;
+      $("#btn-power-save-drawing").disabled = false;
+      updateFramePreview();
+    },
+    onColorPick: (color) => {
+      $("#power-brush-color").value = color;
+      cropEditor.setBrushColor(color);
+      cropEditor.setTool("brush");
+      document.querySelectorAll("[data-power-tool]").forEach(button => {
+        button.classList.toggle("is-active", button.dataset.powerTool === "brush");
+      });
+    },
   });
   framePreview = new FramePreview($("#frame-preview-canvas"));
   setupDropZone();
   setupPasteHandler();
   setupCardEditor();
   bindEvents();
+  let gridResizeTimer = null;
+  const gridResizeObserver = new ResizeObserver(() => {
+    clearTimeout(gridResizeTimer);
+    gridResizeTimer = setTimeout(() => {
+      recalibrateActiveGrid();
+    }, 100);
+  });
+  gridResizeObserver.observe($("#card-grid"));
+  gridResizeObserver.observe($("#power-grid"));
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(() => requestAnimationFrame(recalibrateActiveGrid));
+  });
   await loadMeta();
   framePreview.applyMeta({
     frameSize: state.meta?.frameSize || 1024,
     frameArtPosition: state.meta?.frameArtPosition || { x: 262, y: 286 },
   });
+  setMode(state.mode);
   await loadCards();
+  await loadPowers();
   await loadStaging();
 }
 

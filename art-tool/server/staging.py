@@ -14,7 +14,13 @@ from PIL import Image
 
 from .card_scanner import CardEntry, safe_id_to_card_id
 from .hero_assets import frame_basename
-from .image_crop import default_crop_rect, normalize_crop, render_card_variants
+from .image_crop import (
+    default_crop_rect,
+    default_square_crop_rect,
+    normalize_crop,
+    render_card_variants,
+    render_power_variants,
+)
 
 
 def load_manifest(staging_dir: Path) -> dict[str, Any]:
@@ -35,6 +41,132 @@ def save_manifest(staging_dir: Path, manifest: dict[str, Any]) -> None:
 
 def staging_image_path(staging_dir: Path, safe_id: str) -> Path:
     return staging_dir / "images" / f"{safe_id}.png"
+
+
+def scan_powers(project_root: Path, config: dict[str, Any], staging_dir: Path) -> list[dict[str, Any]]:
+    powers_dir = project_root / config.get("powersDir", "src/main/resources/SlayTheDungeonResources/img/powers")
+    powers_java_dir = project_root / "src/main/java/io/github/zhuiye486/powers"
+    strings_path = project_root / "src/main/resources/SlayTheDungeonResources/localization/ZHS/powers.json"
+    try:
+        with strings_path.open(encoding="utf-8") as f:
+            power_strings = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        power_strings = {}
+
+    declared: dict[str, str] = {}
+    for java_path in sorted(powers_java_dir.glob("*Power.java")):
+        source = java_path.read_text(encoding="utf-8")
+        match = re.search(r'POWER_ID\s*=\s*ModHelper\.makePath\("([A-Za-z0-9_-]+)"\)', source)
+        if match:
+            declared[match.group(1)] = java_path.stem.removesuffix("Power")
+
+    entries = load_manifest(staging_dir).get("entries", {})
+    powers: list[dict[str, Any]] = []
+    names = set(declared)
+    names.update(path.name.removesuffix("Power128.png") for path in powers_dir.glob("*Power128.png"))
+    names.update(
+        safe_id.removeprefix("power__")
+        for safe_id, entry in entries.items()
+        if entry.get("asset_type") == "power"
+    )
+    for power_id in sorted(names):
+        name = f"{power_id}Power"
+        large_path = powers_dir / f"{name}128.png"
+        small_path = powers_dir / f"{name}48.png"
+        safe_id = f"power__{power_id}"
+        strings = power_strings.get(f"SlayTheDungeon:{power_id}", {})
+        staged = safe_id in entries
+        powers.append({
+            "safe_id": safe_id,
+            "name": strings.get("NAME") or declared.get(power_id) or power_id,
+            "power_id": power_id,
+            "image_file": large_path.name,
+            "small_image_file": small_path.name,
+            "has_image": large_path.exists() or staged,
+            "is_placeholder": not large_path.exists() and not staged,
+            "has_small_image": small_path.exists(),
+            "staged": staged,
+            "crop": entries.get(safe_id, {}).get("crop"),
+        })
+    known_ids = {item["safe_id"] for item in powers}
+    for safe_id, entry in entries.items():
+        if entry.get("asset_type") != "power" or safe_id in known_ids:
+            continue
+        powers.append({
+            "safe_id": safe_id,
+            "name": entry["name"],
+            "image_file": entry["target_image_file"],
+            "small_image_file": entry["target_small_image_file"],
+            "has_small_image": False,
+            "staged": True,
+            "crop": entry.get("crop"),
+        })
+    return powers
+
+
+def stage_new_power(
+    staging_dir: Path,
+    name: str,
+    source_path: Path,
+    config: dict[str, Any],
+) -> dict[str, Any]:
+    safe_name = re.sub(r"[^A-Za-z0-9_-]", "", name)
+    if not safe_name or safe_name != name:
+        raise ValueError("Power 名称只能包含英文字母、数字、下划线和连字符")
+    power = {
+        "safe_id": f"power__{safe_name}",
+        "name": safe_name,
+        "image_file": f"{safe_name}Power128.png",
+        "small_image_file": f"{safe_name}Power48.png",
+    }
+    manifest = load_manifest(staging_dir)
+    existing = manifest["entries"].get(power["safe_id"])
+    if existing and existing.get("asset_type") != "power":
+        raise ValueError("暂存 ID 冲突")
+    if not existing:
+        powers_dir = staging_dir.parent.parent / config.get(
+            "powersDir", "src/main/resources/SlayTheDungeonResources/img/powers"
+        )
+        if (powers_dir / power["image_file"]).exists():
+            raise ValueError("该 Power 图片已存在，请从列表中选择")
+    return add_staged_power_image(staging_dir, power, source_path, config)
+
+
+def add_staged_power_image(
+    staging_dir: Path,
+    power: dict[str, Any],
+    source_path: Path,
+    config: dict[str, Any],
+) -> dict[str, Any]:
+    images_dir = staging_dir / "images"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    safe_id = power["safe_id"]
+    dest = staging_image_path(staging_dir, safe_id)
+    dest.write_bytes(source_path.read_bytes())
+    warnings = validate_png(dest, {
+        **config,
+        "recommendedWidth": 128,
+        "recommendedHeight": 128,
+    })
+    width, height = _read_image_size(dest)
+    manifest = load_manifest(staging_dir)
+    entry = manifest["entries"].get(safe_id, {
+        "asset_type": "power",
+        "safe_id": safe_id,
+        "name": power["name"],
+        "target_image_file": power["image_file"],
+        "target_small_image_file": power["small_image_file"],
+    })
+    entry["warnings"] = warnings
+    entry["staged_at"] = datetime.now(timezone.utc).isoformat()
+    entry["crop"] = {
+        **default_square_crop_rect(width, height),
+        "rotation": 0,
+        "flipX": False,
+    }
+    manifest["entries"][safe_id] = entry
+    save_manifest(staging_dir, manifest)
+    return entry
 
 
 def _read_image_size(file_path: Path) -> tuple[int, int]:
@@ -87,7 +219,8 @@ EDITABLE_FIELDS = {
     "name", "name_en", "description", "description_en", "cost", "rarity",
     "card_type", "damage", "block", "magic_number", "heal", "upgrade_cost",
     "magic_number_2", "chance", "chance_2",
-    "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_heal",
+    "upgrade_damage", "upgrade_block", "upgrade_magic_number", "upgrade_magic_number_2",
+    "upgrade_heal", "upgrade_chance",
     "upgrade_description", "tags",
 }
 
@@ -155,7 +288,11 @@ def update_staged_crop(
         raise FileNotFoundError("暂存图片不存在")
 
     width, height = _read_image_size(staged_file)
-    entry["crop"] = normalize_crop(crop, width, height)
+    normalized = normalize_crop(crop, width, height)
+    if entry.get("asset_type") == "power":
+        normalized["rotation"] = float(crop.get("rotation", 0)) % 360
+        normalized["flipX"] = bool(crop.get("flipX", False))
+    entry["crop"] = normalized
     save_manifest(staging_dir, manifest)
     return entry["crop"]
 
@@ -198,6 +335,36 @@ def _replace_constant(content: str, field: str, value: Any) -> str:
     return re.sub(pattern, replacement, content, count=1)
 
 
+def _upgrade_block_span(content: str) -> tuple[int, int] | None:
+    method = re.search(r"void\s+upgrade\s*\(\s*\)\s*\{", content)
+    if not method:
+        return None
+    block = re.search(r"if\s*\(\s*!this\.upgraded\s*\)\s*\{", content[method.end():])
+    if not block:
+        return None
+    start = method.end() + block.end()
+    depth = 1
+    for index in range(start, len(content)):
+        if content[index] == "{":
+            depth += 1
+        elif content[index] == "}":
+            depth -= 1
+            if depth == 0:
+                return start, index
+    return None
+
+
+def _insert_upgrade_statement(content: str, statement: str) -> str:
+    span = _upgrade_block_span(content)
+    if not span:
+        raise ValueError("无法定位 upgrade() 中的升级逻辑")
+    _, end = span
+    line_start = content.rfind("\n", 0, end) + 1
+    indent_match = re.match(r"\s*", content[line_start:end])
+    indent = (indent_match.group(0) + "    ") if indent_match else "            "
+    return content[:line_start] + indent + statement + "\n" + content[line_start:]
+
+
 def apply_java_changes(content: str, changes: dict[str, Any]) -> str:
     for field in ("cost", "card_type", "rarity"):
         content = _replace_constant(content, field, changes.get(field))
@@ -220,7 +387,8 @@ def apply_java_changes(content: str, changes: dict[str, Any]) -> str:
 
     for field_name, method in {
         "upgrade_damage": "Damage", "upgrade_block": "Block",
-        "upgrade_magic_number": "MagicNumber", "upgrade_heal": "Heal",
+        "upgrade_magic_number": "MagicNumber", "upgrade_magic_number_2": "SecondMagicNumber",
+        "upgrade_heal": "Heal",
     }.items():
         if changes.get(field_name) is not None:
             replacement = re.sub(
@@ -236,7 +404,41 @@ def apply_java_changes(content: str, changes: dict[str, Any]) -> str:
                     content,
                     count=1,
                 )
+            if replacement == content and field_name == "upgrade_magic_number_2":
+                replacement = _insert_upgrade_statement(
+                    content, f"upgradeSecondMagicNumber({int(changes[field_name])});"
+                )
             content = replacement
+
+    if changes.get("upgrade_chance") is not None:
+        initial_chance = re.search(
+            r"(?:this\.)?baseChance\s*=\s*(?:this\.)?chance\s*=\s*(-?(?:\d+(?:\.\d*)?|\.\d+))",
+            content,
+        )
+        if not initial_chance:
+            raise ValueError("无法定位基础概率，不能写入升级概率变化")
+        upgraded_chance = float(initial_chance.group(1)) + float(changes["upgrade_chance"]) / 100.0
+        span = _upgrade_block_span(content)
+        if not span:
+            raise ValueError("无法定位 upgrade() 中的升级逻辑")
+        start, end = span
+        upgrade_body = content[start:end]
+        chance_assignment = re.search(
+            r"((?:this\.)?baseChance\s*=\s*(?:this\.)?chance\s*=\s*)-?(?:\d+(?:\.\d*)?|\.\d+)f?",
+            upgrade_body,
+        )
+        if chance_assignment:
+            upgrade_body = (
+                upgrade_body[:chance_assignment.start()]
+                + chance_assignment.group(1)
+                + f"{upgraded_chance:g}f"
+                + upgrade_body[chance_assignment.end():]
+            )
+            content = content[:start] + upgrade_body + content[end:]
+        else:
+            content = _insert_upgrade_statement(
+                content, f"this.baseChance = this.chance = {upgraded_chance:g}f;"
+            )
 
     if changes.get("chance") is not None or changes.get("chance_2") is not None:
         chance = changes.get("chance")
@@ -354,6 +556,34 @@ def commit_staged(
 
     for safe_id, entry in list(entries.items()):
         try:
+            if entry.get("asset_type") == "power":
+                powers_dir = project_root / config.get(
+                    "powersDir", "src/main/resources/SlayTheDungeonResources/img/powers"
+                )
+                powers_dir.mkdir(parents=True, exist_ok=True)
+                staged_file = staging_image_path(staging_dir, safe_id)
+                large_path = powers_dir / entry["target_image_file"]
+                small_path = powers_dir / entry["target_small_image_file"]
+                if staged_file.exists():
+                    backup_file(large_path)
+                    backup_file(small_path)
+                    with Image.open(staged_file) as img:
+                        large, small = render_power_variants(img, entry.get("crop"))
+                        large.save(large_path, format="PNG")
+                        small.save(small_path, format="PNG")
+                    staged_file.unlink()
+                committed.append({
+                    "safe_id": safe_id,
+                    "name": entry["name"],
+                    "target_image_file": entry["target_image_file"],
+                    "large_image_file": entry["target_image_file"],
+                    "small_image_file": entry["target_small_image_file"],
+                    "asset_type": "power",
+                    "cropped": bool(entry.get("crop", {}).get("applied")),
+                })
+                del manifest["entries"][safe_id]
+                continue
+
             card = cards_by_safe_id.get(safe_id)
             if not card:
                 card_id = entry.get("card_id") or safe_id_to_card_id(safe_id)

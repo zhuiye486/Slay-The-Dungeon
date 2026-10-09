@@ -34,7 +34,7 @@
     },
     "SlayTheDungeon:InspiringCry": {
         "NAME": "鼓舞呐喊",
-        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命。 NL 减少 !M! slaythedungeon:压力 。 NL 吼叫 !SlayTheDungeonM2! 。"
+        "DESCRIPTION": "回复 !SlayTheDungeonH! 点生命。 NL 减少 !M! slaythedungeon:压力 。 NL slaythedungeon:吼叫 !SlayTheDungeonM2! 。"
     },
     "SlayTheDungeon:StunningBlow": {
         "NAME": "眩晕击",
@@ -150,7 +150,11 @@
     },
     "SlayTheDungeon:AbyssalArtillery": {
         "NAME": "深渊炮击",
-        "DESCRIPTION": "造成等同于 slaythedungeon:亮度 与标准值的差的一半的伤害。 "
+        "DESCRIPTION": "造成等同于 slaythedungeon:亮度 与标准值的差的一半的伤害。 ",
+        "EXTENDED_DESCRIPTION": [
+            " NL （造成",
+            "点伤害。）"
+        ]
     },
     "SlayTheDungeon:VulnerabilityHex": {
         "NAME": "弱点术式",
@@ -202,7 +206,7 @@
     },
     "SlayTheDungeon:Illumination": {
         "NAME": "强光",
-        "DESCRIPTION": "回合开始时，获得 !M! slaythedungeon:亮度 。 NL 回复 !H! 点生命。"
+        "DESCRIPTION": "回合开始时，获得 !M! slaythedungeon:亮度 。 NL 回复 !SlayTheDungeonH! 点生命。"
     },
     "SlayTheDungeon:HandOfLight": {
         "NAME": "圣光之手",
@@ -226,7 +230,7 @@
     },
     "SlayTheDungeon:BlindingGas": {
         "NAME": "致盲气体",
-        "DESCRIPTION": "随机 slaythedungeon:眩晕 !M! 个敌人。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "随机 slaythedungeon:眩晕 !M! 个敌人。 NL slaythedungeon:蒸汽 。"
     },
     "SlayTheDungeon:Incision": {
         "NAME": "放血",
@@ -234,11 +238,11 @@
     },
     "SlayTheDungeon:EmboldeningVapours": {
         "NAME": "壮胆药雾",
-        "DESCRIPTION": "获得 !M! 点 力量 。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "获得 !M! 点 力量 。 NL slaythedungeon:蒸汽 。"
     },
     "SlayTheDungeon:DisorientingBlast": {
         "NAME": "迷惑冲击",
-        "DESCRIPTION": "随机给予敌人总计 !M! 点 中毒 ， slaythedungeon:标记 ， slaythedungeon:流血 ， slaythedungeon:瘟疫 和 slaythedungeon:腐蚀。 NL 消耗 。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "随机给予敌人总计 !M! 点 中毒 ， slaythedungeon:标记 ， slaythedungeon:流血 ， slaythedungeon:瘟疫 和 slaythedungeon:腐蚀 。 NL slaythedungeon:蒸汽 。 NL 消耗 。"
     },
     "SlayTheDungeon:PickToTheFace": {
         "NAME": "劈头盖脸",
@@ -258,11 +262,11 @@
     },
     "SlayTheDungeon:Bola": {
         "NAME": "拌索",
-        "DESCRIPTION": "随机给予 !M! 个敌人 !M! slaythedunegon:标记 。"
+        "DESCRIPTION": "随机给予 !M! 个敌人 !M! slaythedungeon:标记 。"
     },
     "SlayTheDungeon:Blindfire": {
         "NAME": "盲射",
-        "DESCRIPTION": " !SlayTheDungeonP! %概率对随机敌人造成 !D! 点伤害，!SlayTheDungeonP2! %概率对自己造成 !D! 点伤害。"
+        "DESCRIPTION": " !SlayTheDungeonP! %概率对随机敌人造成 !D! 点伤害， !SlayTheDungeonP2! %概率对自己造成 !D! 点伤害。"
     },
     "SlayTheDungeon:BattlefieldBandage": {
         "NAME": "战场包扎",
@@ -270,7 +274,7 @@
     },
     "SlayTheDungeon:RallyingFlare": {
         "NAME": "照明弹",
-        "DESCRIPTION": "你造成的每次伤害有 !SlayTheDungeonP! 概率使敌人 slaythedunegon:眩晕 。 NL 打出的每张攻击牌获得 !M! slaythedungeon:亮度 。"
+        "DESCRIPTION": "你造成的每次伤害有 !SlayTheDungeonP! %概率使敌人 slaythedungeon:眩晕 。 NL 打出的每张攻击牌获得 !M! slaythedungeon:亮度 。"
     },
     "SlayTheDungeon:Punish": {
         "NAME": "责罚",
@@ -302,7 +306,7 @@
     },
     "SlayTheDungeon:TrackingShot": {
         "NAME": "追踪射击",
-        "DESCRIPTION": "造成 !D! 点伤害。 NL 获得 !M! slaythedungeon:反击。 NL 当你下一次触发 slaythedungeon:反击 时，改为从抽牌堆中选择一张牌置入手牌，本回合中其消耗为0。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 获得 !M! slaythedungeon:反击 。 NL 当你下一次触发 slaythedungeon:反击 时，改为从抽牌堆中选择一张牌置入手牌，本回合中其消耗为0。"
     },
     "SlayTheDungeon:Chop": {
         "NAME": "挥砍",
@@ -342,7 +346,7 @@
     },
     "SlayTheDungeon:Bellow": {
         "NAME": "怒吼",
-        "DESCRIPTION": "获得 [E] 。 NL 吼叫 !M! 。"
+        "DESCRIPTION": "获得 [E] 。 NL slaythedungeon:吼叫 !M! 。"
     },
     "SlayTheDungeon:Command": {
         "NAME": "指挥",
@@ -354,7 +358,7 @@
     },
     "SlayTheDungeon:BarbaricYawp": {
         "NAME": "野蛮咆哮！",
-        "DESCRIPTION": "从你的弃牌堆中选择一张攻击牌置入手牌。 NL 吼叫2 。"
+        "DESCRIPTION": "从你的弃牌堆中选择一张攻击牌置入手牌。 NL slaythedungeon:吼叫 !M! 。"
     },
     "SlayTheDungeon:Breakthrough": {
         "NAME": "突破",
@@ -466,7 +470,7 @@
     },
     "SlayTheDungeon:DivineGrace": {
         "NAME": "神圣治疗",
-        "DESCRIPTION": "造成 !D! 点伤害。 NL 回复造成伤害的生命值。 NL 获得 !M! slaythedungeon:亮度。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL 回复造成伤害的生命值。 NL 获得 !M! slaythedungeon:亮度 。"
     },
     "SlayTheDungeon:DivineComfort": {
         "NAME": "神圣抚慰",
@@ -486,15 +490,15 @@
     },
     "SlayTheDungeon:FesteringVapours": {
         "NAME": "溃烂蒸汽",
-        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL slaythedungeon:蒸汽 。"
     },
     "SlayTheDungeon:FortifyingVapours": {
         "NAME": "强健蒸汽",
-        "DESCRIPTION": "获得 !M! 敏捷 。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "获得 !M! 敏捷 。 NL slaythedungeon:蒸汽 。"
     },
     "SlayTheDungeon:InvigoratingVapours": {
         "NAME": "提神蒸汽",
-        "DESCRIPTION": "弃最多 !M! 张牌，每弃一张牌获得 !B! 点格挡。 NL 触发你打出的上一张蒸汽的效果。"
+        "DESCRIPTION": "弃最多 !M! 张牌，每弃一张牌获得 !B! 点格挡。 NL slaythedungeon:蒸汽 。"
     },
     "SlayTheDungeon:RainOfSorrows": {
         "NAME": "伤痛之雨",
@@ -627,7 +631,11 @@
     },
     "SlayTheDungeon:LastDitchEffort": {
         "NAME": "拼死一搏",
-        "DESCRIPTION": "造成等同于你已损失生命值的伤害。"
+        "DESCRIPTION": "造成等同于你已损失生命值的伤害。",
+        "EXTENDED_DESCRIPTION": [
+            " NL （造成",
+            "点伤害。）"
+        ]
     },
     "SlayTheDungeon:Ambush": {
         "NAME": "伏击",

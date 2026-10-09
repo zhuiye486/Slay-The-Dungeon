@@ -27,14 +27,18 @@ public class AbyssalArtillery extends AbstractDungeonCard {
 
     public AbyssalArtillery() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        updateDamageDescription();
     }
 
-    
+    @Override
+    public void applyPowers() {
+        super.applyPowers();
+        updateDamageDescription();
+    }
+
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        BrightnessIndicator brightness = (BrightnessIndicator) player.getRelic(BrightnessIndicator.ID);
-        int value = brightness == null ? 50 : brightness.getBrightness();
-        int formulaDamage = Math.abs(value - 50) / 2;
-        addToBot(new DamageAction(monster, new DamageInfo(player, formulaDamage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster,
+                new DamageInfo(player, getFormulaDamage(player), DamageInfo.DamageType.NORMAL)));
     }
 
     
@@ -48,5 +52,20 @@ public class AbyssalArtillery extends AbstractDungeonCard {
     
     public AbstractCard makeCopy() {
         return new AbyssalArtillery();
+    }
+
+    private int getFormulaDamage(AbstractPlayer player) {
+        BrightnessIndicator brightness = (BrightnessIndicator) player.getRelic(BrightnessIndicator.ID);
+        int value = brightness == null ? 50 : brightness.getBrightness();
+        return Math.abs(value - 50) / 2;
+    }
+
+    private void updateDamageDescription() {
+        AbstractPlayer player = com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
+        int formulaDamage = player == null ? 0 : getFormulaDamage(player);
+        this.rawDescription = CARD_STRINGS.DESCRIPTION
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[0] + formulaDamage
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[1];
+        this.initializeDescription();
     }
 }

@@ -1,5 +1,6 @@
 package io.github.zhuiye486.relics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -13,9 +14,11 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
 
 import basemod.abstracts.CustomRelic;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.events.ReplaceHeroCampfireOption;
 
 public class PressureIndicator extends CustomRelic{
     public static final String ID = ModHelper.makePath(PressureIndicator.class.getSimpleName());
@@ -78,13 +81,14 @@ public class PressureIndicator extends CustomRelic{
 
         final int pressureBase = baseAmount;
         final boolean guaranteedPressure = noBlockAtPlayerEndTurn;
+        final int unblockedDamage = damageAmount;
         final int hpBeforeAttack = AbstractDungeon.player.currentHealth;
         addToTop(new com.megacrit.cardcrawl.actions.AbstractGameAction() {
             @Override
             public void update() {
                 // Check HP after the attack action fully resolves (block/buffer/etc already applied).
                 if (AbstractDungeon.player.currentHealth < hpBeforeAttack) {
-                    addPressure(pressureBase, guaranteedPressure);
+                    addPressure(pressureBase, guaranteedPressure, unblockedDamage);
                 }
                 this.isDone = true;
             }
@@ -93,10 +97,15 @@ public class PressureIndicator extends CustomRelic{
         return damageAmount;
     }
 
-    private void addPressure(int baseAmount, boolean guaranteed) {
+    private void addPressure(int baseAmount, boolean guaranteed, int unblockedDamage) {
         int pressureAdded = guaranteed
             ? generateGuaranteedNumber(baseAmount)
             : generateRandomNumber(baseAmount);
+        if (unblockedDamage > 20) {
+            pressureAdded *= 2;
+        } else if (unblockedDamage < 5) {
+            pressureAdded = Math.round(pressureAdded / 2.0f);
+        }
         changePressure(pressureAdded);
     }
 
@@ -115,6 +124,11 @@ public class PressureIndicator extends CustomRelic{
     @Override
     public String getUpdatedDescription() {
         return this.DESCRIPTIONS[0];
+    }
+
+    @Override
+    public void addCampfireOption(ArrayList<AbstractCampfireOption> options) {
+        ReplaceHeroCampfireOption.addOptions(options);
     }
 
     @Override

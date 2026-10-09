@@ -11,6 +11,8 @@ OUTPUT_HEIGHT = 380
 CROP_ASPECT = OUTPUT_WIDTH / OUTPUT_HEIGHT
 SMALL_WIDTH = 250
 SMALL_HEIGHT = 190
+POWER_SIZE = 128
+POWER_SMALL_SIZE = 48
 
 
 def default_crop_rect(width: int, height: int) -> dict[str, Any]:
@@ -91,4 +93,48 @@ def render_card_variants(
     """生成 500×380 大图和 250×190 小图。"""
     large = apply_mask(render_card_art(image, crop), mask)
     small = large.resize((SMALL_WIDTH, SMALL_HEIGHT), Image.Resampling.LANCZOS)
+    return large, small
+
+
+def default_square_crop_rect(width: int, height: int) -> dict[str, Any]:
+    side = min(width, height)
+    return {
+        "x": max(0, (width - side) // 2),
+        "y": max(0, (height - side) // 2),
+        "width": side,
+        "height": side,
+        "applied": False,
+        "sourceWidth": width,
+        "sourceHeight": height,
+    }
+
+
+def render_power_variants(
+    image: Image.Image,
+    crop: dict[str, Any] | None,
+) -> tuple[Image.Image, Image.Image]:
+    src = image.convert("RGBA")
+    if crop and crop.get("applied"):
+        box = (
+            int(crop["x"]),
+            int(crop["y"]),
+            int(crop["x"]) + int(crop["width"]),
+            int(crop["y"]) + int(crop["height"]),
+        )
+        src = src.crop(box)
+    side = min(src.size)
+    left = (src.width - side) // 2
+    top = (src.height - side) // 2
+    src = src.crop((left, top, left + side, top + side))
+    if crop and crop.get("flipX"):
+        src = src.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    rotation = float(crop.get("rotation", 0)) % 360 if crop else 0
+    if rotation:
+        src = src.rotate(-rotation, expand=True, resample=Image.Resampling.BICUBIC)
+        side = max(src.size)
+        square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+        square.alpha_composite(src, ((side - src.width) // 2, (side - src.height) // 2))
+        src = square
+    large = src.resize((POWER_SIZE, POWER_SIZE), Image.Resampling.LANCZOS)
+    small = large.resize((POWER_SMALL_SIZE, POWER_SMALL_SIZE), Image.Resampling.LANCZOS)
     return large, small

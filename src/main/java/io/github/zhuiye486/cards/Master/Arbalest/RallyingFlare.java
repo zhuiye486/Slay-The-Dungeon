@@ -33,7 +33,7 @@ public class RallyingFlare extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player,
-                new RallyingFlarePower(player, 50, this.magicNumber)));
+            new RallyingFlarePower(player, Math.round(this.baseChance * 100.0f), this.magicNumber)));
     }
 
     

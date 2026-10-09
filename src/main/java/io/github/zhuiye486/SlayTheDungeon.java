@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -405,6 +407,14 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         // Trigger ChooseHeros event after character selection and before game start
         // Note: This is a placeholder; actual triggering may need to be in a patch or different hook
         // For now, assume it's called when the game starts
+    }
+
+    @SpirePatch(clz = com.megacrit.cardcrawl.dungeons.AbstractDungeon.class, method = "initializeCardPools")
+    public static class FilterMasterCardPoolsPatch {
+        @SpirePostfixPatch
+        public static void Postfix() {
+            Heroes.filterCardPoolsForSelection();
+        }
     }
 
     @Override
