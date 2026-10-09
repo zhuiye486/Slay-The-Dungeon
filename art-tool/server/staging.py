@@ -522,6 +522,54 @@ def prepare_commit_images(
             return large_buf.getvalue(), small_buf.getvalue()
 
 
+def prepare_power_java_update(
+    powers_java_dir: Path,
+    power_id: str,
+    target_image_file: str,
+    target_small_image_file: str,
+) -> tuple[Path, str]:
+    power_id_pattern = re.compile(
+        r'POWER_ID\s*=\s*ModHelper\.makePath\("([A-Za-z0-9_-]+)"\)'
+    )
+    image_pattern = re.compile(
+        r'SlayTheDungeonResources/img/powers/[^" ]+Power128\.png'
+    )
+    small_image_pattern = re.compile(
+        r'SlayTheDungeonResources/img/powers/[^" ]+Power48\.png'
+    )
+    load_region_pattern = re.compile(r'this\.loadRegion\("[^"]+"\);')
+
+    for java_path in sorted(powers_java_dir.glob("*Power.java")):
+        content = java_path.read_text(encoding="utf-8")
+        match = power_id_pattern.search(content)
+        if not match or match.group(1) != power_id:
+            continue
+
+        updated_content, large_count = image_pattern.subn(
+            f"SlayTheDungeonResources/img/powers/{target_image_file}", content
+        )
+        updated_content, small_count = small_image_pattern.subn(
+            f"SlayTheDungeonResources/img/powers/{target_small_image_file}",
+            updated_content,
+        )
+        if large_count == 0 and small_count == 0:
+            updated_content, region_count = load_region_pattern.subn(
+                "this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion("
+                f'com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/{target_image_file}"), 0, 0, 84, 84);\n'
+                "        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion("
+                f'com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/{target_small_image_file}"), 0, 0, 32, 32);',
+                updated_content,
+                count=1,
+            )
+            if region_count == 0:
+                raise ValueError(f"无法在 {java_path.name} 中更新能力图片路径")
+        elif large_count == 0 or small_count == 0:
+            raise ValueError(f"无法在 {java_path.name} 中同时更新 128/48 能力图片路径")
+        return java_path, updated_content
+
+    raise ValueError(f"找不到 POWER_ID 为 {power_id} 的 Java 源文件")
+
+
 def commit_staged(
     staging_dir: Path,
     project_root: Path,
@@ -564,20 +612,30 @@ def commit_staged(
                 staged_file = staging_image_path(staging_dir, safe_id)
                 large_path = powers_dir / entry["target_image_file"]
                 small_path = powers_dir / entry["target_small_image_file"]
-                if staged_file.exists():
-                    backup_file(large_path)
-                    backup_file(small_path)
-                    with Image.open(staged_file) as img:
-                        large, small = render_power_variants(img, entry.get("crop"))
-                        large.save(large_path, format="PNG")
-                        small.save(small_path, format="PNG")
-                    staged_file.unlink()
+                if not staged_file.exists():
+                    raise FileNotFoundError("暂存能力图片不存在")
+                power_java_path, updated_power_java = prepare_power_java_update(
+                    project_root / "src/main/java/io/github/zhuiye486/powers",
+                    safe_id.removeprefix("power__"),
+                    entry["target_image_file"],
+                    entry["target_small_image_file"],
+                )
+                backup_file(power_java_path)
+                backup_file(large_path)
+                backup_file(small_path)
+                with Image.open(staged_file) as img:
+                    large, small = render_power_variants(img, entry.get("crop"))
+                    large.save(large_path, format="PNG")
+                    small.save(small_path, format="PNG")
+                power_java_path.write_text(updated_power_java, encoding="utf-8")
+                staged_file.unlink()
                 committed.append({
                     "safe_id": safe_id,
                     "name": entry["name"],
                     "target_image_file": entry["target_image_file"],
                     "large_image_file": entry["target_image_file"],
                     "small_image_file": entry["target_small_image_file"],
+                    "java_file": str(power_java_path.relative_to(project_root)),
                     "asset_type": "power",
                     "cropped": bool(entry.get("crop", {}).get("applied")),
                 })
