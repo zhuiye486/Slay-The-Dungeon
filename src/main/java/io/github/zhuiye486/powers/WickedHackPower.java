@@ -21,7 +21,10 @@ public class WickedHackPower extends AbstractPower {
         this.owner = owner;
         this.amount = -1;
         this.type = PowerType.BUFF;
-        this.loadRegion("accuracy");
+        this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/WickedHackPower128.png"), 0, 0, 84, 84);
+        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/WickedHackPower48.png"), 0, 0, 32, 32);
         this.description = STRINGS.DESCRIPTIONS[0];
     }
 

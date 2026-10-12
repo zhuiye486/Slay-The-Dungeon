@@ -15,26 +15,26 @@ import io.github.zhuiye486.helpers.ModHelper;
 public class RoarPower extends AbstractPower {
     public static final String POWER_ID = ModHelper.makePath("Roar");
     private static final PowerStrings POWER_STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
-    private final Supplier<AbstractGameAction> endOfTurnEffect;
+    private final Supplier<AbstractGameAction> turnStartEffect;
 
-    public RoarPower(AbstractCreature owner, int turns, Supplier<AbstractGameAction> endOfTurnEffect) {
+    public RoarPower(AbstractCreature owner, int turns, Supplier<AbstractGameAction> turnStartEffect) {
         this.owner = owner;
         this.name = POWER_STRINGS.NAME;
         this.ID = POWER_ID;
         this.type = PowerType.BUFF;
         this.amount = Math.max(1, turns);
-        this.endOfTurnEffect = endOfTurnEffect;
+        this.turnStartEffect = turnStartEffect;
         this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower128.png"), 0, 0, 84, 84);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RoarPower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower48.png"), 0, 0, 32, 32);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RoarPower48.png"), 0, 0, 32, 32);
         updateDescription();
     }
 
     @Override
-    public void atEndOfTurn(boolean isPlayer) {
-        if (isPlayer && endOfTurnEffect != null) {
-            addToBot(endOfTurnEffect.get());
+    public void atStartOfTurn() {
+        if (turnStartEffect != null) {
+            addToBot(turnStartEffect.get());
         }
         amount--;
         if (amount <= 0) {

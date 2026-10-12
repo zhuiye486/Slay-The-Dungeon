@@ -7,19 +7,24 @@ import {
   savePromptOverride,
   savePromptSettings,
 } from "./prompt.js";
-import { CropEditor, renderArtCanvas } from "./crop-editor.js?v=20261009-power-crop-frame-3";
+import { CropEditor, renderArtCanvas } from "./crop-editor.js?v=20261011-icon-crop-fix-1";
 import { FramePreview } from "./frame-preview.js";
 
 const state = {
-  mode: localStorage.getItem("art-tool-mode") === "powers" ? "powers" : "cards",
+  mode: ["cards", "powers", "relics"].includes(localStorage.getItem("art-tool-mode"))
+    ? localStorage.getItem("art-tool-mode") : "cards",
   cards: [],
   powers: [],
+  relics: [],
   cardsPage: 1,
   powersPage: 1,
+  relicsPage: 1,
   cardsPageSize: 24,
   powersPageSize: 12,
+  relicsPageSize: 12,
   cardsPageRows: 4,
   powersPageRows: 3,
+  relicsPageRows: 3,
   meta: null,
   staging: [],
   activeCard: null,
@@ -81,7 +86,7 @@ function showToast(msg, isError = false) {
 }
 
 function setMode(mode) {
-  state.mode = mode === "powers" ? "powers" : "cards";
+  state.mode = ["cards", "powers", "relics"].includes(mode) ? mode : "cards";
   document.body.dataset.mode = state.mode;
   localStorage.setItem("art-tool-mode", state.mode);
   document.querySelectorAll(".mode-tab").forEach((button) => {
@@ -91,6 +96,7 @@ function setMode(mode) {
   });
   renderStats();
   if (state.mode === "powers") loadPowers();
+  else if (state.mode === "relics") loadRelics();
   else loadCards();
   requestAnimationFrame(() => requestAnimationFrame(recalibrateActiveGrid));
 }
@@ -105,6 +111,14 @@ function imageUrl(safeId) {
 
 function powerImageUrl(safeId) {
   return `/api/image/power/${safeId}?t=${Date.now()}`;
+}
+
+function relicImageUrl(safeId) {
+  return `/api/image/relic/${safeId}?t=${Date.now()}`;
+}
+
+function iconImageUrl(safeId) {
+  return safeId.startsWith("relic__") ? relicImageUrl(safeId) : powerImageUrl(safeId);
 }
 
 function pageSizeForGrid(selector, rows, fallback) {
@@ -124,25 +138,32 @@ function recalibrateActiveGrid() {
     return;
   }
 
-  const nextPageSize = pageSizeForGrid("#power-grid", state.powersPageRows, state.powersPageSize);
-  if (nextPageSize === state.powersPageSize) return;
-  state.powersPageSize = nextPageSize;
-  state.powersPage = Math.min(state.powersPage, Math.max(1, Math.ceil(state.powers.length / nextPageSize)));
-  renderPowerGrid();
+  const isRelics = state.mode === "relics";
+  const grid = isRelics ? "#relic-grid" : "#power-grid";
+  const sizeKey = isRelics ? "relicsPageSize" : "powersPageSize";
+  const pageKey = isRelics ? "relicsPage" : "powersPage";
+  const items = isRelics ? state.relics : state.powers;
+  const nextPageSize = pageSizeForGrid(grid, isRelics ? state.relicsPageRows : state.powersPageRows, state[sizeKey]);
+  if (nextPageSize === state[sizeKey]) return;
+  state[sizeKey] = nextPageSize;
+  state[pageKey] = Math.min(state[pageKey], Math.max(1, Math.ceil(items.length / nextPageSize)));
+  if (isRelics) renderRelicGrid();
+  else renderPowerGrid();
 }
 
 function scheduleCropSave(crop) {
-  if (!state.activeCard?.is_staged && !state.activePower?.staged) return;
-  const isPower = state.activeAssetType === "power";
-  const safeId = isPower ? state.activePower.safe_id : state.activeCard.safe_id;
-  const cropToSave = isPower
+  const isIcon = state.activeAssetType !== "card";
+  const asset = isIcon ? state.activePower : state.activeCard;
+  if (!asset) return;
+  const safeId = asset.safe_id;
+  const cropToSave = isIcon
     ? {
         ...crop,
         rotation: state.activePower.crop?.rotation || 0,
         flipX: Boolean(state.activePower.crop?.flipX),
       }
     : crop;
-  if (isPower) state.activePower.crop = cropToSave;
+  if (isIcon) state.activePower.crop = cropToSave;
   clearTimeout(cropSaveTimer);
   cropSaveTimer = setTimeout(async () => {
     try {
@@ -151,6 +172,15 @@ function scheduleCropSave(crop) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cropToSave),
       });
+      asset.is_staged = true;
+      if (isIcon) asset.staged = true;
+      await loadStaging();
+      if (isIcon) {
+        if (state.activeAssetType === "relic") await loadRelics();
+        else await loadPowers();
+      } else {
+        await loadCards();
+      }
     } catch (err) {
       showToast(`裁剪保存失败：${err.message}`, true);
     }
@@ -170,7 +200,7 @@ function updateHeroRef(card) {
 }
 
 async function updateFramePreview() {
-  if (state.activeAssetType === "power") {
+  if (state.activeAssetType !== "card") {
     if (!cropEditor?.image) return;
     const source = cropEditor.getSourceCanvas();
     const square = renderPowerPreview(source, {
@@ -225,7 +255,7 @@ function updatePowerEditButtons() {
 
 async function savePowerTransform(changes) {
   if (!state.activePower?.staged) {
-    showToast("先上传能力图片，再进行调整", true);
+    showToast(`先上传${state.activeAssetType === "relic" ? "遗物" : "能力"}图片，再进行调整`, true);
     return;
   }
   state.activePower.crop = {
@@ -266,12 +296,13 @@ async function savePowerDrawing() {
     state.activePower.crop = crop;
     state.activePower.staged = true;
     imageSaved = true;
-    await cropEditor.loadImage(powerImageUrl(state.activePower.safe_id));
+    await cropEditor.loadImage(iconImageUrl(state.activePower.safe_id));
     cropEditor.setCrop(crop);
     cropEditor.setRotation(crop.rotation);
     await updateFramePreview();
     state.drawingDirty = false;
-    await loadPowers();
+    if (state.activeAssetType === "relic") await loadRelics();
+    else await loadPowers();
     await loadStaging();
     updatePowerEditButtons();
     showToast(`绘图已保存：${result.entry.name}`);
@@ -323,7 +354,7 @@ async function loadPowerWorkspace(power) {
   cropEditor.aspectRatio = 1;
   cropEditor.setTool("crop");
   $("#hero-ref-col").classList.add("hidden");
-  await cropEditor.loadImage(powerImageUrl(power.safe_id));
+  await cropEditor.loadImage(iconImageUrl(power.safe_id));
   if (power.crop) cropEditor.setCrop(power.crop);
   cropEditor.setRotation(power.crop?.rotation || 0);
   cropEditor.setBrushColor($("#power-brush-color").value);
@@ -513,6 +544,8 @@ function renderStats() {
   if (!state.meta) return;
   const assetStats = state.mode === "powers"
     ? `<span>能力 <strong>${state.powers.length}</strong></span><span>占位图 <strong>${state.powers.filter((power) => power.is_placeholder).length}</strong></span>`
+    : state.mode === "relics"
+      ? `<span>遗物 <strong>${state.relics.length}</strong></span><span>占位图 <strong>${state.relics.filter((relic) => relic.is_placeholder).length}</strong></span>`
     : `<span>卡牌 <strong>${state.meta.total}</strong></span><span>占位图 <strong>${state.meta.placeholder_count}</strong></span><span>建议尺寸 <strong>${state.meta.recommended_size.width}×${state.meta.recommended_size.height}</strong></span>`;
   $("#stats").innerHTML = `${assetStats}<span>暂存 <strong>${state.meta.staged_count}</strong></span>`;
   $("#staged-badge").textContent = state.meta.staged_count;
@@ -548,6 +581,15 @@ async function loadPowers() {
   renderStats();
 }
 
+async function loadRelics() {
+  const data = await api("/api/relics");
+  state.relics = data.relics;
+  state.relicsPageSize = pageSizeForGrid("#relic-grid", state.relicsPageRows, state.relicsPageSize);
+  state.relicsPage = Math.min(state.relicsPage, Math.max(1, Math.ceil(state.relics.length / state.relicsPageSize)));
+  renderRelicGrid();
+  renderStats();
+}
+
 function renderPowerGrid() {
   const grid = $("#power-grid");
   const start = (state.powersPage - 1) * state.powersPageSize;
@@ -567,6 +609,29 @@ function renderPowerGrid() {
   renderPagination("#powers-pagination", state.powers.length, state.powersPage, state.powersPageSize, (page) => {
     state.powersPage = page;
     renderPowerGrid();
+  });
+  requestAnimationFrame(recalibrateActiveGrid);
+}
+
+function renderRelicGrid() {
+  const grid = $("#relic-grid");
+  const start = (state.relicsPage - 1) * state.relicsPageSize;
+  grid.innerHTML = state.relics.slice(start, start + state.relicsPageSize).map((relic) => `
+    <button type="button" class="power-item ${relic.staged ? "is-staged" : ""}" data-safe-id="${relic.safe_id}">
+      <img src="${relicImageUrl(relic.safe_id)}" alt="${relic.name}${relic.is_placeholder ? "（占位图）" : ""}">
+      <span class="power-item-name">${relic.name}</span>
+      <span class="tags">
+        ${relic.is_placeholder ? '<span class="tag placeholder">占位图</span>' : ""}
+        ${relic.staged ? '<span class="tag staged">已暂存</span>' : ""}
+      </span>
+    </button>
+  `).join("");
+  grid.querySelectorAll(".power-item").forEach((el) => {
+    if (el.dataset.safeId) el.addEventListener("click", () => openRelicModal(el.dataset.safeId));
+  });
+  renderPagination("#relics-pagination", state.relics.length, state.relicsPage, state.relicsPageSize, (page) => {
+    state.relicsPage = page;
+    renderRelicGrid();
   });
   requestAnimationFrame(recalibrateActiveGrid);
 }
@@ -650,8 +715,8 @@ function renderStagingList() {
     .map(
       (e) => `
     <div class="staging-item" data-safe-id="${e.safe_id}">
-      <img src="${e.asset_type === "power" ? powerImageUrl(e.safe_id) : imageUrl(e.safe_id)}" alt="">
-      <span>${e.name}${e.asset_type === "power" ? " · 能力" : ""}</span>
+      <img src="${e.asset_type === "power" || e.asset_type === "relic" ? iconImageUrl(e.safe_id) : imageUrl(e.safe_id)}" alt="">
+      <span>${e.name}${e.asset_type === "power" ? " · 能力" : e.asset_type === "relic" ? " · 遗物" : ""}</span>
     </div>
   `
     )
@@ -660,6 +725,7 @@ function renderStagingList() {
     el.addEventListener("click", () => {
       const safeId = el.dataset.safeId;
       if (safeId.startsWith("power__")) openPowerModal(safeId);
+      else if (safeId.startsWith("relic__")) openRelicModal(safeId);
       else openModal(safeId);
     });
   });
@@ -678,6 +744,11 @@ async function openModal(safeId) {
   state.activeAssetType = "card";
   state.promptDirty = false;
 
+  $("#crop-title").innerHTML = '原图裁剪 <span class="crop-badge">500×380</span>';
+  $("#power-preview-col h3").innerHTML = '能力图标预览 <span class="crop-badge">128×128 / 48×48</span>';
+  $("#power-preview-col").classList.add("hidden");
+  $("#power-draw-tools").classList.add("hidden");
+  $("#power-preview-image").removeAttribute("src");
   $("#modal-title").textContent = card.name;
   $("#info-id").textContent = card.id;
   $("#info-class").textContent = card.class_name;
@@ -714,21 +785,36 @@ async function openModal(safeId) {
 }
 
 async function openPowerModal(safeId) {
-  const power = state.powers.find((item) => item.safe_id === safeId);
-  if (!power) return;
+  await openIconModal(safeId, "power");
+}
+
+async function openRelicModal(safeId) {
+  await openIconModal(safeId, "relic");
+}
+
+async function openIconModal(safeId, assetType) {
+  const icon = (assetType === "relic" ? state.relics : state.powers)
+    .find((item) => item.safe_id === safeId);
+  if (!icon) return;
   const staging = await api("/api/staging");
   const entry = staging.entries.find((item) => item.safe_id === safeId);
   state.activeCard = null;
-  state.activePower = { ...power, crop: entry?.crop || null, staged: Boolean(entry) };
+  state.activePower = {
+    ...icon,
+    crop: entry?.crop || null,
+    staged: Boolean(entry),
+  };
   state.drawingDirty = false;
-  state.activeAssetType = "power";
-  $("#modal-title").textContent = `${power.name} 能力图片`;
-  $(".crop-col h3").innerHTML = '原图裁剪 <span class="crop-badge">1:1</span>';
-  $("#info-description").textContent = "能力图标裁剪";
+  state.activeAssetType = assetType;
+  const assetName = assetType === "relic" ? "遗物" : "能力";
+  $("#modal-title").textContent = `${icon.name} ${assetName}图片`;
+  $("#crop-title").innerHTML = '原图裁剪 <span class="crop-badge">1:1</span>';
+  $("#power-preview-col h3").innerHTML = `${assetName}图标预览 <span class="crop-badge">128×128 / 48×48</span>`;
+  $("#info-description").textContent = `${assetName}图标裁剪`;
   $("#modal .modal-content").classList.add("is-power");
   $("#modal .modal-meta-grid").classList.add("hidden");
   $("#power-preview-col").classList.remove("hidden");
-  $("#power-preview-image").src = powerImageUrl(safeId);
+  $("#power-preview-image").src = iconImageUrl(safeId);
   $("#btn-remove-staging").classList.toggle("hidden", !entry);
   updatePowerEditButtons();
   document.body.classList.add("crop-modal-open");
@@ -738,7 +824,7 @@ async function openPowerModal(safeId) {
 }
 
 function closeModal() {
-  if (state.activeAssetType === "power" && state.drawingDirty
+  if (state.activeAssetType !== "card" && state.drawingDirty
       && !window.confirm("绘图尚未保存，确定关闭并丢弃吗？")) return;
   artResizeObserver?.disconnect();
   artResizeObserver = null;
@@ -747,6 +833,9 @@ function closeModal() {
   }
   $("#modal .modal-content").classList.remove("is-power");
   $("#modal .modal-meta-grid").classList.remove("hidden");
+  $("#power-preview-col").classList.add("hidden");
+  $("#power-draw-tools").classList.add("hidden");
+  $("#power-preview-image").removeAttribute("src");
   $("#modal").classList.add("hidden");
   document.body.classList.remove("crop-modal-open");
   state.activeCard = null;
@@ -794,7 +883,8 @@ async function uploadForPower(safeId, file, { keepEdits = false } = {}) {
   form.append("file", file);
   try {
     await api(`/api/staging/${safeId}`, { method: "POST", body: form });
-    await loadPowers();
+    if (safeId.startsWith("relic__")) await loadRelics();
+    else await loadPowers();
     await loadStaging();
     const entry = (await api("/api/staging")).entries.find((item) => item.safe_id === safeId);
     const crop = {
@@ -814,7 +904,9 @@ async function uploadForPower(safeId, file, { keepEdits = false } = {}) {
     await loadPowerWorkspace(state.activePower);
     updatePowerEditButtons();
     $("#btn-remove-staging").classList.remove("hidden");
-    if (!keepEdits) showToast(`已暂存能力图标：${state.activePower.name}`);
+    if (!keepEdits) {
+      showToast(`已暂存${safeId.startsWith("relic__") ? "遗物" : "能力"}图标：${state.activePower.name}`);
+    }
   } catch (err) {
     showToast(err.message, true);
     throw err;
@@ -837,7 +929,7 @@ function setupDropZone() {
   });
   zone.addEventListener("drop", (e) => {
     const file = e.dataTransfer.files[0];
-    if (file && state.activeAssetType === "power" && state.activePower) {
+    if (file && state.activeAssetType !== "card" && state.activePower) {
       uploadForPower(state.activePower.safe_id, file);
     } else if (file && state.activeCard) {
       uploadForCard(state.activeCard.safe_id, file);
@@ -846,7 +938,7 @@ function setupDropZone() {
 
   $("#modal-file").addEventListener("change", (e) => {
     const file = e.target.files[0];
-    if (file && state.activeAssetType === "power" && state.activePower) {
+    if (file && state.activeAssetType !== "card" && state.activePower) {
       uploadForPower(state.activePower.safe_id, file);
     } else if (file && state.activeCard) {
       uploadForCard(state.activeCard.safe_id, file);
@@ -901,7 +993,7 @@ function setupPasteHandler() {
         showToast("无法读取剪贴板图片", true);
         return;
       }
-      if (state.activeAssetType === "power" && state.activePower) {
+      if (state.activeAssetType !== "card" && state.activePower) {
         await uploadForPower(state.activePower.safe_id, file);
       } else if (state.activeCard) {
         await uploadForCard(state.activeCard.safe_id, file);
@@ -920,8 +1012,16 @@ async function openCommitModal() {
   const list = $("#commit-list");
   list.innerHTML = state.staging
     .map(
-      (e) =>
-        `<li>${e.name} ${Object.keys(e.field_changes || {}).length ? "· 属性" : ""} ${e.target_image_file ? `→ ${e.target_image_file} / ${e.target_image_file.replace(/\.png$/, "_p.png")}` : ""}</li>`
+      (e) => {
+        const imageTargets = e.asset_type === "power"
+          ? `→ ${e.target_image_file} / ${e.target_small_image_file}`
+          : e.asset_type === "relic"
+            ? `→ ${e.target_image_file}`
+            : e.target_image_file
+              ? `→ ${e.target_image_file} / ${e.target_image_file.replace(/\.png$/, "_p.png")}`
+              : "";
+        return `<li>${e.name} ${Object.keys(e.field_changes || {}).length ? "· 属性" : ""} ${imageTargets}</li>`;
+      }
     )
     .join("");
   $("#commit-result").classList.add("hidden");
@@ -949,6 +1049,7 @@ async function doCommit() {
     }
     await loadCards();
     await loadPowers();
+    await loadRelics();
     await loadStaging();
     showToast(result.message);
   } catch (err) {
@@ -985,7 +1086,8 @@ function bindEvents() {
     await loadMeta();
     await loadCards();
     await loadPowers();
-    showToast(`扫描完成：${result.card_count} 张卡牌，${result.power_count} 个能力图标`);
+    await loadRelics();
+    showToast(`扫描完成：${result.card_count} 张卡牌，${result.power_count} 个能力图标，${result.relic_count} 个遗物图标`);
   });
 
   $("#btn-commit").addEventListener("click", openCommitModal);
@@ -997,6 +1099,7 @@ function bindEvents() {
       if (result.ok) {
         await loadCards();
         await loadPowers();
+        await loadRelics();
         await loadStaging();
       }
     } catch (err) {
@@ -1064,13 +1167,14 @@ function bindEvents() {
 
   $("#btn-remove-staging").addEventListener("click", async () => {
     if (!state.activeCard && !state.activePower) return;
-    const safeId = state.activeAssetType === "power" ? state.activePower.safe_id : state.activeCard.safe_id;
+    const safeId = state.activeAssetType !== "card" ? state.activePower.safe_id : state.activeCard.safe_id;
     try {
       await api(`/api/staging/${safeId}`, { method: "DELETE" });
       showToast("已撤销暂存");
       closeModal();
       await loadCards();
       await loadPowers();
+      await loadRelics();
       await loadStaging();
     } catch (err) {
       showToast(err.message, true);
@@ -1120,6 +1224,7 @@ async function init() {
   });
   gridResizeObserver.observe($("#card-grid"));
   gridResizeObserver.observe($("#power-grid"));
+  gridResizeObserver.observe($("#relic-grid"));
   window.addEventListener("resize", () => {
     requestAnimationFrame(() => requestAnimationFrame(recalibrateActiveGrid));
   });
@@ -1131,6 +1236,7 @@ async function init() {
   setMode(state.mode);
   await loadCards();
   await loadPowers();
+  await loadRelics();
   await loadStaging();
 }
 

@@ -20,7 +20,7 @@ public class FromBeyond extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(FromBeyond.class.getSimpleName());
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/FromBeyond.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Frombeyond.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
@@ -144,6 +144,12 @@ public class FromBeyond extends AbstractDungeonCard {
     private void addCardById(String cardId) {
         AbstractCard card = CardLibrary.getCopy(cardId);
         if (card != null) {
+            if (AbstractDungeon.player.hasPower("MasterRealityPower")
+                    && card.type != CardType.CURSE
+                    && card.type != CardType.STATUS) {
+                card.upgrade();
+            }
+            card.cost = 0;
             card.setCostForTurn(0);
             card.isCostModified = true;
             addToBot(new MakeTempCardInDrawPileAction(card, 1, false, false, true));

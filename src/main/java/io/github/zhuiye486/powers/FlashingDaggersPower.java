@@ -25,10 +25,10 @@ public class FlashingDaggersPower extends AbstractPower {
         this.type = PowerType.BUFF;
         this.amount = chance;
         this.region128 = new AtlasRegion(
-            ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower128.png"), 0, 0, 84, 84
+            ImageMaster.loadImage("SlayTheDungeonResources/img/powers/FlashingDaggersPower128.png"), 0, 0, 84, 84
         );
         this.region48 = new AtlasRegion(
-            ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower48.png"), 0, 0, 32, 32
+            ImageMaster.loadImage("SlayTheDungeonResources/img/powers/FlashingDaggersPower48.png"), 0, 0, 32, 32
         );
         updateDescription();
     }

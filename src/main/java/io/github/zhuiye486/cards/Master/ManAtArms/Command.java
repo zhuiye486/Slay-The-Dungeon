@@ -40,6 +40,7 @@ public class Command extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(1);
         }
     }
 

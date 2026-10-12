@@ -24,7 +24,10 @@ public class CaltropsPower extends AbstractPower {
         this.repeats = repeats;
         this.chance = chance;
         this.type = PowerType.BUFF;
-        this.loadRegion("accuracy");
+        this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/CaltropsPower128.png"), 0, 0, 84, 84);
+        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/CaltropsPower48.png"), 0, 0, 32, 32);
         updateDescription();
     }
 

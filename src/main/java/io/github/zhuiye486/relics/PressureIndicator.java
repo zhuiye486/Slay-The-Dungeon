@@ -22,7 +22,7 @@ import io.github.zhuiye486.events.ReplaceHeroCampfireOption;
 
 public class PressureIndicator extends CustomRelic{
     public static final String ID = ModHelper.makePath(PressureIndicator.class.getSimpleName());
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/ExampleRelic.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/PressureIndicator.png";
     private static final RelicTier RELIC_TIER = RelicTier.STARTER;
     private static final LandingSound LANDING_SOUND = LandingSound.FLAT;
 

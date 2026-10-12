@@ -27,9 +27,9 @@ public class RallyingFlarePower extends AbstractPower {
         this.chance = chance;
         this.brightness = brightness;
         this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower128.png"), 0, 0, 84, 84);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RallyingFlarePower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/LuckyPower48.png"), 0, 0, 32, 32);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RallyingFlarePower48.png"), 0, 0, 32, 32);
         this.description = STRINGS.DESCRIPTIONS[0] + chance + STRINGS.DESCRIPTIONS[1]
             + brightness + STRINGS.DESCRIPTIONS[2];
     }

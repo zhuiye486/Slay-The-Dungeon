@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.actions.common.EndTurnAction;
+import com.megacrit.cardcrawl.actions.watcher.PressEndTurnButtonAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -55,9 +55,7 @@ public class Escape extends AbstractDungeonCard {
                 p.escapeTimer = 2.5F;
             }
         } else {
-            addToBot(
-                new EndTurnAction()
-            );
+            addToBot(new PressEndTurnButtonAction());
         }
     }
 

@@ -3,7 +3,7 @@
   "name": "Slay The Dungeon",
   "author_list": ["Zhuiye486"],
   "description": "Play Darkest Dungeon in Slay the Spire!",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "sts_version": "2022-12-20",
   "mts_version": "3.30.3",
   "dependencies": ["basemod", "stslib"]

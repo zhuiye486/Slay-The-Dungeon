@@ -18,6 +18,7 @@ from .hero_assets import hero_image_filename, hero_image_path, hero_image_url
 from .project_paths import resolve_project_root
 from .staging import (
     add_staged_power_image,
+    add_staged_relic_image,
     add_staged_image,
     commit_staged,
     is_staged,
@@ -25,6 +26,7 @@ from .staging import (
     load_manifest,
     remove_staged,
     scan_powers,
+    scan_relics,
     stage_new_power,
     stage_card_fields,
     staging_image_path,
@@ -140,7 +142,13 @@ def health() -> dict[str, str]:
 def rescan() -> dict[str, Any]:
     entries = refresh_cards()
     powers = scan_powers(project_root, config, STAGING_DIR)
-    return {"count": len(entries), "card_count": len(entries), "power_count": len(powers)}
+    relics = scan_relics(project_root, config, STAGING_DIR)
+    return {
+        "count": len(entries),
+        "card_count": len(entries),
+        "power_count": len(powers),
+        "relic_count": len(relics),
+    }
 
 
 @app.get("/api/meta")
@@ -213,6 +221,11 @@ def list_powers() -> dict[str, Any]:
     return {"powers": scan_powers(project_root, config, STAGING_DIR)}
 
 
+@app.get("/api/relics")
+def list_relics() -> dict[str, Any]:
+    return {"relics": scan_relics(project_root, config, STAGING_DIR)}
+
+
 @app.post("/api/powers")
 async def create_power(name: str = Body(...), file: UploadFile = File(...)) -> dict[str, Any]:
     suffix = Path(file.filename or "").suffix.lower()
@@ -265,6 +278,27 @@ def get_power_image(safe_id: str) -> FileResponse:
     return FileResponse(path, media_type="image/png")
 
 
+@app.get("/api/image/relic/{safe_id}")
+def get_relic_image(safe_id: str) -> FileResponse:
+    if not safe_id.startswith("relic__"):
+        raise HTTPException(status_code=404, detail="遗物图标不存在")
+    staged = staging_image_path(STAGING_DIR, safe_id)
+    if staged.exists():
+        return FileResponse(staged, media_type="image/png")
+    relic = next(
+        (item for item in scan_relics(project_root, config, STAGING_DIR) if item["safe_id"] == safe_id),
+        None,
+    )
+    if not relic:
+        raise HTTPException(status_code=404, detail="遗物图标不存在")
+    path = project_root / config.get(
+        "relicsDir", "src/main/resources/SlayTheDungeonResources/img/relics"
+    ) / relic["image_file"]
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="遗物图片不存在")
+    return FileResponse(path, media_type="image/png")
+
+
 @app.get("/api/staging")
 def get_staging() -> dict[str, Any]:
     return {"entries": list_staged(STAGING_DIR), "count": len(list_staged(STAGING_DIR))}
@@ -285,6 +319,23 @@ async def upload_staging(safe_id: str, file: UploadFile = File(...)) -> dict[str
             tmp_path = Path(tmp.name)
         try:
             entry = add_staged_power_image(STAGING_DIR, power, tmp_path, config)
+            return {"ok": True, "entry": entry}
+        finally:
+            tmp_path.unlink(missing_ok=True)
+
+    if safe_id.startswith("relic__"):
+        relics = scan_relics(project_root, config, STAGING_DIR)
+        relic = next((item for item in relics if item["safe_id"] == safe_id), None)
+        if relic is None:
+            raise HTTPException(status_code=404, detail="遗物图标不存在")
+        suffix = Path(file.filename or "").suffix.lower()
+        if suffix and suffix != ".png":
+            raise HTTPException(status_code=400, detail="仅支持 PNG 图片")
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = Path(tmp.name)
+        try:
+            entry = add_staged_relic_image(STAGING_DIR, relic, tmp_path, config)
             return {"ok": True, "entry": entry}
         finally:
             tmp_path.unlink(missing_ok=True)
@@ -393,6 +444,7 @@ def get_hero_image(hero_key: str) -> FileResponse:
 
 @app.put("/api/staging/{safe_id}/crop")
 def save_crop(safe_id: str, crop: dict = Body(...)) -> dict[str, Any]:
+    source_path: Path
     if safe_id.startswith("power__"):
         power = next(
             (item for item in scan_powers(project_root, config, STAGING_DIR) if item["safe_id"] == safe_id),
@@ -400,10 +452,39 @@ def save_crop(safe_id: str, crop: dict = Body(...)) -> dict[str, Any]:
         )
         if power is None:
             raise HTTPException(status_code=404, detail="能力图片不存在")
-    elif safe_id not in cards_by_safe_id:
-        raise HTTPException(status_code=404, detail="卡牌不存在")
-    if not is_staged(STAGING_DIR, safe_id):
-        raise HTTPException(status_code=400, detail="请先上传图片到暂存区")
+        powers_dir = project_root / config.get(
+            "powersDir", "src/main/resources/SlayTheDungeonResources/img/powers"
+        )
+        source_path = powers_dir / power["image_file"]
+        if not source_path.exists():
+            source_path = powers_dir / "LuckyPower128.png"
+        if not source_path.exists():
+            raise HTTPException(status_code=404, detail="能力原图不存在")
+        if not staging_image_path(STAGING_DIR, safe_id).exists():
+            add_staged_power_image(STAGING_DIR, power, source_path, config)
+    elif safe_id.startswith("relic__"):
+        relic = next(
+            (item for item in scan_relics(project_root, config, STAGING_DIR) if item["safe_id"] == safe_id),
+            None,
+        )
+        if relic is None:
+            raise HTTPException(status_code=404, detail="遗物图片不存在")
+        source_path = project_root / config.get(
+            "relicsDir", "src/main/resources/SlayTheDungeonResources/img/relics"
+        ) / relic["image_file"]
+        if not source_path.exists():
+            raise HTTPException(status_code=404, detail="遗物原图不存在")
+        if not staging_image_path(STAGING_DIR, safe_id).exists():
+            add_staged_relic_image(STAGING_DIR, relic, source_path, config)
+    else:
+        card = cards_by_safe_id.get(safe_id)
+        if card is None:
+            raise HTTPException(status_code=404, detail="卡牌不存在")
+        source_path = project_root / config["imagesDir"] / card.image_file
+        if not source_path.exists():
+            raise HTTPException(status_code=404, detail="卡牌原图不存在")
+        if not staging_image_path(STAGING_DIR, safe_id).exists():
+            add_staged_image(STAGING_DIR, card, source_path, config)
     try:
         saved = update_staged_crop(STAGING_DIR, safe_id, crop)
         return {"ok": True, "crop": saved}

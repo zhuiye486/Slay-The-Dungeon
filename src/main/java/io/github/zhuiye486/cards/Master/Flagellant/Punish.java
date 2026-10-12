@@ -27,7 +27,6 @@ public class Punish extends AbstractDungeonCard {
 
     public Punish() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 5;
     }
 
     
@@ -36,6 +35,9 @@ public class Punish extends AbstractDungeonCard {
         int amount = player.hasPower(BleedPower.POWER_ID) ? player.getPower(BleedPower.POWER_ID).amount : this.magicNumber;
         for (AbstractMonster target : AbstractDungeon.getCurrRoom().monsters.monsters) {
             addToBot(new ApplyPowerAction(target, player, new BleedPower(target, amount)));
+            if (this.upgraded) {
+                addToBot(new ApplyPowerAction(target, player, new BleedPower(target, 5)));
+            }
         }
     }
 

@@ -128,10 +128,22 @@ body[data-mode="powers"] .card-filters,
 body[data-mode="powers"] .prompt-panel,
 body[data-mode="powers"] #card-grid,
 body[data-mode="powers"] #empty-msg,
-body[data-mode="powers"] #cards-pagination { display: none; }
+body[data-mode="powers"] #cards-pagination,
+body[data-mode="relics"] .card-filters,
+body[data-mode="relics"] .prompt-panel,
+body[data-mode="relics"] #card-grid,
+body[data-mode="relics"] #empty-msg,
+body[data-mode="relics"] #cards-pagination { display: none; }
 body[data-mode="powers"] .power-library { display: block; }
+body[data-mode="relics"] .relic-library { display: block; }
 body[data-mode="cards"] .power-library,
-body[data-mode="cards"] #powers-pagination { display: none; }
+body[data-mode="cards"] #powers-pagination,
+body[data-mode="cards"] .relic-library,
+body[data-mode="cards"] #relics-pagination,
+body[data-mode="powers"] .relic-library,
+body[data-mode="powers"] #relics-pagination,
+body[data-mode="relics"] .power-library,
+body[data-mode="relics"] #powers-pagination { display: none; }
 
 @media (max-width: 1100px) {
   .header {

@@ -20,7 +20,10 @@ public class BeastBilePower extends AbstractPower {
         this.owner = owner;
         this.type = PowerType.BUFF;
         this.amount = -1;
-        this.loadRegion("poison");
+        this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/BeastBilePower128.png"), 0, 0, 84, 84);
+        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/BeastBilePower48.png"), 0, 0, 32, 32);
         this.description = STRINGS.DESCRIPTIONS[0];
     }
 

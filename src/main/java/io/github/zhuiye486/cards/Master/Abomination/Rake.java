@@ -14,6 +14,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.powers.BleedPower;
+import io.github.zhuiye486.powers.PlaguePower;
 
 public class Rake extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(Rake.class.getSimpleName());
@@ -61,6 +62,16 @@ public class Rake extends AbstractDungeonCard {
                 m, 
                 p, 
                 new BleedPower(
+                    m, 
+                    this.baseMagicNumber
+                )
+            )
+        );
+        addToBot(
+            new ApplyPowerAction(
+                m, 
+                p, 
+                new PlaguePower(
                     m, 
                     this.baseMagicNumber
                 )

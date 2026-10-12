@@ -17,8 +17,34 @@
     <maven.compiler.release>8</maven.compiler.release>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <Steam.path>/Users/zhuiye/Library/Application Support/Steam/steamapps</Steam.path>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <Steam.path>D:/Program Files (x86)/Steam/steamapps</Steam.path>
+        <game.resources.path>${Steam.path}/common/SlayTheSpire</game.resources.path>
+      </properties>
+    </profile>
+    <profile>
+      <id>macos</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <Steam.path>${user.home}/Library/Application Support/Steam/steamapps</Steam.path>
+        <game.resources.path>${Steam.path}/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources</game.resources.path>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
@@ -38,7 +64,7 @@
       <artifactId>slaythespire</artifactId>
       <version>2022-12-20</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/desktop-1.0.jar</systemPath>
+      <systemPath>${game.resources.path}/desktop-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>basemod</groupId>
@@ -139,7 +165,8 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <copy file="target/${project.artifactId}.jar" tofile="${Steam.path}/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/mods/${project.artifactId}.jar" overwrite="true"/>
+                <mkdir dir="${game.resources.path}/mods"/>
+                <copy file="target/${project.artifactId}.jar" tofile="${game.resources.path}/mods/${project.artifactId}.jar" overwrite="true"/>
               </target>
             </configuration>
             <goals>

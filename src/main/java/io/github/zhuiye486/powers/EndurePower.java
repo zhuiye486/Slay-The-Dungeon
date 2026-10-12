@@ -22,9 +22,9 @@ public class EndurePower extends AbstractPower {
         this.amount = turns;
         this.heal = heal;
         this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RecoveryPower128.png"), 0, 0, 84, 84);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/EndurePower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
-                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RecoveryPower48.png"), 0, 0, 32, 32);
+                ImageMaster.loadImage("SlayTheDungeonResources/img/powers/EndurePower48.png"), 0, 0, 32, 32);
         updateDescription();
     }
 

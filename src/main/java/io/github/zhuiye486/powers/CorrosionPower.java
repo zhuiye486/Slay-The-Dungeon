@@ -27,8 +27,8 @@ public class CorrosionPower extends AbstractPower {
         this.type = PowerType.DEBUFF;
         this.amount = amount;
 
-        String path128 = "SlayTheDungeonResources/img/powers/PlaguePower128.png";
-        String path48 = "SlayTheDungeonResources/img/powers/PlaguePower48.png";
+        String path128 = "SlayTheDungeonResources/img/powers/CorrosionPower128.png";
+        String path48 = "SlayTheDungeonResources/img/powers/CorrosionPower48.png";
         this.region128 = new AtlasRegion(ImageMaster.loadImage(path128), 0, 0, 84, 84);
         this.region48 = new AtlasRegion(ImageMaster.loadImage(path48), 0, 0, 32, 32);
 

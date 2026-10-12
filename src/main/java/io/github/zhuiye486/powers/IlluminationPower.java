@@ -17,7 +17,10 @@ public class IlluminationPower extends com.megacrit.cardcrawl.powers.AbstractPow
         this.owner = owner;
         this.amount = amount;
         this.type = PowerType.BUFF;
-        this.loadRegion("accuracy");
+        this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/IlluminationPower128.png"), 0, 0, 84, 84);
+        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/IlluminationPower48.png"), 0, 0, 32, 32);
         this.description = STRINGS.DESCRIPTIONS[0] + amount + STRINGS.DESCRIPTIONS[1];
     }
 

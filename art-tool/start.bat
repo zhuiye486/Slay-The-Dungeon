@@ -2,10 +2,17 @@
 chcp 65001 >nul
 cd /d "%~dp0"
 
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo 请先安装 Python 3.10+ 并确保 python 在 PATH 中。
+    pause
+    exit /b 1
+)
+
 echo 正在检查 Python 依赖...
 python -m pip install -r requirements.txt -q
 if errorlevel 1 (
-    echo 请先安装 Python 3.10+ 并确保 python 在 PATH 中。
+    echo Python 依赖安装失败，请查看上方错误信息。
     pause
     exit /b 1
 )

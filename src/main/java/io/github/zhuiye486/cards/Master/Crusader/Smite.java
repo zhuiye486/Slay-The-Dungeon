@@ -17,7 +17,7 @@ public class Smite extends AbstractDungeonCard {
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Smite.png";
-    private static final int COST = 1;
+    private static final int COST = 2;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.POWER;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
@@ -26,7 +26,7 @@ public class Smite extends AbstractDungeonCard {
 
     public Smite() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 100;
+        this.magicNumber = this.baseMagicNumber = 25;
     }
 
     
@@ -40,7 +40,7 @@ public class Smite extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(50);
+            upgradeMagicNumber(10);
         }
     }
 

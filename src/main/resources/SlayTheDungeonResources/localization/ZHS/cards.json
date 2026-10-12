@@ -278,7 +278,8 @@
     },
     "SlayTheDungeon:Punish": {
         "NAME": "责罚",
-        "DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。"
+        "DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。",
+        "UPGRADE_DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。 NL 然后给予所有敌人5层 slaythedungeon:流血 。"
     },
     "SlayTheDungeon:Exsanguinate": {
         "NAME": "除血",
@@ -366,7 +367,7 @@
     },
     "SlayTheDungeon:AdrenalineRush": {
         "NAME": "腺素飙升",
-        "DESCRIPTION": "每当你使用一张牌，额外打出手牌中的另一张牌，获得其 [E] 消耗 !M! 倍的 slaythedungeon:流血 。"
+        "DESCRIPTION": "每当你使用一张牌，额外打出手牌中的另一张牌，获得其 [E] 消耗的 slaythedungeon:流血 。"
     },
     "SlayTheDungeon:CollectBounty": {
         "NAME": "收集赏金",
@@ -595,7 +596,7 @@
     },
     "SlayTheDungeon:FromBeyond": {
         "NAME": "从冥界而来",
-        "DESCRIPTION": "随机将一名英雄的初始卡牌加入你的抽牌堆，它们在本场战斗中费用变为0点。 NL 消耗 。"
+        "DESCRIPTION": "随机将一名英雄过去的初始卡牌加入你的抽牌堆，它们在本场战斗中费用变为0点。 NL 消耗 。"
     },
     "SlayTheDungeon:RainInTheForest": {
         "NAME": "林中落雨",

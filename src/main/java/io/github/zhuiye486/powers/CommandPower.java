@@ -20,7 +20,10 @@ public class CommandPower extends AbstractPower {
         this.ID = POWER_ID;
         this.amount = amount;
         this.type = PowerType.BUFF;
-        this.loadRegion("accuracy");
+        this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/CommandPower128.png"), 0, 0, 84, 84);
+        this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
+                com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/CommandPower48.png"), 0, 0, 32, 32);
         this.description = STRINGS.DESCRIPTIONS[0] + amount + STRINGS.DESCRIPTIONS[1];
     }
 

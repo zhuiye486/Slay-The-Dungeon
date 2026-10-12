@@ -10,7 +10,7 @@ import io.github.zhuiye486.helpers.ModHelper;
 
 public class BrightnessIndicator extends CustomRelic {
     public static final String ID = ModHelper.makePath(BrightnessIndicator.class.getSimpleName());
-    private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/ExampleRelic.png";
+    private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/BrightnessIndicator.png";
     private static final RelicTier RELIC_TIER = RelicTier.STARTER;
     private static final LandingSound LANDING_SOUND = LandingSound.FLAT;
     public static final int MIN_BRIGHTNESS = 0;

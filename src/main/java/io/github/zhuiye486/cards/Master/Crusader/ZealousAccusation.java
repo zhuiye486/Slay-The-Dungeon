@@ -48,6 +48,7 @@ public class ZealousAccusation extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeSecondMagicNumber(2);
         }
     }
 

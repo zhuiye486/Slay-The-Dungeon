@@ -34,19 +34,26 @@
 
 ## 构建 Java 模组
 
-Maven 依赖直接引用本机 Steam 和 Steam Workshop 中的游戏及 ModTheSpire 组件。默认路径配置在 [pom.xml](pom.xml) 的 `Steam.path` 属性中：
+Maven 依赖直接引用本机 Steam 和 Steam Workshop 中的游戏及 ModTheSpire 组件。[pom.xml](pom.xml) 会按操作系统选择默认 Steam 路径：
 
-```xml
-<Steam.path>/Users/zhuiye/Library/Application Support/Steam/steamapps</Steam.path>
-```
+| 操作系统 | 默认 Steam 路径 | 游戏资源目录 |
+| --- | --- | --- |
+| Windows | `D:/Program Files (x86)/Steam/steamapps` | `common/SlayTheSpire` |
+| macOS | `~/Library/Application Support/Steam/steamapps` | `common/SlayTheSpire/SlayTheSpire.app/Contents/Resources` |
 
-如果 Steam 安装位置不同，请先修改该属性，并确认以下文件存在：
+确认以下文件存在：
 
 ```text
-common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/desktop-1.0.jar
+common/SlayTheSpire/desktop-1.0.jar
 workshop/content/646570/1605833019/BaseMod.jar
 workshop/content/646570/1605060445/ModTheSpire.jar
 workshop/content/646570/1609158507/STSLib.jar
+```
+
+如果 Steam 安装位置不同，可以通过 Maven 属性指定 `steamapps` 目录（以下为 PowerShell 示例）；游戏 JAR 及 Mods 输出目录需仍位于该 Steam 库的默认相对位置：
+
+```powershell
+mvn package "-DSteam.path=E:/SteamLibrary/steamapps"
 ```
 
 构建并运行测试：
@@ -61,10 +68,10 @@ mvn test
 mvn package
 ```
 
-`package` 阶段会生成 `target/Slay-The-Dungeon.jar`，并通过 Maven AntRun 插件自动复制到：
+`package` 阶段会生成 `target/Slay-The-Dungeon.jar`，并通过 Maven AntRun 插件自动复制到游戏资源目录下的 `mods/`：
 
 ```text
-<Steam.path>/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/mods/
+<game.resources.path>/mods/
 ```
 
 构建完成后，启动 ModTheSpire，勾选 `BaseMod`、`STSLib` 和 `Slay The Dungeon` 即可加载模组。
@@ -153,4 +160,3 @@ mvn test
 ## 项目状态
 
 项目版本为 `0.1.2`，仍处于持续开发阶段。部分资源和实现仍可能使用占位内容；提交卡牌美术前建议先在美术工具中预览裁剪和卡框效果，再执行提交。
-

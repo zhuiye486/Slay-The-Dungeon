@@ -19,6 +19,7 @@
   "cardImageSuffix": "_p",
   "frameMaskDir": "assets/frames",
   "charImagesDir": "src/main/resources/SlayTheDungeonResources/img/char",
+  "relicsDir": "src/main/resources/SlayTheDungeonResources/img/relics",
   "frameSize": 1024,
   "frameArtPosition": { "x": 262, "y": 180 },
   "serverPort": 8765

@@ -30,7 +30,7 @@ public class Shovel extends AbstractDungeonCard {
 
     public Shovel() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 5;
+        this.damage = this.baseDamage = 6;
     }
 
     @Override

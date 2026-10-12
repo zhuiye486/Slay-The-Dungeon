@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>卡牌美术工具 — Slay The Dungeon</title>
-  <link rel="stylesheet" href="/style.css?v=20261009-crop-scroll-lock-1">
+  <link rel="stylesheet" href="/style.css?v=20261011-relic-upload-1">
 </head>
 <body>
   <header class="header">
@@ -23,6 +23,7 @@
     <nav class="mode-switch" role="tablist" aria-label="资源编辑模式">
       <button type="button" class="mode-tab is-active" role="tab" data-mode="cards" aria-selected="true">卡牌</button>
       <button type="button" class="mode-tab" role="tab" data-mode="powers" aria-selected="false">能力</button>
+      <button type="button" class="mode-tab" role="tab" data-mode="relics" aria-selected="false">遗物</button>
     </nav>
   </header>
 
@@ -88,6 +89,10 @@
       <div id="power-grid" class="power-grid"></div>
     </section>
     <nav id="powers-pagination" class="pagination hidden" aria-label="能力图片分页"></nav>
+    <section class="relic-library">
+      <div id="relic-grid" class="power-grid"></div>
+    </section>
+    <nav id="relics-pagination" class="pagination hidden" aria-label="遗物图片分页"></nav>
     <div id="card-grid" class="card-grid"></div>
     <p id="empty-msg" class="empty-msg hidden">没有匹配的卡牌</p>
     <nav id="cards-pagination" class="pagination hidden" aria-label="卡牌分页"></nav>
@@ -252,6 +257,6 @@
 
   <div id="toast" class="toast hidden"></div>
 
-  <script type="module" src="/app.js?v=20261009-drawing-save-fix-4"></script>
+  <script type="module" src="/app.js?v=20261012-reset-icon-preview-1"></script>
 </body>
 </html>

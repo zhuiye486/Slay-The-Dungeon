@@ -42,10 +42,16 @@ export function defaultCropRect(width, height, aspectRatio = CROP_ASPECT) {
   };
 }
 
-export function clampCrop(crop, width, height) {
+export function clampCrop(crop, width, height, aspectRatio = null) {
   let { x, y, width: w, height: h } = crop;
-  w = Math.max(20, Math.min(w, width));
-  h = Math.max(20, Math.min(h, height));
+  if (aspectRatio) {
+    const maxWidth = Math.min(width, height * aspectRatio);
+    w = Math.max(Math.min(20, maxWidth), Math.min(w, maxWidth));
+    h = w / aspectRatio;
+  } else {
+    w = Math.max(20, Math.min(w, width));
+    h = Math.max(20, Math.min(h, height));
+  }
   x = Math.max(0, Math.min(x, width - w));
   y = Math.max(0, Math.min(y, height - h));
   return {
@@ -184,11 +190,7 @@ export class CropEditor {
 
   screenToImagePoint(clientX, clientY) {
     if (!this.image) return null;
-    const rect = this.canvas.getBoundingClientRect();
-    const [sx, sy] = [
-      (clientX - rect.left) * this.canvas.width / rect.width,
-      (clientY - rect.top) * this.canvas.height / rect.height,
-    ];
+    const [sx, sy] = this.clientToCanvasPoint(clientX, clientY);
     const [ux, uy] = this.screenToImage(sx, sy);
     const radians = -this.rotation * Math.PI / 180;
     const viewWidth = this.image.naturalWidth * Math.abs(Math.cos(radians))
@@ -201,6 +203,14 @@ export class CropEditor {
     const dy = uy - viewHeight / 2;
     return [cx + dx * Math.cos(radians) - dy * Math.sin(radians),
       cy + dx * Math.sin(radians) + dy * Math.cos(radians)];
+  }
+
+  clientToCanvasPoint(clientX, clientY) {
+    const rect = this.canvas.getBoundingClientRect();
+    return [
+      (clientX - rect.left) * this.canvas.width / rect.width,
+      (clientY - rect.top) * this.canvas.height / rect.height,
+    ];
   }
 
   imageToScreenPoint(ix, iy) {
@@ -293,7 +303,8 @@ export class CropEditor {
     this.crop = clampCrop(
       { ...defaultCropRect(this.image.naturalWidth, this.image.naturalHeight, this.aspectRatio), ...crop },
       this.image.naturalWidth,
-      this.image.naturalHeight
+      this.image.naturalHeight,
+      this.aspectRatio
     );
     this.draw();
   }
@@ -382,9 +393,7 @@ export class CropEditor {
       e.preventDefault();
       return;
     }
-    const rect = this.canvas.getBoundingClientRect();
-    const sx = e.clientX - rect.left;
-    const sy = e.clientY - rect.top;
+    const [sx, sy] = this.clientToCanvasPoint(e.clientX, e.clientY);
     const handle = this.getHandleAt(sx, sy);
     if (!handle) return;
     this.dragging = handle;
@@ -400,9 +409,7 @@ export class CropEditor {
       e.preventDefault();
       return;
     }
-    const rect = this.canvas.getBoundingClientRect();
-    const sx = e.clientX - rect.left;
-    const sy = e.clientY - rect.top;
+    const [sx, sy] = this.clientToCanvasPoint(e.clientX, e.clientY);
 
     if (!this.dragging) {
       const h = this.getHandleAt(sx, sy);
@@ -424,23 +431,24 @@ export class CropEditor {
     this._lastPointer = { sx, sy };
 
     let { x, y, width, height } = this.crop;
-    const minW = 40;
-    const minH = minW / this.aspectRatio;
+    const minW = Math.min(40, Math.min(
+      this.image.naturalWidth,
+      this.image.naturalHeight * this.aspectRatio,
+    ));
 
     if (this.dragging === "move") {
       x += dx;
       y += dy;
     } else {
-      if (this.dragging.includes("e")) width += dx;
-      if (this.dragging.includes("w")) {
+      if (this.dragging === "n" || this.dragging === "s") {
+        width = (this.dragging === "n" ? -dy : dy) * this.aspectRatio + width;
+      } else if (this.dragging.includes("e")) {
+        width += dx;
+      } else if (this.dragging.includes("w")) {
         x += dx;
         width -= dx;
       }
-      if (this.dragging.includes("s")) height += dy;
-      if (this.dragging.includes("n")) {
-        y += dy;
-        height -= dy;
-      }
+      width = Math.max(minW, width);
       height = width / this.aspectRatio;
       if (this.dragging.includes("n")) {
         y = this.crop.y + this.crop.height - height;
@@ -448,14 +456,13 @@ export class CropEditor {
       if (this.dragging.includes("w")) {
         x = this.crop.x + this.crop.width - width;
       }
-      width = Math.max(minW, width);
-      height = width / this.aspectRatio;
     }
 
     this.crop = clampCrop(
       { ...this.crop, x, y, width, height, applied: true },
       this.image.naturalWidth,
-      this.image.naturalHeight
+      this.image.naturalHeight,
+      this.aspectRatio
     );
     this.draw();
     this.emitChange();
@@ -480,13 +487,19 @@ export class CropEditor {
   }
 
   onWheel(e) {
-    if (!this.image || !this.getHandleAt(e.offsetX, e.offsetY)) return;
+    if (!this.image) return;
+    const [sx, sy] = this.clientToCanvasPoint(e.clientX, e.clientY);
+    if (!this.getHandleAt(sx, sy)) return;
     e.preventDefault();
     const factor = e.deltaY > 0 ? 0.95 : 1.05;
     const cx = this.crop.x + this.crop.width / 2;
     const cy = this.crop.y + this.crop.height / 2;
     let nw = this.crop.width * factor;
-    nw = Math.max(40, Math.min(nw, this.image.naturalWidth));
+    const maxWidth = Math.min(
+      this.image.naturalWidth,
+      this.image.naturalHeight * this.aspectRatio,
+    );
+    nw = Math.max(Math.min(40, maxWidth), Math.min(nw, maxWidth));
     const nh = nw / this.aspectRatio;
     this.crop = clampCrop(
       {
@@ -498,7 +511,8 @@ export class CropEditor {
         applied: true,
       },
       this.image.naturalWidth,
-      this.image.naturalHeight
+      this.image.naturalHeight,
+      this.aspectRatio
     );
     this.draw();
     this.emitChange();

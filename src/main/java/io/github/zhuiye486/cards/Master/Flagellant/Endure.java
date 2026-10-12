@@ -28,8 +28,8 @@ public class Endure extends AbstractDungeonCard {
 
     public Endure() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 8;
-        this.heal = this.baseHeal = 5;
+        this.damage = this.baseDamage = 5;
+        this.heal = this.baseHeal = 8;
     }
 
     
@@ -45,7 +45,7 @@ public class Endure extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);
-            this.baseHeal += 2;
+            this.baseHeal += 3;
             this.heal = this.baseHeal;
         }
     }

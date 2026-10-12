@@ -1,6 +1,6 @@
 # 卡牌美术工具
 
-面向美术设计师的本地网页工具，用于浏览、替换和提交 Slay The Dungeon 模组卡牌图片。
+面向美术设计师的本地网页工具，用于浏览、替换和提交 Slay The Dungeon 模组的卡牌、能力与遗物图片。
 
 ## 快速开始
 
@@ -28,6 +28,8 @@ cd art-tool
     - 小图使用 `CardName.png`，大图使用 `CardName_p.png`
     - 更新对应 Java 文件的 `IMG_PATH` 指向小图
 
+遗物页使用与能力图标一致的流程：选择遗物后可拖拽、粘贴或选择 PNG，暂存后可裁剪、旋转、翻转和绘制，提交时会输出 `128 × 128` PNG 到 `src/main/resources/SlayTheDungeonResources/img/relics/`，并更新对应遗物类的 `IMG_PATH`。所有图片变更都可通过「撤销上次提交」恢复。
+
 ## 命名规则
 
 提交后每张卡使用独立文件名：
@@ -44,6 +46,7 @@ SlayTheDungeon:SniperShot  →  SniperShot.png
 - 输入图建议尺寸：**500 × 380**（与杀戮尖塔卡牌比例一致）
 - 尺寸或格式不符时**仅提醒**，不阻止暂存或提交
 - 提交时按卡牌类型应用 `attack_mask.png`、`skill_mask.png` 或 `power_mask.png`
+- 能力和遗物图标建议为 **128 × 128**；尺寸不符时同样仅提醒
 
 ## 目录说明
 

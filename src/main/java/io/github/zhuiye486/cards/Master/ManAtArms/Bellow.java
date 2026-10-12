@@ -44,6 +44,7 @@ public class Bellow extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeBaseCost(0);
         }
     }
 

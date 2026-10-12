@@ -17,7 +17,7 @@ public class AdrenalineRush extends AbstractDungeonCard {
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/AdrenalineRush.png";
-    private static final int COST = 1;
+    private static final int COST = 2;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.POWER;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
@@ -26,13 +26,12 @@ public class AdrenalineRush extends AbstractDungeonCard {
 
     public AdrenalineRush() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 1;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new ApplyPowerAction(player, player, new AdrenalineRushPower(player, this.magicNumber)));
+        addToBot(new ApplyPowerAction(player, player, new AdrenalineRushPower(player, 1)));
     }
 
     
@@ -40,7 +39,7 @@ public class AdrenalineRush extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(1);
+            upgradeBaseCost(1);
         }
     }
 

@@ -1,72 +1,16 @@
 {
   "entries": {},
   "last_commit": {
-    "id": "20261009T091443230811Z",
-    "directory": "backups/20261009T091443230811Z",
+    "id": "20261012T062035371228Z",
+    "directory": "backups\\20261012T062035371228Z",
     "files": [
       {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/HoundSupportPower128.png",
-        "exists": false
+        "path": "src/main/java/io/github/zhuiye486/cards/FromBeyond.java",
+        "exists": true
       },
       {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/HoundSupportPower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/IlluminationPower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/IlluminationPower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RagePower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RagePower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RallyingFlarePower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RallyingFlarePower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RoarPower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/RoarPower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/SmitePower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/SmitePower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/SolemnityPower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/SolemnityPower48.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/WickedHackPower128.png",
-        "exists": false
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/img/powers/WickedHackPower48.png",
-        "exists": false
+        "path": "src/main/resources/SlayTheDungeonResources/localization/ZHS/cards.json",
+        "exists": true
       }
     ]
   }

@@ -104,6 +104,85 @@ def scan_powers(project_root: Path, config: dict[str, Any], staging_dir: Path) -
     return powers
 
 
+def scan_relics(project_root: Path, config: dict[str, Any], staging_dir: Path) -> list[dict[str, Any]]:
+    relics_dir = project_root / config.get(
+        "relicsDir", "src/main/resources/SlayTheDungeonResources/img/relics"
+    )
+    relics_java_dir = project_root / "src/main/java/io/github/zhuiye486/relics"
+    strings_path = project_root / "src/main/resources/SlayTheDungeonResources/localization/ZHS/relics.json"
+    try:
+        with strings_path.open(encoding="utf-8") as f:
+            relic_strings = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        relic_strings = {}
+
+    entries = load_manifest(staging_dir).get("entries", {})
+    relics: list[dict[str, Any]] = []
+    for java_path in sorted(relics_java_dir.glob("*.java")):
+        source = java_path.read_text(encoding="utf-8")
+        id_match = re.search(r'ID\s*=\s*ModHelper\.makePath\((?:[^"]*"([^"]+)"|[^)]+)\)', source)
+        image_match = re.search(r'IMG_PATH\s*=\s*"SlayTheDungeonResources/img/relics/([^"]+)"', source)
+        if not id_match:
+            continue
+        relic_id = id_match.group(1) or java_path.stem
+        safe_id = f"relic__{relic_id}"
+        image_file = image_match.group(1) if image_match else f"{java_path.stem}.png"
+        strings = relic_strings.get(f"SlayTheDungeon:{relic_id}", {})
+        staged = safe_id in entries
+        relics.append({
+            "safe_id": safe_id,
+            "name": strings.get("NAME") or relic_id,
+            "relic_id": relic_id,
+            "class_name": java_path.stem,
+            "java_file": str(java_path.relative_to(project_root)),
+            "image_file": image_file,
+            "target_image_file": f"{java_path.stem}.png",
+            "has_image": (relics_dir / image_file).exists() or staged,
+            "is_placeholder": not (relics_dir / image_file).exists() and not staged,
+            "staged": staged,
+            "crop": entries.get(safe_id, {}).get("crop"),
+        })
+    return relics
+
+
+def add_staged_relic_image(
+    staging_dir: Path,
+    relic: dict[str, Any],
+    source_path: Path,
+    config: dict[str, Any],
+) -> dict[str, Any]:
+    images_dir = staging_dir / "images"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    safe_id = relic["safe_id"]
+    dest = staging_image_path(staging_dir, safe_id)
+    dest.write_bytes(source_path.read_bytes())
+    warnings = validate_png(dest, {
+        **config,
+        "recommendedWidth": 128,
+        "recommendedHeight": 128,
+    })
+    width, height = _read_image_size(dest)
+    manifest = load_manifest(staging_dir)
+    entry = manifest["entries"].get(safe_id, {
+        "asset_type": "relic",
+        "safe_id": safe_id,
+        "name": relic["name"],
+        "relic_id": relic["relic_id"],
+        "java_file": relic["java_file"],
+        "target_image_file": relic["target_image_file"],
+    })
+    entry["warnings"] = warnings
+    entry["staged_at"] = datetime.now(timezone.utc).isoformat()
+    entry["crop"] = {
+        **default_square_crop_rect(width, height),
+        "rotation": 0,
+        "flipX": False,
+    }
+    manifest["entries"][safe_id] = entry
+    save_manifest(staging_dir, manifest)
+    return entry
+
+
 def stage_new_power(
     staging_dir: Path,
     name: str,
@@ -289,7 +368,7 @@ def update_staged_crop(
 
     width, height = _read_image_size(staged_file)
     normalized = normalize_crop(crop, width, height)
-    if entry.get("asset_type") == "power":
+    if entry.get("asset_type") in {"power", "relic"}:
         normalized["rotation"] = float(crop.get("rotation", 0)) % 360
         normalized["flipX"] = bool(crop.get("flipX", False))
     entry["crop"] = normalized
@@ -570,6 +649,19 @@ def prepare_power_java_update(
     raise ValueError(f"找不到 POWER_ID 为 {power_id} 的 Java 源文件")
 
 
+def prepare_relic_java_update(java_path: Path, target_image_file: str) -> str:
+    content = java_path.read_text(encoding="utf-8")
+    updated_content, count = re.subn(
+        r'(IMG_PATH\s*=\s*"SlayTheDungeonResources/img/relics/)[^"]+(")',
+        rf"\1{target_image_file}\2",
+        content,
+        count=1,
+    )
+    if count != 1:
+        raise ValueError(f"无法在 {java_path.name} 中更新遗物 IMG_PATH")
+    return updated_content
+
+
 def commit_staged(
     staging_dir: Path,
     project_root: Path,
@@ -637,6 +729,35 @@ def commit_staged(
                     "small_image_file": entry["target_small_image_file"],
                     "java_file": str(power_java_path.relative_to(project_root)),
                     "asset_type": "power",
+                    "cropped": bool(entry.get("crop", {}).get("applied")),
+                })
+                del manifest["entries"][safe_id]
+                continue
+
+            if entry.get("asset_type") == "relic":
+                relics_dir = project_root / config.get(
+                    "relicsDir", "src/main/resources/SlayTheDungeonResources/img/relics"
+                )
+                relics_dir.mkdir(parents=True, exist_ok=True)
+                staged_file = staging_image_path(staging_dir, safe_id)
+                if not staged_file.exists():
+                    raise FileNotFoundError("暂存遗物图片不存在")
+                java_path = project_root / entry["java_file"]
+                target_path = relics_dir / entry["target_image_file"]
+                updated_java = prepare_relic_java_update(java_path, entry["target_image_file"])
+                backup_file(java_path)
+                backup_file(target_path)
+                with Image.open(staged_file) as img:
+                    relic, _ = render_power_variants(img, entry.get("crop"))
+                    relic.save(target_path, format="PNG")
+                java_path.write_text(updated_java, encoding="utf-8")
+                staged_file.unlink()
+                committed.append({
+                    "safe_id": safe_id,
+                    "name": entry["name"],
+                    "target_image_file": entry["target_image_file"],
+                    "java_file": entry["java_file"],
+                    "asset_type": "relic",
                     "cropped": bool(entry.get("crop", {}).get("applied")),
                 })
                 del manifest["entries"][safe_id]
