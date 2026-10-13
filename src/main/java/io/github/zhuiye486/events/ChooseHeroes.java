@@ -20,9 +20,10 @@ public class ChooseHeroes extends AbstractImageEvent {
     private static final String NAME = EVENT_STRINGS.NAME;
     private static final String[] DESCRIPTIONS = EVENT_STRINGS.DESCRIPTIONS;
     private static final String[] OPTIONS = EVENT_STRINGS.OPTIONS;
+    private static final int HERO_COUNT = 18;
 
     public static String getHeroOption(int heroNumber) {
-        if (heroNumber < 1 || heroNumber > OPTIONS.length) {
+        if (heroNumber < 1 || heroNumber > HERO_COUNT) {
             return Integer.toString(heroNumber);
         }
         return OPTIONS[heroNumber - 1];
@@ -68,7 +69,7 @@ public class ChooseHeroes extends AbstractImageEvent {
             this.currentSequence = generateUniqueRandomSequence(4, 1, 18, this.selectedHeroes);
             this.imageEventText.clearAllDialogs();
             this.imageEventText.clearRemainingOptions();
-            this.imageEventText.updateBodyText("这是第" + (this.choiceCount + 1) + "次选择，请从以下英雄中选择一个：");
+            this.imageEventText.updateBodyText(DESCRIPTIONS[this.choiceCount]);
 
             for (int i = 0; i < this.currentSequence.size(); i++) {
                 int number = this.currentSequence.get(i);
@@ -78,8 +79,8 @@ public class ChooseHeroes extends AbstractImageEvent {
             // 选择完成
             this.imageEventText.clearAllDialogs();
             this.imageEventText.clearRemainingOptions();
-            this.imageEventText.updateBodyText("选择完成！");
-            this.imageEventText.setDialogOption("离开");
+            this.imageEventText.updateBodyText(DESCRIPTIONS[4]);
+            this.imageEventText.setDialogOption(OPTIONS[18]);
             io.github.zhuiye486.characters.Heroes.updateStartingDeckForSelection(this.selectedHeroes);
             // Compose character image
             io.github.zhuiye486.characters.Heroes.composeCharacterImage(this.selectedHeroes);

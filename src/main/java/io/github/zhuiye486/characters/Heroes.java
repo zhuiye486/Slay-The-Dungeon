@@ -380,7 +380,7 @@ public class Heroes extends CustomPlayer {
     // 人物名字（出现在游戏左上角）
     @Override
     public String getTitle(PlayerClass playerClass) {
-        return "英雄们";
+        return characterStrings.NAMES[0];
     }
 
     // 你的卡牌颜色（这个枚举在最下方创建）

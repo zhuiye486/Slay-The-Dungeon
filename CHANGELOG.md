@@ -1,5 +1,23 @@
 # 更新日志 | Changelog
 
+## 0.2.4
+
+### 游戏内容与修正 | Gameplay & Fixes
+- 修正火枪手卡牌效果：「猎兽铅弹」升级后增加每回合触发次数；「呼叫射击」现在正确选择敌人作为目标。<br>
+  Fixed Musketeer card behavior: upgrading Buckshot now increases the number of Attacks it affects each turn, and Call the Shot now correctly targets an enemy.
+- 改进组队事件的选择流程，逐次显示选择进度，并在队伍组建完成后提供离开选项。<br>
+  Improved the party selection event with step-by-step progress text and a Leave option after the party is assembled.
+
+### 本地化 | Localization
+- 新增英文卡牌、角色、关键词、能力和遗物本地化，并补齐组队事件的英文文本。<br>
+  Added English localization for cards, the character, keywords, Powers, and Relics, and completed the English text for the party selection event.
+- 更新组队事件的简体中文提示与选项；角色名称现在从本地化文本读取。<br>
+  Updated the Simplified Chinese party selection prompts and options; the character title is now read from localization.
+- 统一关键词别名的小写注册形式，提升卡牌文本中关键词匹配的一致性。<br>
+  Normalize keyword aliases to lowercase when registering them, improving keyword matching consistency in card text.
+- 修正「猎兽铅弹」的简体中文说明，使其与实际效果一致。<br>
+  Corrected the Simplified Chinese description of Buckshot to match its behavior.
+
 ## 0.2.3
 
 ### 游戏内容与平衡 | Gameplay & Balance

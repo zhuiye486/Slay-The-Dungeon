@@ -1,0 +1,16 @@
+{
+  "SlayTheDungeon:PressureIndicator": {
+    "NAME": "Pressure Indicator",
+    "FLAVOR": "Feel the pressure.",
+    "DESCRIPTIONS": [
+      "Displays the party's current Stress. Taking unblocked damage also inflicts Stress."
+    ]
+  },
+  "SlayTheDungeon:BrightnessIndicator": {
+    "NAME": "Brightness Indicator",
+    "FLAVOR": "The light has not yet faded.",
+    "DESCRIPTIONS": [
+      "Displays the current Brightness. Higher Brightness reduces damage and Stress taken, but also reduces gold and the chance of positive effects."
+    ]
+  }
+}

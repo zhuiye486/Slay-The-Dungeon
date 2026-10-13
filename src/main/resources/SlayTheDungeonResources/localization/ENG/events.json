@@ -11,5 +11,36 @@
             "Add: ",
             "Replace: "
         ]
+    },
+    "SlayTheDungeon:ChooseHeros": {
+        "NAME": "Assemble Your Party!",
+        "DESCRIPTIONS": [
+            "Choose the heroes who will join your party.",
+            "Selection 2 of 4: Choose another hero.",
+            "Selection 3 of 4: Choose another hero.",
+            "Selection 4 of 4: Choose your final hero.",
+            "Your party is complete!"
+        ],
+        "OPTIONS": [
+            "Abomination",
+            "Antiquarian",
+            "Arbalest",
+            "Bounty Hunter",
+            "Crusader",
+            "Flagellant",
+            "Grave Robber",
+            "Hellion",
+            "Houndmaster",
+            "Highwayman",
+            "Jester",
+            "Leper",
+            "Man-at-Arms",
+            "Musketeer",
+            "Occultist",
+            "Plague Doctor",
+            "Shieldbreaker",
+            "Vestal",
+            "Leave"
+        ]
     }
 }

@@ -1,0 +1,46 @@
+[
+  {
+    "NAMES": ["Mark"],
+    "DESCRIPTION": "When a marked character takes damage, they lose an equal amount of HP."
+  },
+  {
+    "NAMES": ["Corrosion"],
+    "DESCRIPTION": "When a corroded character takes damage, a random enemy gains an equal amount of Poison."
+  },
+  {
+    "NAMES": ["Bleed"],
+    "DESCRIPTION": "When Bleed is applied, lose HP equal to the current Bleed amount."
+  },
+  {
+    "NAMES": ["Riposte"],
+    "DESCRIPTION": "When attacked this turn, play the top cards of your draw pile at the start of your next turn."
+  },
+  {
+    "NAMES": ["Stress"],
+    "DESCRIPTION": "Taking attack damage adds Stress. At 100 Stress, a hero's resolve is tested; at 200, they die of a heart attack."
+  },
+  {
+    "NAMES": ["Stun"],
+    "DESCRIPTION": "A stunned character skips their next turn and gains 1 Artifact."
+  },
+  {
+    "NAMES": ["Recovery"],
+    "DESCRIPTION": "For a set number of turns, healing received is increased by 50%."
+  },
+  {
+    "NAMES": ["Plague"],
+    "DESCRIPTION": "At the end of the turn, a plagued character spreads Plague to a random character and takes damage. If they spread it to themselves, they gain Poison instead."
+  },
+  {
+    "NAMES": ["Roar"],
+    "DESCRIPTION": "Cards with #yRoar N last for N turns and trigger at the start of each turn."
+  },
+  {
+    "NAMES": ["Brightness"],
+    "DESCRIPTION": "Higher #yBrightness reduces damage taken, positive effect chances, and loot. Lower #yBrightness increases damage taken, positive effect chances, and loot."
+  },
+  {
+    "NAMES": ["Steam"],
+    "DESCRIPTION": "Playing a card with #ySteam also triggers the effect of the previously played #ySteam card."
+  }
+]

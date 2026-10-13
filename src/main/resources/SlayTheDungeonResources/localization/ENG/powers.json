@@ -1,0 +1,138 @@
+{
+  "SlayTheDungeon:Mark": {
+    "NAME": "Mark",
+    "DESCRIPTIONS": ["When attacked, lose #b", " HP."]
+  },
+  "SlayTheDungeon:Plague": {
+    "NAME": "Plague",
+    "DESCRIPTIONS": ["At the end of the turn, spread #b", " Plague to a random enemy. If spread to yourself, gain Poison equal to Plague and remove Plague; otherwise take damage equal to current Plague, then halve it."]
+  },
+  "SlayTheDungeon:Corrosion": {
+    "NAME": "Corrosion",
+    "DESCRIPTIONS": ["When attacked, a random enemy gains #b", " Poison."]
+  },
+  "SlayTheDungeon:Bleed": {
+    "NAME": "Bleed",
+    "DESCRIPTIONS": ["Whenever Bleed is applied, take damage equal to the amount of Bleed you had before it was applied. Removed at end of turn."]
+  },
+  "SlayTheDungeon:BleedOut": {
+    "NAME": "Bleed Out",
+    "DESCRIPTIONS": ["Your next #b", " Attacks this turn apply Bleed equal to damage dealt."]
+  },
+  "SlayTheDungeon:Riposte": {
+    "NAME": "Riposte",
+    "DESCRIPTIONS": ["When attacked this turn, play the top #b", " cards of your draw pile at the start of your next turn."]
+  },
+  "SlayTheDungeon:Recovery": {
+    "NAME": "Recovery",
+    "DESCRIPTIONS": ["For #b", " turns, healing received is increased by #b50%."]
+  },
+  "SlayTheDungeon:Transform": {
+    "NAME": "Transform",
+    "DESCRIPTIONS": ["You can only play the rightmost card in your hand. Deal #b", " times damage and apply that much Poison and Bleed."]
+  },
+  "SlayTheDungeon:Compensate": {
+    "NAME": "Compensation",
+    "DESCRIPTIONS": ["For #b", " turns, healing received is reduced by #b50%."]
+  },
+  "SlayTheDungeon:NeverCompromise": {
+    "NAME": "Never Compromise",
+    "DESCRIPTIONS": ["At the start of your turn, gain [E] and take ", " Stress."]
+  },
+  "SlayTheDungeon:Lucky": {
+    "NAME": "Lucky",
+    "DESCRIPTIONS": ["Increase the chance of positive card effects by #b", "% (up to 100%)."]
+  },
+  "SlayTheDungeon:Crusade": {
+    "NAME": "Crusade",
+    "DESCRIPTIONS": ["#b", " Holy Lances played this combat."]
+  },
+  "SlayTheDungeon:HolyLanceStart": {
+    "NAME": "Holy Lance Echo",
+    "DESCRIPTIONS": ["Play #b", " additional Holy Lance(s) at the start of each turn."]
+  },
+  "SlayTheDungeon:ComeHither": {
+    "NAME": "Come Hither",
+    "DESCRIPTIONS": ["Increase the success chance of your next probabilistic card by #b", "%."]
+  },
+  "SlayTheDungeon:DogTreat": {
+    "NAME": "Dog Treat",
+    "DESCRIPTIONS": ["At the start of your turn, add #b2 Hounds", " to your hand."]
+  },
+  "SlayTheDungeon:HoundSupport": {
+    "NAME": "Hound Tactics",
+    "DESCRIPTIONS": ["Whenever you gain a Hound, gain an additional Hound.", "Your next Hound grants Block.", "Your next Hound heals you.", "Your next #b", " Hounds affect all enemies."]
+  },
+  "SlayTheDungeon:Endure": {
+    "NAME": "Endure",
+    "DESCRIPTIONS": ["Heal ", " HP at the start of your turn."]
+  },
+  "SlayTheDungeon:Flashpowder": {
+    "NAME": "Flashpowder",
+    "DESCRIPTIONS": ["Trigger chance: #b", "%."]
+  },
+  "SlayTheDungeon:Solemnity": {
+    "NAME": "Solemnity",
+    "DESCRIPTIONS": ["Gain #b", " Energy at the start of your next turn."]
+  },
+  "SlayTheDungeon:Roar": {
+    "NAME": "Roar",
+    "DESCRIPTIONS": ["Lasts #b", " more turns and triggers at the start of each turn."]
+  },
+  "SlayTheDungeon:Berserk": {
+    "NAME": "Berserk",
+    "DESCRIPTIONS": ["Your first #b", " Attacks this turn apply Bleed equal to damage dealt."]
+  },
+  "SlayTheDungeon:Feminization": {
+    "NAME": "Feminization",
+    "DESCRIPTIONS": ["At the start of your turn, reduce #b", " Stress."]
+  },
+  "SlayTheDungeon:AdrenalineRush": {
+    "NAME": "Adrenaline Rush",
+    "DESCRIPTIONS": ["Whenever you play a card, play another card from your hand and gain Bleed equal to its Energy cost."]
+  },
+  "SlayTheDungeon:BeastBile": {
+    "NAME": "Beast's Bile",
+    "DESCRIPTIONS": ["When Plague spreads, its source leaves Corrosion equal to half its Plague."]
+  },
+  "SlayTheDungeon:Buckshot": {
+    "NAME": "Buckshot",
+    "DESCRIPTIONS": ["Each turn, your #b", "th Attack is replaced by two copies that deal half damage."]
+  },
+  "SlayTheDungeon:Caltrops": {
+    "NAME": "Caltrops",
+    "DESCRIPTIONS": ["At the start of your turn, apply #b", " Mark to a random enemy. Each repeat has a #b", "% chance, up to #b", " times."]
+  },
+  "SlayTheDungeon:Command": {
+    "NAME": "Command",
+    "DESCRIPTIONS": ["Gain #b", " Dexterity at the end of your turn."]
+  },
+  "SlayTheDungeon:FlashingDaggers": {
+    "NAME": "Flashing Daggers",
+    "DESCRIPTIONS": ["Whenever you discard a card, it has a #b", "% chance to be played."]
+  },
+  "SlayTheDungeon:Illumination": {
+    "NAME": "Illumination",
+    "DESCRIPTIONS": ["Gain #b", " Brightness at the start of your turn."]
+  },
+  "SlayTheDungeon:MaceBash": {
+    "NAME": "Mace Bash",
+    "DESCRIPTIONS": ["Whenever Brightness changes, return Mace Bash to your hand."]
+  },
+  "SlayTheDungeon:Rage": {
+    "NAME": "Rage",
+    "DESCRIPTIONS": ["Whenever you draw a card this turn, apply #b", " Plague to all characters."]
+  },
+  "SlayTheDungeon:RallyingFlare": {
+    "NAME": "Rallying Flare",
+    "DESCRIPTIONS": ["Each time you deal damage, there is a #b", "% chance to Stun an enemy. Gain #b", " Brightness for each Attack played."]
+  },
+  "SlayTheDungeon:Smite": {
+    "NAME": "Smite",
+    "DESCRIPTIONS": ["At the end of your turn, deal #b", "% of your current Brightness as damage to a random enemy."]
+  },
+  "SlayTheDungeon:WickedHack": {
+    "NAME": "Wicked Hack",
+    "DESCRIPTIONS": ["Your next Riposte this turn applies Bleed equal to damage dealt."]
+  }
+}

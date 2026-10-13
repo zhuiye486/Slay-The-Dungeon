@@ -40,7 +40,7 @@ public class Buckshot extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(-1);
+            upgradeMagicNumber(1);
         }
     }
 

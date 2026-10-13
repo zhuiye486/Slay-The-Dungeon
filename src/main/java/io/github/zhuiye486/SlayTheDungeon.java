@@ -2,6 +2,7 @@ package io.github.zhuiye486;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -444,7 +445,11 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         Keyword[] keywords = gson.fromJson(json, Keyword[].class);
         if (keywords != null){
             for (Keyword keyword : keywords){
-                BaseMod.addKeyword("slaythedungeon", keyword.NAMES[0], keyword.NAMES, keyword.DESCRIPTION);
+                String[] names = keyword.NAMES.clone();
+                for (int i = 0; i < names.length; i++) {
+                    names[i] = names[i].toLowerCase(Locale.ROOT);
+                }
+                BaseMod.addKeyword("slaythedungeon", keyword.NAMES[0], names, keyword.DESCRIPTION);
             }
         }   
     }

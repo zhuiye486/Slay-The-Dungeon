@@ -406,7 +406,7 @@
     },
     "SlayTheDungeon:Buckshot": {
         "NAME": "猎兽铅弹",
-        "DESCRIPTION": "每回合中使用的第 !M! 张攻击牌会被替换为2张造成伤害减半的相同攻击牌。"
+        "DESCRIPTION": "每回合中使用的前 !M! 张攻击牌会额外使用2张造成伤害减半的相同攻击牌。"
     },
     "SlayTheDungeon:Sidearm": {
         "NAME": "副械手枪",
