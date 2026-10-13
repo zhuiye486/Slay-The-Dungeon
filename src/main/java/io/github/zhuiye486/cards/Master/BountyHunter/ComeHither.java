@@ -26,13 +26,13 @@ public class ComeHither extends AbstractDungeonCard {
 
     public ComeHither() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 25;
+        this.baseChance = this.chance = 0.25f;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new ApplyPowerAction(player, player, new ComeHitherPower(player, this.magicNumber)));
+        addToBot(new ApplyPowerAction(player, player, new ComeHitherPower(player, Math.round(this.baseChance * 100.0f))));
     }
 
     
@@ -40,6 +40,7 @@ public class ComeHither extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            this.baseChance = this.chance = this.baseChance + 0.15f;
         }
     }
 

@@ -3,6 +3,8 @@ package io.github.zhuiye486.powers;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -18,6 +20,8 @@ public class HoundSupportPower extends AbstractPower {
     public static final int EXTRA_HOUND = 1;
     public static final int GUARD = 2;
     public static final int HEAL = 3;
+    public static final int HOUNDS_HURRY = 4;
+    public static final String HOUNDS_HURRY_ID = POWER_ID + HOUNDS_HURRY;
     private final int mode;
     private final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 
@@ -39,6 +43,10 @@ public class HoundSupportPower extends AbstractPower {
         updateDescription();
     }
 
+    public static int getHoundGainCount(AbstractCreature owner, int count) {
+        return owner.hasPower(POWER_ID + EXTRA_HOUND) ? count * 2 : count;
+    }
+
     @Override
     public void onCardDraw(AbstractCard card) {
         if (mode == EXTRA_HOUND && card instanceof Hound) {
@@ -47,7 +55,7 @@ public class HoundSupportPower extends AbstractPower {
     }
 
     @Override
-    public void onPlayCard(AbstractCard card, com.megacrit.cardcrawl.monsters.AbstractMonster monster) {
+    public void onUseCard(AbstractCard card, UseCardAction action) {
         if (!(card instanceof Hound)) {
             return;
         }
@@ -55,14 +63,32 @@ public class HoundSupportPower extends AbstractPower {
             addToBot(new GainBlockAction(owner, amount));
         } else if (mode == HEAL) {
             addToBot(new HealAction(owner, owner, amount));
+        } else if (mode == HOUNDS_HURRY) {
+            this.amount -= 1;
+            updateDescription();
+            if (this.amount == 0) {
+                addToBot(new RemoveSpecificPowerAction(owner, owner, this));
+            }
+            return;
         }
         if (mode != EXTRA_HOUND) {
-            addToBot(new com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction(owner, owner, this.ID));
+            addToBot(new RemoveSpecificPowerAction(owner, owner, this.ID));
+        }
+    }
+
+    @Override
+    public void atEndOfTurn(boolean isPlayer) {
+        if (isPlayer && mode == HOUNDS_HURRY) {
+            addToBot(new RemoveSpecificPowerAction(owner, owner, this));
         }
     }
 
     @Override
     public void updateDescription() {
-        this.description = strings.DESCRIPTIONS[Math.min(mode - 1, strings.DESCRIPTIONS.length - 1)];
+        if (mode == HOUNDS_HURRY) {
+            this.description = strings.DESCRIPTIONS[3] + this.amount + strings.DESCRIPTIONS[4];
+        } else {
+            this.description = strings.DESCRIPTIONS[Math.min(mode - 1, strings.DESCRIPTIONS.length - 1)];
+        }
     }
 }

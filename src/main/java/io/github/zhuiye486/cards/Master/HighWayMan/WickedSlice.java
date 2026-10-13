@@ -1,13 +1,13 @@
 package io.github.zhuiye486.cards.Master.HighWayMan;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.actions.common.ExhaustAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 
-import io.github.zhuiye486.actions.ExhaustOtherHandCardAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -22,12 +22,12 @@ public class WickedSlice extends AbstractDungeonCard {
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
-    private static final CardRarity RARITY = CardRarity.COMMON;
+    private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public WickedSlice() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
+        this.magicNumber = this.baseMagicNumber = 3;
     }
 
     @Override
@@ -38,14 +38,14 @@ public class WickedSlice extends AbstractDungeonCard {
 
         addToBot(new ApplyPowerAction(monster, player, new BleedPower(monster, this.magicNumber)));
         addToBot(new ApplyPowerAction(monster, player, new BleedPower(monster, this.magicNumber)));
-        addToBot(new ExhaustOtherHandCardAction(player, this));
+        addToBot(new ExhaustAction(1, false));
     }
 
     @Override
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(1);
+            upgradeMagicNumber(2);
         }
     }
 

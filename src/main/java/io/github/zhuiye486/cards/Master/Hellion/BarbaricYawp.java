@@ -49,6 +49,7 @@ public class BarbaricYawp extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(1);
         }
     }
 

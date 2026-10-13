@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Affliction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -47,16 +49,45 @@ public class Paranoid extends AbstractDungeonCard {
     @Override
     public void upgrade() {}
 
+    private final List<AbstractCard> lockedCards = new ArrayList<>();
+
     @Override
     public void triggerOnOtherCardPlayed(AbstractCard c) {
         super.triggerOnOtherCardPlayed(c);
         Random random = new Random(AbstractDungeon.miscRng.randomLong());
         if (random.nextFloat() > LuckyPower.getLuckyChance(chance)) {
-            c.isLocked = true;
+            List<AbstractCard> candidates = new ArrayList<>();
+            for (AbstractCard card : AbstractDungeon.player.hand.group) {
+                if (card != this && card != c && !lockedCards.contains(card)) {
+                    candidates.add(card);
+                }
+            }
+            if (!candidates.isEmpty()) {
+                lockedCards.add(candidates.get(random.nextInt(candidates.size())));
+            }
             addToBot(
                 new ChangePressureAction(7)
             );
         }
+    }
+
+    @Override
+    public boolean canPlay(AbstractCard card) {
+        if (lockedCards.contains(card)) {
+            return false;
+        }
+        return super.canPlay(card);
+    }
+
+    @Override
+    public void triggerOnEndOfPlayerTurn() {
+        super.triggerOnEndOfPlayerTurn();
+        lockedCards.clear();
+    }
+
+    @Override
+    public void onMoveToDiscard() {
+        lockedCards.clear();
     }
 
     @Override

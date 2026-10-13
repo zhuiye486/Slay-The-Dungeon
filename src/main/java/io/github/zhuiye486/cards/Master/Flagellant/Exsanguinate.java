@@ -46,6 +46,7 @@ public class Exsanguinate extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeBaseCost(0);
         }
     }
 

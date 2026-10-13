@@ -27,7 +27,7 @@ public class AddersKiss extends AbstractDungeonCard {
 
     public AddersKiss() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
+        this.magicNumber = this.baseMagicNumber = 3;
     }
 
     

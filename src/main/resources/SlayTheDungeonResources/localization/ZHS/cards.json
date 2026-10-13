@@ -1,9 +1,4 @@
 {
-    "SlayTheDungeon:Strike": {
-        "NAME": "打击",
-        "DESCRIPTION": "造成 !D! 点伤害。",
-        "UPGRADE_DESCRIPTION": " 固有 。 NL 造成 !D! 点伤害。"
-    },
     "SlayTheDungeon:SniperShot": {
         "NAME": "狙击",
         "DESCRIPTION": "造成 !D! 点伤害，敌人每有1 slaythedungeon:标记 ，额外触发一次。"
@@ -26,7 +21,7 @@
     },
     "SlayTheDungeon:Uppercut": {
         "NAME": "上勾拳",
-        "DESCRIPTION": "造成 !D! 点伤害。 NL slaythedungeon:眩晕 敌人1回合。"
+        "DESCRIPTION": "造成 !D! 点伤害。 NL slaythedungeon:眩晕 一个敌人。"
     },
     "SlayTheDungeon:BulwarkOfFaith": {
         "NAME": "信仰壁障",
@@ -82,7 +77,7 @@
     },
     "SlayTheDungeon:HoundsHurry": {
         "NAME": "猎犬骚扰",
-        "DESCRIPTION": "本回合中，你的下 !M! 张 *猎犬 会对所有敌人生效。"
+        "DESCRIPTION": "本回合中，你的下 !M! 张 *猎犬 会对所有敌人生效。 NL 抽1张牌。"
     },
     "SlayTheDungeon:HoundsRush": {
         "NAME": "猎犬突袭",
@@ -186,11 +181,11 @@
     },
     "SlayTheDungeon:GuardDog": {
         "NAME": "猎犬守护",
-        "DESCRIPTION": "本回合中，你的下一张 *猎犬 会使你获得 !B! 点 格挡 。"
+        "DESCRIPTION": "本回合中，你的下一张 *猎犬 会使你获得 !B! 点 格挡 。 NL 抽1张牌 。"
     },
     "SlayTheDungeon:LickWounds": {
         "NAME": "舔舐伤口",
-        "DESCRIPTION": "你的本回合中，你的下一张 *猎犬 会为你回复 !SlayTheDungeonH! 点生命值。"
+        "DESCRIPTION": "你的本回合中，你的下一张 *猎犬 会为你回复 !SlayTheDungeonH! 点生命值。 NL 抽1张牌。"
     },
     "SlayTheDungeon:Blackjack": {
         "NAME": "棍闷",
@@ -447,7 +442,7 @@
     },
     "SlayTheDungeon:WeakeningCurse": {
         "NAME": "削弱诅咒",
-        "DESCRIPTION": "造成 4 点伤害。 NL 在本回合中减少2点 力量 。 NL 给予 !M! 虚弱  NL 减少 !SlayTheDungeonM2! slaythedungeon:亮度 。"
+        "DESCRIPTION": "造成 4 点伤害。 NL 使其在本回合中减少2点 力量 。 NL 给予 !M! 虚弱  NL 减少 !SlayTheDungeonM2! slaythedungeon:亮度 。"
     },
     "SlayTheDungeon:WyrdReconstruction": {
         "NAME": "命运重构",
@@ -515,7 +510,7 @@
     },
     "SlayTheDungeon:Captivate": {
         "NAME": "诱捕",
-        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 造成 !D! 点伤害2次。 NL 额外给予目标身上 slaythedungeon:流血 层数的 slaythedungeon:瘟疫 。"
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 额外给予目标身上 slaythedungeon:流血 和 slaythedungeon:中毒 层数的 slaythedungeon:瘟疫 。"
     },
     "SlayTheDungeon:Puncture": {
         "NAME": "贯穿",
@@ -559,7 +554,7 @@
     },
     "SlayTheDungeon:Paranoid": {
         "NAME": "偏执",
-        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有 !SlayTheDungeonP! % 概率使其无法被打出，受到 7 slaythedungeon:压力 。"
+        "DESCRIPTION": "无法被打出。 NL 当你使用牌时，有 !SlayTheDungeonP! % 概率使你手牌中的一张随机牌本回合无法被打出，受到 7 slaythedungeon:压力 。"
     },
     "SlayTheDungeon:Selfish": {
         "NAME": "自私",
@@ -580,7 +575,7 @@
     },
     "SlayTheDungeon:Stalwart": {
         "NAME": "坚定",
-        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合结束时获得 !M! 点格挡。"
+        "DESCRIPTION": "无法被打出。 保留 。 NL 此牌在你手中时，回合结束时获得 !B! 点格挡。"
     },
     "SlayTheDungeon:Vigorous": {
         "NAME": "振奋",

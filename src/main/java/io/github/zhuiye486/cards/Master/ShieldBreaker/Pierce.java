@@ -30,7 +30,7 @@ public class Pierce extends AbstractDungeonCard {
     public Pierce() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.damage = this.baseDamage = 7;
-        this.magicNumber = this.baseMagicNumber = 2;
+        this.magicNumber = this.baseMagicNumber = 3;
     }
 
     
@@ -45,7 +45,7 @@ public class Pierce extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);
-            upgradeMagicNumber(1);
+            upgradeMagicNumber(2);
         }
     }
 

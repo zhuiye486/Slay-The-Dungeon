@@ -27,7 +27,7 @@ import com.megacrit.cardcrawl.screens.CharSelectInfo;
 
 import basemod.abstracts.CustomPlayer;
 import io.github.zhuiye486.SlayTheDungeon;
-import io.github.zhuiye486.cards.Strike;
+import io.github.zhuiye486.cards.Shovel;
 import io.github.zhuiye486.relics.BrightnessIndicator;
 import io.github.zhuiye486.relics.PressureIndicator;
 
@@ -299,12 +299,6 @@ public class Heroes extends CustomPlayer {
     }
 
     public static void filterCardPoolsForSelection() {
-        removeExcludedCards(AbstractDungeon.commonCardPool, AbstractDungeon.srcCommonCardPool);
-        removeExcludedCards(AbstractDungeon.uncommonCardPool, AbstractDungeon.srcUncommonCardPool);
-        removeExcludedCards(AbstractDungeon.rareCardPool, AbstractDungeon.srcRareCardPool);
-        removeExcludedCards(AbstractDungeon.curseCardPool, AbstractDungeon.srcCurseCardPool);
-        removeExcludedCards(AbstractDungeon.colorlessCardPool, AbstractDungeon.srcColorlessCardPool);
-
         if (selectedHeroes == null || selectedHeroes.isEmpty()) {
             return;
         }
@@ -356,19 +350,6 @@ public class Heroes extends CustomPlayer {
         }
     }
 
-    private static void removeExcludedCards(CardGroup pool, CardGroup sourcePool) {
-        if (pool != null) {
-            pool.group.removeIf(Heroes::isExcludedFromRandomPools);
-        }
-        if (sourcePool != null) {
-            sourcePool.group.removeIf(Heroes::isExcludedFromRandomPools);
-        }
-    }
-
-    private static boolean isExcludedFromRandomPools(AbstractCard card) {
-        return card.cardID.equals(io.github.zhuiye486.cards.Strike.ID);
-    }
-
     // 初始遗物的ID，可以先写个原版遗物凑数
     @Override
     public ArrayList<String> getStartingRelics() {
@@ -408,10 +389,10 @@ public class Heroes extends CustomPlayer {
         return SlayTheDungeonColorEnum.DEEP_RED;
     }
 
-    // 翻牌事件出现的你的职业牌（一般设为打击）
+    // 翻牌事件出现的职业牌
     @Override
     public AbstractCard getStartCardForEvent() {
-        return new Strike();
+        return new Shovel();
     }
 
     // 卡牌轨迹颜色（和CardColor不是同一个类。使用com.badlogic.gdx.graphics.Color）

@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.powers.BleedPower;
+import io.github.zhuiye486.powers.HoundSupportPower;
 
 public class Hound extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(Hound.class.getSimpleName());
@@ -37,7 +38,7 @@ public class Hound extends AbstractDungeonCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        if (AbstractDungeon.player.hasPower("SlayTheDungeon:HoundsHurry")){    
+        if (AbstractDungeon.player.hasPower(HoundSupportPower.HOUNDS_HURRY_ID)) {
             this.TARGET = CardTarget.ALL_ENEMY;
             
             addToBot(

@@ -27,7 +27,7 @@ public class FinishHim extends AbstractDungeonCard {
 
     public FinishHim() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 6;
+        this.damage = this.baseDamage = 10;
     }
 
     @Override

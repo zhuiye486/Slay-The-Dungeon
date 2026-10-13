@@ -131,7 +131,6 @@ import io.github.zhuiye486.cards.OldRoad;
 import io.github.zhuiye486.cards.Pray;
 import io.github.zhuiye486.cards.RainInTheForest;
 import io.github.zhuiye486.cards.Shovel;
-import io.github.zhuiye486.cards.Strike;
 import io.github.zhuiye486.cards.Topspeed;
 import io.github.zhuiye486.cards.Virtue.Courageous;
 import io.github.zhuiye486.cards.Virtue.Focused;
@@ -193,6 +192,21 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
                 if (Heroes.selectedHeroes.size() == 4) {
                     Heroes.composeCharacterImage(Heroes.selectedHeroes);
                 }
+            }
+        });
+        BaseMod.addSaveField("SlayTheDungeonPressureTestTriggered", new basemod.abstracts.CustomSavableRaw() {
+            @Override
+            public JsonElement onSaveRaw() {
+                return new JsonPrimitive(PressureIndicator.isTestTriggeredForSave());
+            }
+
+            @Override
+            public void onLoadRaw(JsonElement json) {
+                boolean triggered = json != null
+                    && json.isJsonPrimitive()
+                    && json.getAsJsonPrimitive().isBoolean()
+                    && json.getAsBoolean();
+                PressureIndicator.loadTestTriggered(triggered);
             }
         });
         BaseMod.addColor(SlayTheDungeonColorEnum.DEEP_RED, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR, SLAY_THE_DUNGEON_COLOR,
@@ -279,7 +293,6 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
         BaseMod.addCard(new CallTheShot());
         BaseMod.addCard(new Buckshot());
         BaseMod.addCard(new Sidearm());
-        BaseMod.addCard(new Strike());
         BaseMod.addCard(new SniperShot());
         BaseMod.addCard(new SnipersMark());
         BaseMod.addCard(new SuppressingFire());

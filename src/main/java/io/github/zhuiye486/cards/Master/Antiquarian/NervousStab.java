@@ -44,6 +44,8 @@ public class NervousStab extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeDamage(5);
+            upgradeMagicNumber(2);
         }
     }
 

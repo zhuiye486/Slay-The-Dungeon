@@ -1,5 +1,6 @@
 package io.github.zhuiye486.cards.Master.Houndmaster;
 
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -33,6 +34,7 @@ public class GuardDog extends AbstractDungeonCard {
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(player, player,
             new HoundSupportPower(player, HoundSupportPower.GUARD, this.block)));
+        addToBot(new DrawCardAction(1));
     }
 
     
@@ -40,6 +42,7 @@ public class GuardDog extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeBaseCost(0);
         }
     }
 

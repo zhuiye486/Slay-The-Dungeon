@@ -48,7 +48,8 @@ public class DogTreatPower extends AbstractPower {
 
     @Override
     public void atStartOfTurn() {
-        for (int i = 0; i < this.amount; i++) {
+        int houndCount = HoundSupportPower.getHoundGainCount(this.owner, this.amount);
+        for (int i = 0; i < houndCount; i++) {
             AbstractCard hound = new Hound();
             if (this.isUpgraded) {
                 hound.upgrade();

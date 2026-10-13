@@ -2,10 +2,12 @@ package io.github.zhuiye486.cards.Master.Musketeer;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -17,7 +19,7 @@ public class Smokescreen extends AbstractDungeonCard {
     private static final CardStrings CARD_STRINGS = CardCrawlGame.languagePack.getCardStrings(ID);
     private static final String NAME = CARD_STRINGS.NAME;
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/Smokescreen.png";
-    private static final int COST = 1;
+    private static final int COST = 2;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
@@ -35,6 +37,7 @@ public class Smokescreen extends AbstractDungeonCard {
         for (AbstractMonster enemy : com.megacrit.cardcrawl.dungeons.AbstractDungeon.getCurrRoom().monsters.monsters) {
             if (!enemy.isDeadOrEscaped()) {
                 addToBot(new StunMonsterAction(enemy, player));
+                addToBot(new ApplyPowerAction(enemy, player, new ArtifactPower(enemy, 1)));
             }
         }
         addToBot(new ChangeBrightnessAction(-this.magicNumber));

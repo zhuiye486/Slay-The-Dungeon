@@ -1,15 +1,39 @@
 {
-  "entries": {},
+  "entries": {
+    "SlayTheDungeon__Solemnity": {
+      "card_id": "SlayTheDungeon:Solemnity",
+      "safe_id": "SlayTheDungeon__Solemnity",
+      "class_name": "Solemnity",
+      "name": "肃穆",
+      "card_type": "SKILL",
+      "previous_image_file": "Solemnity.png",
+      "previous_img_path": "SlayTheDungeonResources/img/cards/Solemnity.png",
+      "target_image_file": "Solemnity.png",
+      "target_img_path": "SlayTheDungeonResources/img/cards/Solemnity.png",
+      "java_file": "src/main/java/io/github/zhuiye486/cards/Master/Leper/Solemnity.java",
+      "staged_at": "2026-10-13T10:43:50.274607+00:00",
+      "warnings": [
+        "尺寸为 250×190，建议 500×380（仅提醒，不阻止提交）"
+      ],
+      "field_changes": {},
+      "source_snapshot": {},
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "width": 250,
+        "height": 190,
+        "applied": false,
+        "sourceWidth": 250,
+        "sourceHeight": 190
+      }
+    }
+  },
   "last_commit": {
-    "id": "20261012T062035371228Z",
-    "directory": "backups\\20261012T062035371228Z",
+    "id": "20261013T103821841486Z",
+    "directory": "backups\\20261013T103821841486Z",
     "files": [
       {
-        "path": "src/main/java/io/github/zhuiye486/cards/FromBeyond.java",
-        "exists": true
-      },
-      {
-        "path": "src/main/resources/SlayTheDungeonResources/localization/ZHS/cards.json",
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/Arbalest/RallyingFlare.java",
         "exists": true
       }
     ]

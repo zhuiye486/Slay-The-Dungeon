@@ -31,8 +31,8 @@ public class PlagueGrenade extends AbstractDungeonCard {
 
     public PlagueGrenade() {                                                                                                                                                                        
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 8;
-        this.secondMagicNumber = this.baseSecondMagicNumber = 2;
+        this.magicNumber = this.baseMagicNumber = 4;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 4;
     }
 
     
@@ -71,8 +71,8 @@ public class PlagueGrenade extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             this.upgradeName();
-            this.upgradeMagicNumber(2);
-            this.upgradeSecondMagicNumber(2);
+            this.upgradeMagicNumber(1);
+            this.upgradeSecondMagicNumber(1);
         }
     }
 

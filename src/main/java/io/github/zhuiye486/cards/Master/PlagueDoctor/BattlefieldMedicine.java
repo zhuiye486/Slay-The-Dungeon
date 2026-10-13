@@ -28,7 +28,7 @@ public class BattlefieldMedicine extends AbstractDungeonCard {
 
     public BattlefieldMedicine() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.heal = this.baseHeal = 1;
+        this.heal = this.baseHeal = 3;
     }
 
     @Override

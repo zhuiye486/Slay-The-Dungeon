@@ -2,10 +2,12 @@ package io.github.zhuiye486.cards.Master.BountyHunter;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
@@ -21,7 +23,7 @@ public class Flashbang extends AbstractDungeonCard {
     private static final CardType TYPE = CardType.SKILL;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
-    private static final CardTarget TARGET = CardTarget.NONE;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public Flashbang() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
@@ -32,6 +34,7 @@ public class Flashbang extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new StunMonsterAction(monster, player, this.magicNumber));
+        addToBot(new ApplyPowerAction(monster, player, new ArtifactPower(monster, 1)));
     }
 
     

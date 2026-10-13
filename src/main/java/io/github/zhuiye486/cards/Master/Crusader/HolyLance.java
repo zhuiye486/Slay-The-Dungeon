@@ -58,6 +58,7 @@ public class HolyLance extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(1);
         }
     }
 

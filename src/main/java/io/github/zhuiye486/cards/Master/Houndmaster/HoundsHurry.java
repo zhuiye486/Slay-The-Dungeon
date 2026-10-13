@@ -1,6 +1,7 @@
 package io.github.zhuiye486.cards.Master.Houndmaster;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -10,7 +11,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
-import io.github.zhuiye486.powers.HoundsHurryPower;
+import io.github.zhuiye486.powers.HoundSupportPower;
 
 public class HoundsHurry extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(HoundsHurry.class.getSimpleName());
@@ -35,12 +36,14 @@ public class HoundsHurry extends AbstractDungeonCard {
             new ApplyPowerAction(
                 p, 
                 p, 
-                new HoundsHurryPower(
+                new HoundSupportPower(
                     p, 
+                    HoundSupportPower.HOUNDS_HURRY,
                     this.magicNumber
                 )
             )
         );
+        addToBot(new DrawCardAction(1));
     }
 
     @Override

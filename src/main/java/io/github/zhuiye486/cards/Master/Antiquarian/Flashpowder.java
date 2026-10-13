@@ -25,7 +25,7 @@ public class Flashpowder extends AbstractDungeonCard {
 
     public Flashpowder() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.baseChance = this.chance = 0.5f;
+        this.baseChance = this.chance = 0.25f;
     }
 
     
@@ -40,6 +40,7 @@ public class Flashpowder extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            this.baseChance = this.chance = this.baseChance + 0.25f;
         }
     }
 

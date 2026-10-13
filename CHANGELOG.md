@@ -1,5 +1,33 @@
 # 更新日志 | Changelog
 
+## 0.2.3
+
+### 游戏内容与平衡 | Gameplay & Balance
+- 调整多个职业卡牌的稀有度、费用、伤害、格挡及升级效果。<br>
+  Rebalanced the rarity, costs, damage, Block, and upgrade effects of cards across many classes, including Antiquarian, Arbalest, Bounty Hunter, Crusader, Flagellant, Grave Robber, Hellion, Highwayman, Houndmaster, Jester, Leper, Man-at-Arms, Musketeer, Occultist, Plague Doctor, and Shieldbreaker.
+- 更新多张卡牌的机制：「诱捕」根据目标的流血和中毒层数额外施加瘟疫；「靠近点！」改为基于概率的效果；部分眩晕或控场牌现在也会给予目标1层人工制品。<br>
+  Updated several card mechanics: Captivate now adds Plague based on the target's Bleed and Poison; Come Hither now uses a chance-based effect; and some stun or control cards now also apply 1 Artifact to their target.
+- 调整猎犬卡牌与支援效果：「猎犬骚扰」现在按使用的猎犬逐次消耗，并在回合结束时移除；猎犬支援效果与猎犬生成数量的联动得到修正，部分猎犬牌现在会抽牌。<br>
+  Updated Hound cards and support effects: Hounds Hurry now counts down as Hounds are played and expires at the end of the turn; Hound support effects now interact correctly with Hound generation, and some Hound cards now draw cards.
+- 修正「自虐」与「偏执」的手牌限制逻辑；「偏执」现在会随机限制另一张手牌，限制在回合结束或该牌弃置时解除。<br>
+  Fixed the hand restrictions for Masochistic and Paranoid; Paranoid now randomly locks another card in hand, and the lock ends at turn end or when that card is discarded.
+- 修正「压力指示器」的伤害判定与存档状态；即使牌组已有折磨牌，压力达到阈值时仍会生成折磨牌，且压力相关的德行与折磨牌不会被净化。<br>
+  Fixed Pressure Indicator damage checks and save persistence; reaching the pressure threshold now adds an Affliction even if the deck already contains one, and pressure-related Virtue and Affliction cards can no longer be purged.
+- 移除自定义「打击」牌，并将翻牌事件提供的职业牌改为「铁锹」；修正组合角色使用对应死亡图像的问题。<br>
+  Removed the custom Strike card and changed the class card offered by the card-flip event to Shovel; fixed the composed character's death image.
+
+### 资源与本地化 | Assets & Localization
+- 替换 Victory1、Victory2、Victory3 占位图为正式胜利过场插画，并校正、提亮篝火休息处的两张角色立绘。<br>
+  Replaced the Victory1, Victory2, and Victory3 placeholders with finished victory cutscene artwork, and corrected and brightened both campfire character images.
+- 更新多张卡牌图片；修正 Highwayman 与 Houndmaster 的角色图片对应关系，并统一瘟疫医生死亡图像的资源文件名。<br>
+  Updated several card images; corrected the Highwayman and Houndmaster character art mappings; and standardized the Plague Doctor death-image filename.
+- 更新简体中文卡牌与能力说明，以匹配卡牌机制和数值调整。<br>
+  Updated Simplified Chinese card and Power descriptions to match the gameplay and balance changes.
+
+### 工具 | Tools
+- 修正美术工具中 Highwayman 与 Houndmaster 的角色资源映射，并更新卡牌图片暂存记录。<br>
+  Fixed the Highwayman and Houndmaster asset mappings in the art tool and updated the staged card-art record.
+
 ## 0.2.2
 
 ### 游戏内容与平衡 | Gameplay & Balance

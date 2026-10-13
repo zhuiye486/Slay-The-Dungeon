@@ -11,6 +11,7 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.cards.Hound;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.powers.HoundSupportPower;
 
 public class HoundsRush extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(HoundsRush.class.getSimpleName());
@@ -34,7 +35,7 @@ public class HoundsRush extends AbstractDungeonCard {
         addToBot(
             new MakeTempCardInHandAction(
                 new Hound(), 
-                this.magicNumber
+                HoundSupportPower.getHoundGainCount(p, this.magicNumber)
             )
         );
     }

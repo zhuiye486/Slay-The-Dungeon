@@ -46,14 +46,6 @@
         ]
     },
 
-    "SlayTheDungeon:HoundsHurry": {
-        "NAME": "猎犬骚扰",
-        "DESCRIPTIONS": [
-            "你打出的下 #b", 
-            " 张 猎犬 会对所有敌人生效。"
-        ]
-    },
-
     "SlayTheDungeon:Recovery": {
         "NAME": "愈合",
         "DESCRIPTIONS": [
@@ -131,7 +123,9 @@
         "DESCRIPTIONS": [
             "获得猎犬时额外获得一张猎犬。",
             "下一张猎犬使你获得格挡。",
-            "下一张猎犬为你回复生命。"
+            "下一张猎犬为你回复生命。",
+            "你打出的下 #b",
+            " 张猎犬会对所有敌人生效。"
         ]
     },
 

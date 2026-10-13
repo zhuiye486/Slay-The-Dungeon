@@ -47,6 +47,7 @@ public class PressureIndicator extends CustomRelic{
         ModHelper.makePath("Selfish")
     };
 
+    private static Boolean pendingSavedTestTriggered;
     private boolean cardAddedAt100 = false;
     private boolean noBlockAtPlayerEndTurn = false;
 
@@ -55,6 +56,30 @@ public class PressureIndicator extends CustomRelic{
         this.counter = 0;
         this.cardAddedAt100 = false;
         this.noBlockAtPlayerEndTurn = false;
+        if (pendingSavedTestTriggered != null) {
+            this.cardAddedAt100 = pendingSavedTestTriggered;
+            pendingSavedTestTriggered = null;
+        }
+    }
+
+    public static boolean isTestTriggeredForSave() {
+        if (AbstractDungeon.player == null) {
+            return false;
+        }
+        AbstractRelic relic = AbstractDungeon.player.getRelic(ID);
+        return relic instanceof PressureIndicator
+            && ((PressureIndicator) relic).cardAddedAt100;
+    }
+
+    public static void loadTestTriggered(boolean triggered) {
+        pendingSavedTestTriggered = triggered;
+        if (AbstractDungeon.player != null) {
+            AbstractRelic relic = AbstractDungeon.player.getRelic(ID);
+            if (relic instanceof PressureIndicator) {
+                ((PressureIndicator) relic).cardAddedAt100 = triggered;
+                pendingSavedTestTriggered = null;
+            }
+        }
     }
 
     @Override
@@ -72,6 +97,10 @@ public class PressureIndicator extends CustomRelic{
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
         removeAfflictionsIfPressureZero();
+
+        if (info.type == DamageInfo.DamageType.THORNS || info.type == DamageInfo.DamageType.HP_LOSS) {
+            return damageAmount;
+        }
 
         AbstractCreature attacker = info.owner;
         int baseAmount = 7;
@@ -163,28 +192,19 @@ public class PressureIndicator extends CustomRelic{
                 addToBot(new AddCardToDeckAction(cardToAdd));
             }
         } else {
-            if (!hasAfflictionInMasterDeck()) {
-                String cardId = AFFLICTION_CARD_IDS[AbstractDungeon.miscRng.random(AFFLICTION_CARD_IDS.length - 1)];
-                AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
-                if (cardToAdd != null) {
-                    addToBot(new AddCardToDeckAction(cardToAdd));
-                }
+            String cardId = AFFLICTION_CARD_IDS[AbstractDungeon.miscRng.random(AFFLICTION_CARD_IDS.length - 1)];
+            AbstractCard cardToAdd = CardLibrary.getCopy(cardId);
+            if (cardToAdd != null) {
+                addToBot(new AddCardToDeckAction(cardToAdd));
             }
         }
     }
 
-    private boolean hasAfflictionInMasterDeck() {
-        if (AbstractDungeon.player == null || AbstractDungeon.player.masterDeck == null) {
-            return false;
-        }
-
-        for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
-            if (Arrays.asList(AFFLICTION_CARD_IDS).contains(card.cardID)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean isTestCard(String cardId) {
+        return Arrays.asList(VIRTUE_CARD_IDS).contains(cardId)
+            || Arrays.asList(AFFLICTION_CARD_IDS).contains(cardId);
     }
+
     private void removeAfflictionsIfPressureZero() {
         if (this.counter != 0 || AbstractDungeon.player == null || AbstractDungeon.player.masterDeck == null) {
             return;

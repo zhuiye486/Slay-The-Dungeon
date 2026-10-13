@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
@@ -33,9 +32,6 @@ public class Masochistic extends AbstractDungeonCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        for (AbstractCard card : AbstractDungeon.player.hand.group) {
-            card.isLocked = false;
-        }
         addToBot(
             new DamageAction(
                 p, 
@@ -52,15 +48,15 @@ public class Masochistic extends AbstractDungeonCard {
     }
 
     @Override
-    public void upgrade() {}
+    public boolean canPlay(AbstractCard card) {
+        if (card != this) {
+            return false;
+        }
+        return super.canPlay(card);
+    }
 
     @Override
-    public void triggerWhenDrawn() {
-        super.triggerWhenDrawn();
-        for (AbstractCard card : AbstractDungeon.player.hand.group) {
-            card.isLocked = true;
-        }
-    }
+    public void upgrade() {}
 
     @Override
     public AbstractCard makeCopy() {

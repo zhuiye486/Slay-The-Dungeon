@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.powers.LoseStrengthPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -35,6 +36,7 @@ public class WeakeningCurse extends AbstractDungeonCard {
     public WeakeningCurse() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 10;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class WeakeningCurse extends AbstractDungeonCard {
             new DamageAction(
                 m,
                 new DamageInfo(
-                    m, 
+                    p,
                     4
                 )
             )
@@ -64,7 +66,7 @@ public class WeakeningCurse extends AbstractDungeonCard {
                 p, 
                 new LoseStrengthPower(
                     m, 
-                    -2
+                    2
                 )
             )
         );
@@ -79,6 +81,7 @@ public class WeakeningCurse extends AbstractDungeonCard {
                 )
             )
         );
+        addToBot(new ChangeBrightnessAction(-this.secondMagicNumber));
     }
 
     @Override

@@ -51,6 +51,7 @@ public class CollectBounty extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(3);
         }
     }
 

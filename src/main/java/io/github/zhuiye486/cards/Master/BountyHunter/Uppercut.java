@@ -50,9 +50,7 @@ public class Uppercut extends AbstractDungeonCard {
                 1
             )
         );
-        addToBot(
-            new ApplyPowerAction(m, p, new ArtifactPower(m, 1))
-        );
+        addToBot(new ApplyPowerAction(m, p, new ArtifactPower(m, 1)));
     }
 
     @Override
