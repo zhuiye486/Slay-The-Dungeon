@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.BountyHunter;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.GainGoldAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -35,7 +37,7 @@ public class CollectBounty extends AbstractDungeonCard {
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SMASH));
         int bounty = 0;
         if (monster.hasPower("stslib:Stunned")) {
             bounty++;

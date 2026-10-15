@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Jester;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -22,14 +24,14 @@ public class SliceOff extends AbstractDungeonCard {
     private static final String IMG_PATH = "SlayTheDungeonResources/img/cards/SliceOff.png";
     private static final int COST = 1;
     private static final String DESCRIPTION = CARD_STRINGS.DESCRIPTION;
-    private static final CardType TYPE = CardType.SKILL;
+    private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public SliceOff() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 5;
+        this.damage = this.baseDamage = 4;
         this.magicNumber = this.baseMagicNumber = 2;
         this.secondMagicNumber = this.baseSecondMagicNumber = 2;
     }
@@ -42,7 +44,7 @@ public class SliceOff extends AbstractDungeonCard {
                 continue;
             }
             addToBot(new DamageAction(targetMonster,
-                    new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+                    new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_VERTICAL));
             addToBot(new ApplyPowerAction(targetMonster, player,
                     new BleedPower(targetMonster, this.magicNumber)));
         }
@@ -52,7 +54,7 @@ public class SliceOff extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeDamage(2);
+            upgradeDamage(1);
             upgradeMagicNumber(1);
             upgradeSecondMagicNumber(1);
         }

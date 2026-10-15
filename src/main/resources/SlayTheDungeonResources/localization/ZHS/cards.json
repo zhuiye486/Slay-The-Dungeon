@@ -125,7 +125,7 @@
     },
     "SlayTheDungeon:Smite": {
         "NAME": "惩戒",
-        "DESCRIPTION": "回合结束时，对随机敌人造成你当前亮度 !M! %的伤害。"
+        "DESCRIPTION": "回合结束时，对随机敌人造成你当前亮度 !M! %的伤害并减少 !SlayTheDungeonM2! slaythedungeon:亮度 。"
     },
     "SlayTheDungeon:ZealousAccusation": {
         "NAME": "热诚控诉",
@@ -274,7 +274,11 @@
     "SlayTheDungeon:Punish": {
         "NAME": "责罚",
         "DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。",
-        "UPGRADE_DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。 NL 然后给予所有敌人5层 slaythedungeon:流血 。"
+        "UPGRADE_DESCRIPTION": "给予所有敌人等同于你上一次受到伤害的 slaythedungeon:流血 。 NL 然后给予所有敌人5层 slaythedungeon:流血 。",
+        "EXTENDED_DESCRIPTION": [
+            " NL （给予",
+            "点 slaythedungeon:流血 。）"
+        ]
     },
     "SlayTheDungeon:Exsanguinate": {
         "NAME": "除血",
@@ -644,7 +648,8 @@
     },
     "SlayTheDungeon:Topspeed": {
         "NAME": "极速",
-        "DESCRIPTION": "抽2张牌。 NL 获得 [E] 。 NL 减少 !M! slaythedungeon:压力 NL 消耗 。"
+        "DESCRIPTION": "抽2张牌。 NL 获得 [E] 。 NL 减少 !M! slaythedungeon:压力 NL 消耗 。",
+        "UPGRADE_DESCRIPTION": "抽2张牌。 NL 获得 [E] [E] 。 NL 减少 !M! slaythedungeon:压力 NL 消耗 。"
     },
     "SlayTheDungeon:Feminization": {
         "NAME": "娘化",

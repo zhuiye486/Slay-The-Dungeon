@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Arbalest;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -42,7 +44,7 @@ public class SniperShot extends AbstractDungeonCard {
                     new DamageInfo(
                         p, 
                         damage, 
-                        DamageInfo.DamageType.NORMAL))
+                        DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_HORIZONTAL)
             );
         }
     }

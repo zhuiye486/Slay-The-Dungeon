@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Occultist;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -37,7 +39,7 @@ public class SacrificialStab extends AbstractDungeonCard {
 
     
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new LoseHPAction(player, player, this.damage));
+        addToBot(new LoseHPAction(player, player, this.damage, AttackEffect.SLASH_HORIZONTAL));
         for (AbstractMonster enemy : AbstractDungeon.getCurrRoom().monsters.monsters) {
             if (!enemy.isDeadOrEscaped()) {
                 addToBot(new ApplyPowerAction(enemy, player, new VulnerablePower(enemy, this.magicNumber, false)));

@@ -1,7 +1,8 @@
 package io.github.zhuiye486.cards.Master.BountyHunter;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -9,8 +10,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
 
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -41,7 +42,7 @@ public class Uppercut extends AbstractDungeonCard {
                     p, 
                     damage,
                     DamageInfo.DamageType.NORMAL
-                ))
+                ), AttackEffect.BLUNT_HEAVY)
         );
         addToBot(
             new StunMonsterAction(
@@ -50,7 +51,7 @@ public class Uppercut extends AbstractDungeonCard {
                 1
             )
         );
-        addToBot(new ApplyPowerAction(m, p, new ArtifactPower(m, 1)));
+        addToBot(new ApplyStunArtifactAction(m, p));
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard.CardTarget;
 import com.megacrit.cardcrawl.cards.AbstractCard.CardType;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -49,7 +50,8 @@ public class Finale extends AbstractDungeonCard {
                     DamageType.NORMAL
                 ),
                 this.multiDamage,
-                this
+                this,
+                AttackEffect.SLASH_HORIZONTAL
             )
         );
         addToBot(
@@ -81,6 +83,9 @@ public class Finale extends AbstractDungeonCard {
 
     @Override
     public AbstractCard makeCopy() {
-        return new Finale();
+        Finale copy = new Finale();
+        copy.retain = this.retain;
+        copy.selfRetain = this.selfRetain;
+        return copy;
     }
 }

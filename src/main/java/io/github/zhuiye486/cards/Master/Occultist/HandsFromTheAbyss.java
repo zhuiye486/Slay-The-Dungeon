@@ -7,9 +7,10 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -29,6 +30,7 @@ public class HandsFromTheAbyss extends AbstractDungeonCard {
     public HandsFromTheAbyss() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 2;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 5;
     }
 
     @Override
@@ -50,8 +52,9 @@ public class HandsFromTheAbyss extends AbstractDungeonCard {
                 )
             )
         );
+        addToBot(new ApplyStunArtifactAction(m, p));
         addToBot(
-            new ApplyPowerAction(m, p, new ArtifactPower(m, 1))
+            new ChangeBrightnessAction(this.secondMagicNumber)
         );
     }
 

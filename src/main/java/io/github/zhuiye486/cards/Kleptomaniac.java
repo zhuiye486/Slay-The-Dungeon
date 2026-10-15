@@ -15,7 +15,6 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.CardTagsEnum;
-import io.github.zhuiye486.powers.LuckyPower;
 
 public class Kleptomaniac extends AbstractDungeonCard {
     public static final String ID = ModHelper.makePath(Kleptomaniac.class.getSimpleName());
@@ -40,7 +39,7 @@ public class Kleptomaniac extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         Random random = AbstractDungeon.cardRandomRng.random;
-        if (random.nextFloat() < LuckyPower.getLuckyChance(chance)) {
+        if (random.nextFloat() < chance) {
             addToBot(
                 new GainGoldAction(this.magicNumber)
             );

@@ -20,7 +20,6 @@ import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.patches.CardTagsEnum;
-import io.github.zhuiye486.powers.LuckyPower;
 
 
 public class Paranoid extends AbstractDungeonCard {
@@ -55,7 +54,7 @@ public class Paranoid extends AbstractDungeonCard {
     public void triggerOnOtherCardPlayed(AbstractCard c) {
         super.triggerOnOtherCardPlayed(c);
         Random random = new Random(AbstractDungeon.miscRng.randomLong());
-        if (random.nextFloat() > LuckyPower.getLuckyChance(chance)) {
+        if (random.nextFloat() > chance) {
             List<AbstractCard> candidates = new ArrayList<>();
             for (AbstractCard card : AbstractDungeon.player.hand.group) {
                 if (card != this && card != c && !lockedCards.contains(card)) {

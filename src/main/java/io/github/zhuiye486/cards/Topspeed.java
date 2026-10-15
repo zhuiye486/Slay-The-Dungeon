@@ -28,6 +28,7 @@ public class Topspeed extends AbstractDungeonCard {
     public Topspeed() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber  = 15;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 1;
         this.exhaust = true;
     }
 
@@ -40,7 +41,7 @@ public class Topspeed extends AbstractDungeonCard {
             )
         );
         addToBot(
-            new GainEnergyAction(1)
+            new GainEnergyAction(this.secondMagicNumber)
         );
         addToBot(
             new ChangePressureAction(-this.magicNumber)
@@ -52,6 +53,9 @@ public class Topspeed extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             this.upgradeMagicNumber(5);
+            this.upgradeSecondMagicNumber(1);
+            this.rawDescription = CARD_STRINGS.UPGRADE_DESCRIPTION;
+            this.initializeDescription();
         }
     }
 

@@ -1,5 +1,31 @@
 # 更新日志 | Changelog
 
+## 0.2.5
+
+### 新内容与机制 | New Content & Mechanics
+- 正式加入18种职业专属遗物；遗物会根据当前队伍自动获得或移除。<br>
+  Added 18 class-specific relics, automatically granted or removed to match the current party.
+- 调整眩晕机制：目标获得的人工制品层数现在与眩晕层数相同；相关卡牌和效果均已同步。<br>
+  Updated the Stun mechanic: targets now gain Artifact equal to their Stun, with related cards and effects updated accordingly.
+- 「惩戒」现在会在回合结束造成伤害后降低亮度；「亵渎魔瓶」改变瘟疫的伤害与衰减方式。<br>
+  Smite now reduces Brightness after dealing its end-of-turn damage; Blasphemous Vial changes how Plague deals damage and decays.
+
+### 平衡与修正 | Balance & Fixes
+- 调整多张卡牌的费用、伤害、格挡、概率、升级效果及目标选择，涉及折磨牌、猎犬、十字军、小丑、火枪手等多种卡牌。<br>
+  Rebalanced the costs, damage, Block, chances, upgrades, and targeting of many cards, including Afflictions, Hounds, and cards from the Crusader, Jester, and Musketeer.
+- 修正「责罚」的流血数值显示与对已死亡敌人的施加判定；修正自动打出的「圣矛」的队列处理。<br>
+  Fixed Punish's displayed Bleed amount and prevented it from applying Bleed to defeated enemies; corrected how automatically played Holy Lances are queued.
+- 调整亮度对受到伤害、压力、金币及正面效果触发概率的影响；相关概率效果会随亮度、幸运及遗物修正实时更新。<br>
+  Updated how Brightness affects incoming damage, Stress, gold, and positive-effect chances; affected chance-based effects now reflect Brightness, Luck, and relic modifiers.
+- 为多张卡牌和持续效果补充对应的攻击动画与音效表现。<br>
+  Added appropriate attack animations and sound effects to multiple cards and ongoing effects.
+
+### 资源与本地化 | Assets & Localization
+- 补充18种职业专属遗物的中英文名称与说明，并更新亮度、压力及眩晕相关文本。<br>
+  Added Chinese and English names and descriptions for the 18 class-specific relics, and updated Brightness, Stress, and Stun text.
+- 更新「守护犬」卡牌图片。<br>
+  Updated the Guard Dog card art.
+
 ## 0.2.4
 
 ### 游戏内容与修正 | Gameplay & Fixes

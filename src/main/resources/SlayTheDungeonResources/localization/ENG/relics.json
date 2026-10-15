@@ -3,14 +3,104 @@
     "NAME": "Pressure Indicator",
     "FLAVOR": "Feel the pressure.",
     "DESCRIPTIONS": [
-      "Displays the party's current Stress. Taking unblocked damage also inflicts Stress."
+      "Displays the party's current Stress. Taking unblocked damage also inflicts Stress. (Current Virtue chance: %1$d%%, Affliction chance: %2$d%%.)"
     ]
   },
   "SlayTheDungeon:BrightnessIndicator": {
     "NAME": "Brightness Indicator",
     "FLAVOR": "The light has not yet faded.",
     "DESCRIPTIONS": [
-      "Displays the current Brightness. Higher Brightness reduces damage and Stress taken, but also reduces gold and the chance of positive effects."
+      "Displays the current Brightness. Higher Brightness reduces damage and Stress taken, but also reduces gold and the chance of positive effects. (Current: incoming damage %1$d%%, Stress gain %2$d%%, positive effect chance %3$+d%%, gold gained %4$d%%.)"
     ]
-  }
-}
+        },
+        "SlayTheDungeon:BrokenKey": {
+          "NAME": "Broken Key",
+          "FLAVOR": "A beast whispers beneath the man.",
+          "DESCRIPTIONS": ["Each turn, the 1st, 3rd, 5th... card you play costs 0, and the 2nd, 4th, 6th... card costs 1 more [E]."]
+        },
+        "SlayTheDungeon:FleetFlorin": {
+          "NAME": "Fleet Florin",
+          "FLAVOR": "Every relic has a story.",
+          "DESCRIPTIONS": ["Gold gained after combat and from chests is increased by 10."]
+        },
+        "SlayTheDungeon:BullsEyeBandana": {
+          "NAME": "Bull's Eye Bandana",
+          "FLAVOR": "The string is drawn.",
+          "DESCRIPTIONS": ["At the start of combat, apply 1 slaythedungeon:Mark to ALL enemies."]
+        },
+        "SlayTheDungeon:HuntersTalons": {
+          "NAME": "Hunter's Talons",
+          "FLAVOR": "No quarry escapes.",
+          "DESCRIPTIONS": ["Cards you play have a ", "% chance to be played an additional time."]
+        },
+        "SlayTheDungeon:HolyOrders": {
+          "NAME": "Holy Orders",
+          "FLAVOR": "In the name of the light.",
+          "DESCRIPTIONS": ["Maximum slaythedungeon:Brightness is increased by 20."]
+        },
+        "SlayTheDungeon:ResurrectionsCollar": {
+          "NAME": "Resurrection's Collar",
+          "FLAVOR": "Pain is redemption.",
+          "DESCRIPTIONS": ["At the start of turn 3, heal 10 HP. At the start of turn 5, lose 8 HP."]
+        },
+        "SlayTheDungeon:LuckyTalisman": {
+          "NAME": "Lucky Talisman",
+          "FLAVOR": "The dead have no use for it.",
+          "DESCRIPTIONS": ["At the start of combat, gain 2 Dexterity."]
+        },
+        "SlayTheDungeon:HellsHairpin": {
+          "NAME": "Hell's Hairpin",
+          "FLAVOR": "The fury never ends.",
+          "DESCRIPTIONS": ["At the start of combat, apply 6 slaythedungeon:Bleed to ALL enemies."]
+        },
+        "SlayTheDungeon:ScoutingWhistle": {
+          "NAME": "Scouting Whistle",
+          "FLAVOR": "A loyal hound never betrays.",
+          "DESCRIPTIONS": ["At the start of each turn, add a Hound to your hand."]
+        },
+        "SlayTheDungeon:GunslingersBuckle": {
+          "NAME": "Gunslinger's Buckle",
+          "FLAVOR": "Your money or your life.",
+          "DESCRIPTIONS": ["Whenever you take damage, gain 1 slaythedungeon:Riposte."]
+        },
+        "SlayTheDungeon:DirgeForTheDevoured": {
+          "NAME": "Dirge For The Devoured",
+          "FLAVOR": "Laughter hides the screams.",
+          "DESCRIPTIONS": ["At the start of combat, add a Finale to your hand. It costs 0 this combat and has Retain."]
+        },
+        "SlayTheDungeon:BerserkMask": {
+          "NAME": "Berserk Mask",
+          "FLAVOR": "A broken body, an unbroken will.",
+          "DESCRIPTIONS": ["At the start of combat, gain 3 Strength. The chance of positive effects triggering is reduced by 10%."]
+        },
+        "SlayTheDungeon:RampartShield": {
+          "NAME": "Rampart Shield",
+          "FLAVOR": "Hold the line.",
+          "DESCRIPTIONS": ["At the end of every 3rd turn, gain 10 Block."]
+        },
+        "SlayTheDungeon:WrathfulHat": {
+          "NAME": "Wrathful Hat",
+          "FLAVOR": "One shot, one verdict.",
+          "DESCRIPTIONS": ["At the end of your turn, deal 2 damage to a random enemy 3 times."]
+        },
+        "SlayTheDungeon:DemonsCauldron": {
+          "NAME": "Demon's Cauldron",
+          "FLAVOR": "Forbidden words, terrible prices.",
+          "DESCRIPTIONS": ["At the start of your turn, lose 5 slaythedungeon:Brightness."]
+        },
+        "SlayTheDungeon:BlasphemousVial": {
+          "NAME": "Blasphemous Vial",
+          "FLAVOR": "Beneath the beak, cure and poison.",
+          "DESCRIPTIONS": ["slaythedungeon:Plague no longer halves at the end of the enemy's turn, but also deals no damage."]
+        },
+        "SlayTheDungeon:VenomousVial": {
+          "NAME": "Venomous Vial",
+          "FLAVOR": "No shield can stop her.",
+          "DESCRIPTIONS": ["At the end of your turn, trigger the Poison or slaythedungeon:Plague effect of a random enemy."]
+        },
+        "SlayTheDungeon:SacredScroll": {
+          "NAME": "Sacred Scroll",
+          "FLAVOR": "Prayer lights the dark.",
+          "DESCRIPTIONS": ["At the start of your turn, gain 5 slaythedungeon:Brightness."]
+        }
+      }

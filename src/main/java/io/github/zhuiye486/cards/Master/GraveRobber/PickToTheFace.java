@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.GraveRobber;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -41,7 +43,7 @@ public class PickToTheFace extends AbstractDungeonCard {
 
         int amount = player.cardsPlayedThisTurn * this.magicNumber;
         addToBot(new PickToTheFaceRemoveBlockAction(monster));
-        addToBot(new DamageAction(monster, new DamageInfo(player, amount, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, amount, DamageInfo.DamageType.NORMAL), AttackEffect.BLUNT_HEAVY));
         if (amount > 0) {
             addToBot(new ApplyPowerAction(monster, player, new PlaguePower(monster, amount)));
         }

@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Abomination;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -40,11 +42,12 @@ public class Rake extends AbstractDungeonCard {
             new DamageAction(
                 m,
                 new DamageInfo(
-                    p, 
+                    p,
                     this.damage,
                     DamageInfo.DamageType.NORMAL
-                )
-            )
+                ),
+                AttackEffect.SLASH_DIAGONAL
+)
         );
         addToBot(
             new ApplyPowerAction(

@@ -129,7 +129,7 @@
   },
   "SlayTheDungeon:Smite": {
     "NAME": "Smite",
-    "DESCRIPTIONS": ["At the end of your turn, deal #b", "% of your current Brightness as damage to a random enemy."]
+    "DESCRIPTIONS": ["At the end of your turn, deal #b", "% of your current Brightness as damage to a random enemy and lose #b", " Brightness."]
   },
   "SlayTheDungeon:WickedHack": {
     "NAME": "Wicked Hack",

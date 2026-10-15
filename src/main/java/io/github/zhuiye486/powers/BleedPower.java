@@ -1,5 +1,7 @@
 package io.github.zhuiye486.powers;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
@@ -55,8 +57,9 @@ public class BleedPower extends AbstractPower {
     private void dealBleedDamage(int damageAmount) {
         addToBot(new DamageAction(
             this.owner,
-            new DamageInfo(this.owner, damageAmount, DamageType.HP_LOSS)
-        ));
+            new DamageInfo(this.owner, damageAmount, DamageType.HP_LOSS),
+            AttackEffect.BLUNT_LIGHT
+));
     }
 
 }

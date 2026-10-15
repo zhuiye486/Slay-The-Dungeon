@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.HighWayMan;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -38,7 +40,7 @@ public class TrackingShot extends AbstractDungeonCard {
             return;
         }
 
-        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_HORIZONTAL));
 
         RipostePower queuedPower = new RipostePower(player, this.magicNumber);
         RipostePower existingPower = (RipostePower) player.getPower(RipostePower.POWER_ID);

@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Leper;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -35,7 +37,7 @@ public class Hew extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         if (monster != null) {
-            addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+            addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_HEAVY));
         }
     }
 

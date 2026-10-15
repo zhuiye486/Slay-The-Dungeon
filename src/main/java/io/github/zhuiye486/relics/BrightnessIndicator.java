@@ -16,6 +16,15 @@ public class BrightnessIndicator extends CustomRelic {
     public static final int MIN_BRIGHTNESS = 0;
     public static final int MAX_BRIGHTNESS = 100;
 
+    public static int getMaxBrightness() {
+        int max = MAX_BRIGHTNESS;
+        if (com.megacrit.cardcrawl.dungeons.AbstractDungeon.player != null
+                && com.megacrit.cardcrawl.dungeons.AbstractDungeon.player.hasRelic(HolyOrders.ID)) {
+            max += HolyOrders.BONUS_MAX_BRIGHTNESS;
+        }
+        return max;
+    }
+
     public BrightnessIndicator() {
         super(ID, ImageMaster.loadImage(IMG_PATH), RELIC_TIER, LANDING_SOUND);
         this.counter = 50;
@@ -26,9 +35,10 @@ public class BrightnessIndicator extends CustomRelic {
     }
 
     public void setBrightness(int brightness) {
-        int updatedBrightness = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, brightness));
+        int updatedBrightness = Math.max(MIN_BRIGHTNESS, Math.min(getMaxBrightness(), brightness));
         if (updatedBrightness != this.counter) {
             this.counter = updatedBrightness;
+            flash();
             MaceBash.onBrightnessChanged();
         }
     }
@@ -37,15 +47,49 @@ public class BrightnessIndicator extends CustomRelic {
         setBrightness(this.counter + amount);
     }
 
+    public static float getDamageTakenMultiplier(int brightness) {
+        return 1.2f - brightness * 0.004f;
+    }
+
+    public static float getPressureMultiplier(int brightness) {
+        return getDamageTakenMultiplier(brightness);
+    }
+
+    public static float getGoldMultiplier(int brightness) {
+        return (150.0f - brightness) / 100.0f;
+    }
+
+    public static float getPositiveChanceModifier(int brightness) {
+        return Math.max(-0.25f, Math.min(0.25f, (50 - brightness) / 100.0f));
+    }
+
+    private String buildDescription() {
+        int brightness = getBrightness();
+        int damagePercent = Math.round(getDamageTakenMultiplier(brightness) * 100.0f);
+        int pressurePercent = Math.round(getPressureMultiplier(brightness) * 100.0f);
+        int chancePercent = Math.round(getPositiveChanceModifier(brightness) * 100.0f);
+        int goldPercent = Math.round(getGoldMultiplier(brightness) * 100.0f);
+        return String.format(this.DESCRIPTIONS[0], damagePercent, pressurePercent, chancePercent, goldPercent);
+    }
+
     @Override
     public int onAttacked(DamageInfo info, int damageAmount) {
-        float damageMultiplier = (120.0f - getBrightness()) / 100.0f;
+        float damageMultiplier = getDamageTakenMultiplier(getBrightness());
         return Math.max(0, Math.round(damageAmount * damageMultiplier));
     }
 
     @Override
     public String getUpdatedDescription() {
-        return this.DESCRIPTIONS[0];
+        return buildDescription();
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        String updatedDescription = buildDescription();
+        if (!updatedDescription.equals(this.description)) {
+            this.description = updatedDescription;
+        }
     }
 
     @Override

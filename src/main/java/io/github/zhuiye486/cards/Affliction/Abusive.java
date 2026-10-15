@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Affliction;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.AbstractCard.CardColor;
@@ -56,7 +58,8 @@ public class Abusive extends AbstractDungeonCard {
                     AbstractDungeon.player, 
                     5, 
                     DamageType.HP_LOSS
-                )
+                ),
+                AttackEffect.SLASH_DIAGONAL
             )
         );
         addToBot(

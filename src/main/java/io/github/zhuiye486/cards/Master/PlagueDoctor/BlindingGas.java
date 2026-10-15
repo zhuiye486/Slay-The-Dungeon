@@ -1,16 +1,15 @@
 package io.github.zhuiye486.cards.Master.PlagueDoctor;
 
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import io.github.zhuiye486.cards.AbstractDungeonCard;
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.actions.PlayLastVapoursAction;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -40,7 +39,7 @@ public class BlindingGas extends AbstractDungeonCard {
             AbstractMonster targetMonster = AbstractDungeon.getRandomMonster();
             if (targetMonster != null) {
                 addToBot(new StunMonsterAction(targetMonster, player));
-                addToBot(new ApplyPowerAction(targetMonster, player, new ArtifactPower(targetMonster, 1)));
+                addToBot(new ApplyStunArtifactAction(targetMonster, player));
             }
         }
         if (!this.isInAutoplay) {

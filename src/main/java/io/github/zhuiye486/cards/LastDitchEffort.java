@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -40,7 +42,8 @@ public class LastDitchEffort extends AbstractDungeonCard {
                 new DamageInfo(
                     m, 
                     damageAmount
-                )
+                ),
+                AttackEffect.BLUNT_HEAVY
             )
         );
     }

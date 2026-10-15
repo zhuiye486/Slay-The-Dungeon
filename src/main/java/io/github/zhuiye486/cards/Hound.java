@@ -27,20 +27,18 @@ public class Hound extends AbstractDungeonCard {
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = CardColor.COLORLESS;
     private static final CardRarity RARITY = CardRarity.SPECIAL;
-    private static CardTarget TARGET = CardTarget.ENEMY;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public Hound() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.damage = this.baseDamage = 3;
-        this.magicNumber = this.baseMagicNumber = 3;
+        this.magicNumber = this.baseMagicNumber = 2;
         this.exhaust = true;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         if (AbstractDungeon.player.hasPower(HoundSupportPower.HOUNDS_HURRY_ID)) {
-            this.TARGET = CardTarget.ALL_ENEMY;
-            
             addToBot(
                 new DamageAllEnemiesAction(
                     p, 
@@ -63,8 +61,6 @@ public class Hound extends AbstractDungeonCard {
                 );
             }
         } else {
-            this.TARGET = CardTarget.ENEMY;
-            
             addToBot(
                 new DamageAction(
                     m, 
@@ -72,7 +68,8 @@ public class Hound extends AbstractDungeonCard {
                         p, 
                         this.damage,
                         DamageType.NORMAL
-                    )
+                    ),
+                    AttackEffect.SLASH_VERTICAL
                 )
             );
 
@@ -92,6 +89,10 @@ public class Hound extends AbstractDungeonCard {
     @Override
     protected void applyDynamicValues() {
         setDynamicMagicNumber(modifyStatusAmount(this.baseMagicNumber));
+        this.target = AbstractDungeon.player != null
+                && AbstractDungeon.player.hasPower(HoundSupportPower.HOUNDS_HURRY_ID)
+                        ? CardTarget.ALL_ENEMY
+                        : CardTarget.ENEMY;
     }
 
     @Override
@@ -99,7 +100,7 @@ public class Hound extends AbstractDungeonCard {
         if (!this.upgraded) {
             this.upgradeName();
             this.upgradeDamage(2);
-            this.upgradeMagicNumber(2);
+            this.upgradeMagicNumber(1);
         }
     }
 

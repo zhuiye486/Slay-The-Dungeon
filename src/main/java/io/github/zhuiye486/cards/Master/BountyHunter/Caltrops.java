@@ -36,7 +36,7 @@ public class Caltrops extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new com.megacrit.cardcrawl.actions.common.ApplyPowerAction(
-            player, player, new CaltropsPower(player, this.magicNumber, this.secondMagicNumber, this.chance)));
+            player, player, new CaltropsPower(player, this.magicNumber, this.secondMagicNumber, this.baseChance)));
     }
 
     

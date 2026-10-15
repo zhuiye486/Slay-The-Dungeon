@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.ShieldBreaker;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -35,7 +37,7 @@ public class Pierce extends AbstractDungeonCard {
 
     
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_HORIZONTAL));
         addToBot(new ApplyPowerAction(monster, player, new BleedPower(monster, this.magicNumber)));
         addToBot(new ApplyPowerAction(monster, player, new PlaguePower(monster, this.magicNumber)));
     }

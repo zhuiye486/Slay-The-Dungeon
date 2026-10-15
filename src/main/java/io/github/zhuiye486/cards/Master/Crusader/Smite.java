@@ -27,12 +27,14 @@ public class Smite extends AbstractDungeonCard {
     public Smite() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 25;
+        this.secondMagicNumber = this.baseSecondMagicNumber = 5;
     }
 
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new ApplyPowerAction(player, player, new SmitePower(player, this.magicNumber)));
+        addToBot(new ApplyPowerAction(player, player,
+                new SmitePower(player, this.magicNumber, this.secondMagicNumber)));
     }
 
     

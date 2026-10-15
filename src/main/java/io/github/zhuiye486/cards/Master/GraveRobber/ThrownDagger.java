@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.GraveRobber;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -38,8 +40,9 @@ public class ThrownDagger extends AbstractDungeonCard {
         if (monster != null) {
             addToBot(new DamageAction(
                 monster,
-                new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)
-            ));
+                new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL),
+                AttackEffect.SLASH_HORIZONTAL
+));
         }
         addToBot(new ApplyPowerAction(player, player, new DexterityPower(player, this.magicNumber)));
         addToBot(new DiscardAction(player, player, 2, false));

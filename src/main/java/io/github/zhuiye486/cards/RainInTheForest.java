@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -28,8 +30,8 @@ public class RainInTheForest extends AbstractDungeonCard {
 
     public RainInTheForest() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 12;
-        this.magicNumber = this.baseMagicNumber = 4;
+        this.damage = this.baseDamage = 16;
+        this.magicNumber = this.baseMagicNumber = 8;
     }
 
     @Override
@@ -41,7 +43,8 @@ public class RainInTheForest extends AbstractDungeonCard {
                     p,
                     this.damage,
                     DamageInfo.DamageType.NORMAL
-                )
+                ),
+                AttackEffect.SLASH_HORIZONTAL
             )
         );
         addToBot(

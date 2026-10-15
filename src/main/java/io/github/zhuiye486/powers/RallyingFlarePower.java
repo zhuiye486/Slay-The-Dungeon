@@ -1,6 +1,7 @@
 package io.github.zhuiye486.powers;
 
 import io.github.zhuiye486.actions.ChangeBrightnessAction;
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -17,6 +18,7 @@ public class RallyingFlarePower extends AbstractPower {
     private static final PowerStrings STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     private final int chance;
     private final int brightness;
+    private int displayedChance = -1;
 
     public RallyingFlarePower(AbstractCreature owner, int chance, int brightness) {
         this.owner = owner;
@@ -30,16 +32,20 @@ public class RallyingFlarePower extends AbstractPower {
                 ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RallyingFlarePower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
                 ImageMaster.loadImage("SlayTheDungeonResources/img/powers/RallyingFlarePower48.png"), 0, 0, 32, 32);
-        this.description = STRINGS.DESCRIPTIONS[0] + chance + STRINGS.DESCRIPTIONS[1]
-            + brightness + STRINGS.DESCRIPTIONS[2];
+        updateDescription();
+    }
+
+    private float getCurrentChance() {
+        return LuckyPower.getLuckyChance(chance / 100.0f);
     }
 
     @Override
     public void onAttack(DamageInfo info, int damageAmount, AbstractCreature target) {
         if (target instanceof AbstractMonster
             && com.megacrit.cardcrawl.dungeons.AbstractDungeon.cardRandomRng.randomBoolean(
-                LuckyPower.getLuckyChance(chance / 100.0f))) {
+                getCurrentChance())) {
             addToBot(new StunMonsterAction((AbstractMonster) target, owner));
+            addToBot(new ApplyStunArtifactAction((AbstractMonster) target, owner));
         }
     }
 
@@ -52,6 +58,16 @@ public class RallyingFlarePower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = STRINGS.DESCRIPTIONS[0] + chance + STRINGS.DESCRIPTIONS[1] + brightness + STRINGS.DESCRIPTIONS[2];
+        displayedChance = Math.round(getCurrentChance() * 100.0f);
+        this.description = STRINGS.DESCRIPTIONS[0] + displayedChance + STRINGS.DESCRIPTIONS[1]
+            + brightness + STRINGS.DESCRIPTIONS[2];
+    }
+
+    @Override
+    public void update(int slot) {
+        super.update(slot);
+        if (Math.round(getCurrentChance() * 100.0f) != displayedChance) {
+            updateDescription();
+        }
     }
 }

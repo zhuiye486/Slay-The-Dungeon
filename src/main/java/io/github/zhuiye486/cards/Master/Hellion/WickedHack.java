@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Hellion;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -37,7 +39,7 @@ public class WickedHack extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new DamageAction(monster,
-            new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+            new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_DIAGONAL));
         addToBot(new ApplyPowerAction(player, player, new RipostePower(player, this.magicNumber)));
         addToBot(new ApplyPowerAction(player, player, new WickedHackPower(player)));
     }

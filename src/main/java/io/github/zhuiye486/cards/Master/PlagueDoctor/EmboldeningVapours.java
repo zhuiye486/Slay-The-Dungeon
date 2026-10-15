@@ -28,7 +28,7 @@ public class EmboldeningVapours extends AbstractDungeonCard {
 
     public EmboldeningVapours() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
+        this.magicNumber = this.baseMagicNumber = 1;
         this.tags.add(CardTagsEnum.Vapours);
     }
 

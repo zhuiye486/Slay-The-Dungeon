@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -29,8 +31,8 @@ public class BloodInTheMud extends AbstractDungeonCard {
 
     public BloodInTheMud() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
-        this.damage = this.baseDamage = 6;
-        this.magicNumber = this.baseMagicNumber = 15;
+        this.damage = this.baseDamage = 9;
+        this.magicNumber = this.baseMagicNumber = 10;
     }
 
     @Override
@@ -54,7 +56,8 @@ public class BloodInTheMud extends AbstractDungeonCard {
                             p, 
                             this.damage, 
                             DamageType.NORMAL
-                        )
+                        ),
+                        AttackEffect.SLASH_HORIZONTAL
                     )
                 );
             }

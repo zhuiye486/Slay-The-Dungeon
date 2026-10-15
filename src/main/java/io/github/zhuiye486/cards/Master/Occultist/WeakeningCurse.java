@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Occultist;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -47,8 +49,9 @@ public class WeakeningCurse extends AbstractDungeonCard {
                 new DamageInfo(
                     p,
                     4
-                )
-            )
+                ),
+                AttackEffect.POISON
+)
         );
         addToBot(
             new ApplyPowerAction(

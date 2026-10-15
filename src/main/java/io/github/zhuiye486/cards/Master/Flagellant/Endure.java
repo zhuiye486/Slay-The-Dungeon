@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Flagellant;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -35,7 +37,7 @@ public class Endure extends AbstractDungeonCard {
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(player, new DamageInfo(player, this.damage, DamageInfo.DamageType.HP_LOSS)));
+        addToBot(new DamageAction(player, new DamageInfo(player, this.damage, DamageInfo.DamageType.HP_LOSS), AttackEffect.SLASH_DIAGONAL));
         addToBot(new ApplyPowerAction(player, player, new EndurePower(player, 1, this.heal)));
     }
 

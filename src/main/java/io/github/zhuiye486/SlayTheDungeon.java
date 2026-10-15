@@ -394,7 +394,10 @@ public class SlayTheDungeon implements EditCardsSubscriber, EditStringsSubscribe
     public void receiveEditRelics() {
         BaseMod.addRelic(new PressureIndicator(), RelicType.SHARED);
         BaseMod.addRelic(new BrightnessIndicator(), RelicType.SHARED);
-    }
+        for (int hero = 1; hero <= io.github.zhuiye486.relics.HeroRelic.count(); hero++) {
+            BaseMod.addRelic(io.github.zhuiye486.relics.HeroRelic.create(hero), RelicType.SHARED);
+        }
+                }
 
     @Override
     public void receiveEditStrings() {

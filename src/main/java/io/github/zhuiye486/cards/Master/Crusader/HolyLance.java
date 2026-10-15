@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Crusader;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -37,7 +39,7 @@ public class HolyLance extends AbstractDungeonCard {
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SLASH_HORIZONTAL));
         addToBot(new DrawCardAction(this.magicNumber));
         if (!player.hasPower(CrusadePower.POWER_ID)) {
             addToBot(new ApplyPowerAction(player, player, new CrusadePower(player)));

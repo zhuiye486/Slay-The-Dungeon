@@ -39,19 +39,22 @@ public class LuckyPower extends AbstractPower {
 
     public static float getLuckyChance(float baseChance) {
         float brightnessBonus = 0.0f;
+        float relicPenalty = 0.0f;
+        if (AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(io.github.zhuiye486.relics.BerserkMask.ID)) {
+            relicPenalty = -io.github.zhuiye486.relics.BerserkMask.LUCKY_PENALTY;
+        }
         if (AbstractDungeon.player != null) {
             BrightnessIndicator brightness = (BrightnessIndicator) AbstractDungeon.player.getRelic(BrightnessIndicator.ID);
             if (brightness != null) {
-                brightnessBonus = Math.max(-0.25f,
-                        Math.min(0.25f, (50 - brightness.getBrightness()) / 100.0f));
+                brightnessBonus = BrightnessIndicator.getPositiveChanceModifier(brightness.getBrightness());
             }
         }
         if (AbstractDungeon.player != null && AbstractDungeon.player.hasPower(POWER_ID)) {
             float bonus = AbstractDungeon.player.getPower(POWER_ID).amount / 100.0f;
             bonus += ComeHitherPower.getBonus(AbstractDungeon.player) / 100.0f;
-            return Math.min(1.0f, Math.max(0.0f, baseChance + bonus + brightnessBonus));
+            return Math.min(1.0f, Math.max(0.0f, baseChance + bonus + brightnessBonus + relicPenalty));
         }
-        return Math.min(1.0f, Math.max(0.0f, baseChance
+        return Math.min(1.0f, Math.max(0.0f, baseChance + relicPenalty
                 + ComeHitherPower.getBonus(AbstractDungeon.player) / 100.0f + brightnessBonus));
     }
 }

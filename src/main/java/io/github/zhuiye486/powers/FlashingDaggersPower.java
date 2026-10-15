@@ -17,6 +17,7 @@ import io.github.zhuiye486.helpers.ModHelper;
 public class FlashingDaggersPower extends AbstractPower {
     public static final String POWER_ID = ModHelper.makePath("FlashingDaggers");
     private static final PowerStrings POWER_STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
+    private int displayedChance = -1;
 
     public FlashingDaggersPower(AbstractCreature owner, int chance) {
         this.owner = owner;
@@ -35,7 +36,7 @@ public class FlashingDaggersPower extends AbstractPower {
 
     @Override
     public void stackPower(int stackAmount) {
-        this.amount = Math.max(this.amount, stackAmount);
+        this.amount += stackAmount;
         updateDescription();
     }
 
@@ -57,7 +58,20 @@ public class FlashingDaggersPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = POWER_STRINGS.DESCRIPTIONS[0] + this.amount + POWER_STRINGS.DESCRIPTIONS[1];
+        displayedChance = Math.round(getCurrentChance() * 100.0f);
+        this.description = POWER_STRINGS.DESCRIPTIONS[0] + displayedChance + POWER_STRINGS.DESCRIPTIONS[1];
+    }
+
+    private float getCurrentChance() {
+        return LuckyPower.getLuckyChance(this.amount / 100.0f);
+    }
+
+    @Override
+    public void update(int slot) {
+        super.update(slot);
+        if (Math.round(getCurrentChance() * 100.0f) != displayedChance) {
+            updateDescription();
+        }
     }
 
     @SpirePatch(clz = AbstractCard.class, method = "triggerOnManualDiscard")

@@ -3,14 +3,104 @@
         "NAME": "压力指示器",
         "FLAVOR": "感受到压力的存在。",
         "DESCRIPTIONS": [
-            "显示队伍的当前压力值。受到未被格挡的伤害时，会受到压力伤害。"
+            "显示队伍的当前压力值。受到未被格挡的伤害时，会受到压力伤害。当压力达到100时，英雄的信念会接受考验；达到200时，英雄会死于心力衰竭。（当前美德概率：%1$d%%，折磨概率：%2$d%%。）"
         ]
     },
     "SlayTheDungeon:BrightnessIndicator": {
         "NAME": "亮度指示器",
         "FLAVOR": "光明仍未熄灭。",
         "DESCRIPTIONS": [
-            "显示当前环境的亮度值。亮度越高，会减少受到的伤害和压力，但获得的金币和正面效果的触发概率也会减少。"
+            "显示当前环境的亮度值。亮度越高，会减少受到的伤害和压力，但获得的金币和正面效果的触发概率也会减少。（当前：受到伤害%1$d%%，压力增加%2$d%%，正面效果触发概率%3$+d%%，金币获取%4$d%%。）"
         ]
+    },
+    "SlayTheDungeon:BrokenKey": {
+        "NAME": "破损钥匙",
+        "FLAVOR": "人形之下，野兽低语。",
+        "DESCRIPTIONS": ["每回合你打出的第奇数张牌消耗为 0，第偶数张牌 [E] 消耗增加1。"]
+    },
+    "SlayTheDungeon:FleetFlorin": {
+        "NAME": "舰队弗罗林",
+        "FLAVOR": "每件旧物都有故事。",
+        "DESCRIPTIONS": ["战斗结束后和在宝箱中获得的金币增加10。"]
+    },
+    "SlayTheDungeon:BullsEyeBandana": {
+        "NAME": "暴怒头巾",
+        "FLAVOR": "弦已绷紧。",
+        "DESCRIPTIONS": ["战斗开始时，给予所有敌人1标记。"]
+    },
+    "SlayTheDungeon:HuntersTalons": {
+        "NAME": "猎人之爪",
+        "FLAVOR": "猎物无处可逃。",
+        "DESCRIPTIONS": ["打出的牌有", "%概率额外打出一次。"]
+    },
+    "SlayTheDungeon:HolyOrders": {
+        "NAME": "神圣祷文",
+        "FLAVOR": "以圣光之名。",
+        "DESCRIPTIONS": ["亮度上限增加20。"]
+    },
+    "SlayTheDungeon:ResurrectionsCollar": {
+        "NAME": "复生颈环",
+        "FLAVOR": "痛苦即是救赎。",
+        "DESCRIPTIONS": ["第3回合回合开始时回复10点生命，第5回合开始时失去8点生命。"]
+    },
+    "SlayTheDungeon:LuckyTalisman": {
+        "NAME": "幸运护符",
+        "FLAVOR": "死人不需要这些。",
+        "DESCRIPTIONS": ["战斗开始时，获得2敏捷。"]
+    },
+    "SlayTheDungeon:HellsHairpin": {
+        "NAME": "地狱发簪",
+        "FLAVOR": "怒火永不止息。",
+        "DESCRIPTIONS": ["战斗开始时，给予所有敌人6流血。"]
+    },
+    "SlayTheDungeon:ScoutingWhistle": {
+        "NAME": "侦察口哨",
+        "FLAVOR": "忠犬从不背叛。",
+        "DESCRIPTIONS": ["每个回合开始时，将一张猎犬加入手牌。"]
+    },
+    "SlayTheDungeon:GunslingersBuckle": {
+        "NAME": "强盗的皮带扣",
+        "FLAVOR": "钱财或性命。",
+        "DESCRIPTIONS": ["受到伤害时，获得1反击。"]
+    },
+    "SlayTheDungeon:DirgeForTheDevoured": {
+        "NAME": "吞噬者挽歌",
+        "FLAVOR": "笑声掩盖悲鸣。",
+        "DESCRIPTIONS": ["战斗开始时，将一张终曲置入手牌。本场战斗中其消耗为0，且具有 保留 。"]
+    },
+    "SlayTheDungeon:BerserkMask": {
+        "NAME": "狂暴面具",
+        "FLAVOR": "残躯之中，意志犹存。",
+        "DESCRIPTIONS": ["战斗开始时获得3力量。正面效果触发的概率减少10%。"]
+    },
+    "SlayTheDungeon:RampartShield": {
+        "NAME": "防壁巨盾",
+        "FLAVOR": "坚守阵线。",
+        "DESCRIPTIONS": ["每3个回合结束时，获得10点格挡。"]
+    },
+    "SlayTheDungeon:WrathfulHat": {
+        "NAME": "愤怒之帽",
+        "FLAVOR": "一枪定音。",
+        "DESCRIPTIONS": ["回合结束时，对随机敌人造成2点伤害，重复3次。"]
+    },
+    "SlayTheDungeon:DemonsCauldron": {
+        "NAME": "恶魔坩埚",
+        "FLAVOR": "禁忌之语，代价惨重。",
+        "DESCRIPTIONS": ["回合开始时，减少5亮度。"]
+    },
+    "SlayTheDungeon:BlasphemousVial": {
+        "NAME": "亵渎魔瓶",
+        "FLAVOR": "鸟嘴之下，是治愈与毒。",
+        "DESCRIPTIONS": ["瘟疫层数不再在敌人的回合结束时减半，但也不会造成伤害。"]
+    },
+    "SlayTheDungeon:VenomousVial": {
+        "NAME": "剧毒之瓶",
+        "FLAVOR": "没有盾能挡住她。",
+        "DESCRIPTIONS": ["回合结束时，随机触发一个敌人身上的中毒或瘟疫效果。"]
+    },
+    "SlayTheDungeon:SacredScroll": {
+        "NAME": "神圣卷轴",
+        "FLAVOR": "祈祷照亮黑暗。",
+        "DESCRIPTIONS": ["回合开始时，获得5点亮度。"]
     }
 }

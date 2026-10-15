@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.ShieldBreaker;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveAllBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -47,11 +49,12 @@ public class Puncture extends AbstractDungeonCard {
             new DamageAction(
                 m,
                 new DamageInfo(
-                    p, 
-                    this.damage, 
+                    p,
+                    this.damage,
                     DamageType.NORMAL
-                )
-            )
+                ),
+                AttackEffect.SLASH_HORIZONTAL
+)
         );
     }
 

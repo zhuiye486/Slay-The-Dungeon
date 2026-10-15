@@ -1,6 +1,6 @@
 package io.github.zhuiye486.powers;
 
-import com.megacrit.cardcrawl.actions.utility.UseCardAction;
+import com.megacrit.cardcrawl.actions.utility.NewQueueCardAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -34,7 +34,7 @@ public class HolyLanceStartPower extends AbstractPower {
         for (int i = 0; i < amount; i++) {
             AbstractMonster target = AbstractDungeon.getRandomMonster();
             if (target != null) {
-                addToBot(new UseCardAction(new HolyLance(), target));
+                addToBot(new NewQueueCardAction(new HolyLance(), true, true, true));
             }
         }
     }

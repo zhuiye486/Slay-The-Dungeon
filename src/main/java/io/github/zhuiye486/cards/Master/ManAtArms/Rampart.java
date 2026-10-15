@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.ManAtArms;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -9,8 +11,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
-
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -36,9 +37,9 @@ public class Rampart extends AbstractDungeonCard {
     
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.SHIELD));
         addToBot(new StunMonsterAction(monster, player, this.magicNumber));
-        addToBot(new ApplyPowerAction(monster, player, new ArtifactPower(monster, 1)));
+        addToBot(new ApplyStunArtifactAction(monster, player));
     }
 
     

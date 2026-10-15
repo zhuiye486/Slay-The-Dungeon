@@ -15,6 +15,7 @@ public class CaltropsPower extends AbstractPower {
     private static final PowerStrings STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     private final int repeats;
     private final float chance;
+    private int displayedChance = -1;
 
     public CaltropsPower(AbstractCreature owner, int markAmount, int repeats, float chance) {
         this.name = STRINGS.NAME;
@@ -33,16 +34,30 @@ public class CaltropsPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
+        displayedChance = Math.round(getCurrentChance() * 100.0f);
         this.description = STRINGS.DESCRIPTIONS[0] + this.amount + STRINGS.DESCRIPTIONS[1]
-                + Math.round(this.chance * 100.0f) + STRINGS.DESCRIPTIONS[2] + this.repeats
+                + displayedChance + STRINGS.DESCRIPTIONS[2] + this.repeats
                 + STRINGS.DESCRIPTIONS[3];
+    }
+
+    private float getCurrentChance() {
+        return LuckyPower.getLuckyChance(this.chance);
+    }
+
+    @Override
+    public void update(int slot) {
+        super.update(slot);
+        if (Math.round(getCurrentChance() * 100.0f) != displayedChance) {
+            updateDescription();
+        }
     }
 
     @Override
     public void atStartOfTurn() {
         if (AbstractDungeon.getCurrRoom() == null) return;
         for (int repetition = 0; repetition <= this.repeats; repetition++) {
-            if (repetition > 0 && !AbstractDungeon.cardRandomRng.randomBoolean(this.chance)) continue;
+            if (repetition > 0
+                    && !AbstractDungeon.cardRandomRng.randomBoolean(getCurrentChance())) continue;
             AbstractMonster target = AbstractDungeon.getCurrRoom().monsters.getRandomMonster(
                     null, true, AbstractDungeon.cardRandomRng);
             if (target != null) {

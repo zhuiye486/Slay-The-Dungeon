@@ -12,14 +12,17 @@ public class BrightnessGoldPatch {
     public static class ScaleGoldByBrightness {
         @SpirePrefixPatch
         public static void prefix(AbstractPlayer player, @ByRef int[] amount) {
-            if (amount == null || amount.length == 0 || amount[0] <= 0) {
+            if (amount == null || amount.length == 0) {
+                return;
+            }
+            if (amount[0] <= 0) {
                 return;
             }
             BrightnessIndicator brightness = (BrightnessIndicator) player.getRelic(BrightnessIndicator.ID);
             if (brightness == null) {
                 return;
             }
-            float lootMultiplier = (150.0f - brightness.getBrightness()) / 100.0f;
+            float lootMultiplier = BrightnessIndicator.getGoldMultiplier(brightness.getBrightness());
             amount[0] = Math.max(0, Math.round(amount[0] * lootMultiplier));
         }
     }

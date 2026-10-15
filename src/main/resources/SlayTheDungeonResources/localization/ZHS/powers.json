@@ -250,7 +250,8 @@
         "NAME": "惩戒",
         "DESCRIPTIONS": [
             "回合结束时，对随机敌人造成当前亮度的 #b",
-            "%伤害。"
+            "%伤害并减少 #b",
+            " 点亮度。"
         ]
     },
     "SlayTheDungeon:WickedHack": {

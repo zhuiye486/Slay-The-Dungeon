@@ -27,16 +27,44 @@ public class Punish extends AbstractDungeonCard {
 
     public Punish() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
+        updateBleedDescription();
     }
 
-    
+    @Override
+    public void applyPowers() {
+        super.applyPowers();
+        updateBleedDescription();
+    }
+
+    @Override
+    protected void applyDynamicValues() {
+        int lastDamageTaken = AbstractDungeon.player == null ? 0 : AbstractDungeon.player.lastDamageTaken;
+        setDynamicMagicNumber(Math.max(0, lastDamageTaken));
+    }
+
+    private void updateBleedDescription() {
+        String baseDescription = this.upgraded && CARD_STRINGS.UPGRADE_DESCRIPTION != null
+                ? CARD_STRINGS.UPGRADE_DESCRIPTION
+                : CARD_STRINGS.DESCRIPTION;
+        int bleedAmount = AbstractDungeon.player == null ? 0 : Math.max(0, AbstractDungeon.player.lastDamageTaken);
+        this.rawDescription = baseDescription
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[0] + bleedAmount
+                + CARD_STRINGS.EXTENDED_DESCRIPTION[1];
+        this.initializeDescription();
+    }
+
+
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
-        int amount = player.hasPower(BleedPower.POWER_ID) ? player.getPower(BleedPower.POWER_ID).amount : this.magicNumber;
+        int amount = Math.max(0, player.lastDamageTaken);
         for (AbstractMonster target : AbstractDungeon.getCurrRoom().monsters.monsters) {
-            addToBot(new ApplyPowerAction(target, player, new BleedPower(target, amount)));
+            if (amount > 0 && !target.isDeadOrEscaped()) {
+                addToBot(new ApplyPowerAction(target, player, new BleedPower(target, amount)));
+            }
             if (this.upgraded) {
-                addToBot(new ApplyPowerAction(target, player, new BleedPower(target, 5)));
+                if (!target.isDeadOrEscaped()) {
+                    addToBot(new ApplyPowerAction(target, player, new BleedPower(target, 5)));
+                }
             }
         }
     }
@@ -46,6 +74,7 @@ public class Punish extends AbstractDungeonCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
+            updateBleedDescription();
         }
     }
 

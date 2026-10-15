@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Jester;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -23,7 +25,7 @@ public class DirkStab extends AbstractDungeonCard {
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardColor COLOR = SlayTheDungeonColorEnum.DEEP_RED;
     private static final CardRarity RARITY = CardRarity.COMMON;
-    private static final CardTarget TARGET = CardTarget.NONE;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public DirkStab() {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
@@ -35,7 +37,7 @@ public class DirkStab extends AbstractDungeonCard {
     public void use(AbstractPlayer player, AbstractMonster monster) {
         if (monster != null) {
             addToBot(new DamageAction(monster,
-                    new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL)));
+                    new DamageInfo(player, this.damage, DamageInfo.DamageType.NORMAL), AttackEffect.BLUNT_LIGHT));
         }
         addToBot(new DrawCardAction(this.magicNumber));
     }

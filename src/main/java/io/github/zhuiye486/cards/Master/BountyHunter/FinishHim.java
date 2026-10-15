@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.BountyHunter;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -48,7 +50,8 @@ public class FinishHim extends AbstractDungeonCard {
                         p, 
                         damage,
                         DamageInfo.DamageType.NORMAL
-                    )
+                    ),
+                    AttackEffect.SLASH_DIAGONAL
                 )
             );
         }

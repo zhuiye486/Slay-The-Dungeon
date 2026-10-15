@@ -1,5 +1,7 @@
 package io.github.zhuiye486.powers;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -9,24 +11,27 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
+import io.github.zhuiye486.actions.ChangeBrightnessAction;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.relics.BrightnessIndicator;
 
 public class SmitePower extends AbstractPower {
     public static final String POWER_ID = ModHelper.makePath("Smite");
     private static final PowerStrings STRINGS = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
+    private final int brightnessLoss;
 
-    public SmitePower(AbstractCreature owner, int damagePercent) {
+    public SmitePower(AbstractCreature owner, int damagePercent, int brightnessLoss) {
         this.name = STRINGS.NAME;
         this.ID = POWER_ID;
         this.owner = owner;
         this.amount = damagePercent;
+        this.brightnessLoss = brightnessLoss;
         this.type = PowerType.BUFF;
         this.region128 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
                 com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/SmitePower128.png"), 0, 0, 84, 84);
         this.region48 = new com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion(
                 com.megacrit.cardcrawl.helpers.ImageMaster.loadImage("SlayTheDungeonResources/img/powers/SmitePower48.png"), 0, 0, 32, 32);
-        this.description = STRINGS.DESCRIPTIONS[0] + this.amount + STRINGS.DESCRIPTIONS[1];
+        updateDescription();
     }
 
     @Override
@@ -41,7 +46,14 @@ public class SmitePower extends AbstractPower {
         int damage = Math.round(currentBrightness * this.amount / 100.0f);
         if (damage > 0) {
             addToBot(new DamageAction(target,
-                    new DamageInfo(this.owner, damage, DamageInfo.DamageType.THORNS)));
+                    new DamageInfo(this.owner, damage, DamageInfo.DamageType.THORNS), AttackEffect.LIGHTNING));
         }
+        addToBot(new ChangeBrightnessAction(-this.brightnessLoss));
+    }
+
+    @Override
+    public void updateDescription() {
+        this.description = STRINGS.DESCRIPTIONS[0] + this.amount + STRINGS.DESCRIPTIONS[1]
+                + this.brightnessLoss + STRINGS.DESCRIPTIONS[2];
     }
 }

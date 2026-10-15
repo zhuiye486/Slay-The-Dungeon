@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.GraveRobber;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -39,10 +41,11 @@ public class PoisonDart extends AbstractDungeonCard {
             new DamageAction(
                 m,
                 new DamageInfo(
-                    p, 
-                    this.damage, 
-                    DamageType.NORMAL)
-            )
+                    p,
+                    this.damage,
+                    DamageType.NORMAL),
+                AttackEffect.SLASH_HORIZONTAL
+)
         );
         addToBot(
             new ApplyPowerAction(

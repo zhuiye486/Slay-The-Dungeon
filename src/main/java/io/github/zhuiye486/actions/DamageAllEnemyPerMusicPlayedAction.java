@@ -29,6 +29,15 @@ public class DamageAllEnemyPerMusicPlayedAction extends AbstractGameAction{
         this.sourceCard = sourceCard;
     }
 
+    public DamageAllEnemyPerMusicPlayedAction(
+            DamageInfo info,
+            int[] multiDamage,
+            AbstractCard sourceCard,
+            AttackEffect effect) {
+        this(info, multiDamage, effect);
+        this.sourceCard = sourceCard;
+    }
+
     @Override
     public void update() {
         int count = 0;

@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
 import basemod.abstracts.CustomRelic;
 import io.github.zhuiye486.helpers.ModHelper;
 import io.github.zhuiye486.events.ReplaceHeroCampfireOption;
+import io.github.zhuiye486.powers.LuckyPower;
 
 public class PressureIndicator extends CustomRelic{
     public static final String ID = ModHelper.makePath(PressureIndicator.class.getSimpleName());
@@ -60,6 +61,7 @@ public class PressureIndicator extends CustomRelic{
             this.cardAddedAt100 = pendingSavedTestTriggered;
             pendingSavedTestTriggered = null;
         }
+        updateDescription();
     }
 
     public static boolean isTestTriggeredForSave() {
@@ -135,11 +137,21 @@ public class PressureIndicator extends CustomRelic{
         } else if (unblockedDamage < 5) {
             pressureAdded = Math.round(pressureAdded / 2.0f);
         }
+        BrightnessIndicator brightness = (BrightnessIndicator) AbstractDungeon.player
+            .getRelic(BrightnessIndicator.ID);
+        if (brightness != null) {
+            pressureAdded = Math.max(0, Math.round(pressureAdded
+                * BrightnessIndicator.getPressureMultiplier(brightness.getBrightness())));
+        }
         changePressure(pressureAdded);
     }
 
     public void changePressure(int amount) {
+        int previousPressure = counter;
         counter = Math.max(0, counter + amount);
+        if (counter != previousPressure) {
+            flash();
+        }
         if (counter >= TEST_AMOUNT && !cardAddedAt100) {
             addRandomVirtueOrAffliction();
             cardAddedAt100 = true;
@@ -152,7 +164,30 @@ public class PressureIndicator extends CustomRelic{
 
     @Override
     public String getUpdatedDescription() {
-        return this.DESCRIPTIONS[0];
+        return buildDescription();
+    }
+
+    private static float getVirtueChance() {
+        return LuckyPower.getLuckyChance(VirtueChance);
+    }
+
+    private String buildDescription() {
+        int virtueChance = Math.round(getVirtueChance() * 100.0f);
+        int afflictionChance = 100 - virtueChance;
+        return String.format(this.DESCRIPTIONS[0], virtueChance, afflictionChance);
+    }
+
+    private void updateDescription() {
+        this.description = buildDescription();
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        String updatedDescription = buildDescription();
+        if (!updatedDescription.equals(this.description)) {
+            this.description = updatedDescription;
+        }
     }
 
     @Override
@@ -184,7 +219,7 @@ public class PressureIndicator extends CustomRelic{
     }
 
     private void addRandomVirtueOrAffliction() {
-        boolean pickVirtue = AbstractDungeon.miscRng.randomBoolean(VirtueChance);
+        boolean pickVirtue = AbstractDungeon.miscRng.randomBoolean(getVirtueChance());
         if (pickVirtue) {
             String cardId = VIRTUE_CARD_IDS[AbstractDungeon.miscRng.random(VIRTUE_CARD_IDS.length - 1)];
             AbstractCard cardToAdd = CardLibrary.getCopy(cardId);

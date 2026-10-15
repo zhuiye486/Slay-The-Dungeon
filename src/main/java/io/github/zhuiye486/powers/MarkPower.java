@@ -1,5 +1,7 @@
 package io.github.zhuiye486.powers;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -50,7 +52,8 @@ public class MarkPower extends AbstractPower {
                         info.owner,
                         this.amount, 
                         DamageType.HP_LOSS
-                    )
+                    ),
+                    AttackEffect.FIRE
                 )
             );
         }

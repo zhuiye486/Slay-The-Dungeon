@@ -20,7 +20,7 @@ public class BrightnessIntentDamagePatch {
             if (brightness == null) {
                 return result;
             }
-            float damageMultiplier = (120.0f - brightness.getBrightness()) / 100.0f;
+            float damageMultiplier = BrightnessIndicator.getDamageTakenMultiplier(brightness.getBrightness());
             return Math.max(0, Math.round(result * damageMultiplier));
         }
     }

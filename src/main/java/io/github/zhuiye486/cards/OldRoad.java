@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDiscardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -41,7 +43,8 @@ public class OldRoad extends AbstractDungeonCard {
                     p, 
                     this.damage,
                     DamageType.NORMAL
-                )
+                ),
+                AttackEffect.SLASH_DIAGONAL
             )
         );
         addToBot(
@@ -51,7 +54,8 @@ public class OldRoad extends AbstractDungeonCard {
                     p, 
                     this.damage,
                     DamageType.NORMAL
-                )
+                ),
+                AttackEffect.SLASH_DIAGONAL
             )
         );
         addToBot(

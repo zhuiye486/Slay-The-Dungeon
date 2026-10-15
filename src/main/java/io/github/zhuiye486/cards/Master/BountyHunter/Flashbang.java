@@ -2,13 +2,12 @@ package io.github.zhuiye486.cards.Master.BountyHunter;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
 
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -34,7 +33,7 @@ public class Flashbang extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new StunMonsterAction(monster, player, this.magicNumber));
-        addToBot(new ApplyPowerAction(monster, player, new ArtifactPower(monster, 1)));
+        addToBot(new ApplyStunArtifactAction(monster, player));
     }
 
     

@@ -21,7 +21,7 @@
   },
   {
     "NAMES": ["Stun"],
-    "DESCRIPTION": "A stunned character skips their next turn and gains 1 Artifact."
+    "DESCRIPTION": "A stunned character skips their next turn and gains Artifact equal to their Stun."
   },
   {
     "NAMES": ["Recovery"],

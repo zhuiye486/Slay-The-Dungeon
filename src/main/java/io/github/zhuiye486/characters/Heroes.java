@@ -279,6 +279,8 @@ public class Heroes extends CustomPlayer {
             return;
         }
 
+        io.github.zhuiye486.relics.HeroRelic.sync(selectedHeroes);
+
         composeCharacterImage(selectedHeroes);
         refreshCorpseImage();
 
@@ -295,6 +297,7 @@ public class Heroes extends CustomPlayer {
         composeCharacterImage(selectedHeroes);
         refreshCorpseImage();
         filterCardPoolsForSelection();
+        io.github.zhuiye486.relics.HeroRelic.sync(selectedHeroes);
         saveSelectedHeroes();
     }
 

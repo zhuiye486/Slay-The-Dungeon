@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.HighWayMan;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DiscardAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
@@ -47,7 +49,8 @@ public class PointBlankShoot extends AbstractDungeonCard {
                     p, 
                     this.damage, 
                     DamageType.NORMAL
-                )
+                ),
+                AttackEffect.SLASH_HORIZONTAL
             )
         );
 

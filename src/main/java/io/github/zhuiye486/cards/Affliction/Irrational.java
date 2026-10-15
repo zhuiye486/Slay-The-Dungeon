@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Affliction;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.EndTurnAction;
 import com.megacrit.cardcrawl.actions.common.ExhaustAction;
@@ -62,7 +64,8 @@ public class Irrational extends AbstractDungeonCard {
                             AbstractDungeon.player, 
                             10, 
                             DamageType.HP_LOSS
-                        )
+                        ),
+                        AttackEffect.SLASH_DIAGONAL
                     )
                 );
                 break;

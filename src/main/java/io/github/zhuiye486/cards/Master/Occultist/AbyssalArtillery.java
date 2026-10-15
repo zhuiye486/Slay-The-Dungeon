@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Occultist;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -38,7 +40,7 @@ public class AbyssalArtillery extends AbstractDungeonCard {
 
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new DamageAction(monster,
-                new DamageInfo(player, getFormulaDamage(player), DamageInfo.DamageType.NORMAL)));
+                new DamageInfo(player, getFormulaDamage(player), DamageInfo.DamageType.NORMAL), AttackEffect.POISON));
     }
 
     

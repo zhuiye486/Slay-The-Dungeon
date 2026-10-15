@@ -1,5 +1,7 @@
 package io.github.zhuiye486.powers;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -52,6 +54,8 @@ public class PlaguePower extends AbstractPower {
         }
 
         int plagueAmount = this.amount;
+        boolean noDecay = AbstractDungeon.player != null
+            && AbstractDungeon.player.hasRelic(io.github.zhuiye486.relics.BlasphemousVial.ID);
         if (randomMonster == this.owner) {
             addToBot(new ApplyPowerAction(
                 this.owner,
@@ -62,11 +66,14 @@ public class PlaguePower extends AbstractPower {
             return;
         }
 
-        addToBot(new DamageAction(
-            this.owner,
-            new DamageInfo(this.owner, plagueAmount, DamageType.HP_LOSS)
-        ));
-        addToBot(new ReducePowerAction(this.owner, this.owner, POWER_ID, plagueAmount / 2));
+        if (!noDecay) {
+            addToBot(new DamageAction(
+                this.owner,
+                new DamageInfo(this.owner, plagueAmount, DamageType.HP_LOSS),
+                AttackEffect.POISON
+));
+            addToBot(new ReducePowerAction(this.owner, this.owner, POWER_ID, plagueAmount / 2));
+        }
 
         addToBot(new ApplyPowerAction(
             randomMonster,

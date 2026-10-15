@@ -1,7 +1,8 @@
 package io.github.zhuiye486.cards.Master.Vestal;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -13,7 +14,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
+import io.github.zhuiye486.actions.ApplyStunArtifactAction;
 import io.github.zhuiye486.actions.ChangeBrightnessAction;
 
 public class DazzlingLight extends AbstractDungeonCard {
@@ -44,7 +45,7 @@ public class DazzlingLight extends AbstractDungeonCard {
                     this.damage,
                     DamageType.NORMAL
                 )
-            )
+            , AttackEffect.LIGHTNING)
         );
         addToBot(
             new StunMonsterAction(
@@ -52,9 +53,7 @@ public class DazzlingLight extends AbstractDungeonCard {
                 p
             )
         );
-        addToBot(
-            new ApplyPowerAction(m, p, new ArtifactPower(m, 1))
-        );
+        addToBot(new ApplyStunArtifactAction(m, p));
         addToBot(new ChangeBrightnessAction(this.magicNumber));
     }
 

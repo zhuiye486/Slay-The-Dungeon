@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.ManAtArms;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveAllBlockAction;
@@ -34,7 +36,7 @@ public class Crush extends AbstractDungeonCard {
     public void use(AbstractPlayer player, AbstractMonster monster) {
         int damage = player.currentBlock * this.magicNumber;
         addToBot(new RemoveAllBlockAction(player, player));
-        addToBot(new DamageAction(monster, new DamageInfo(player, damage, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, damage, DamageInfo.DamageType.NORMAL), AttackEffect.SMASH));
     }
 
     

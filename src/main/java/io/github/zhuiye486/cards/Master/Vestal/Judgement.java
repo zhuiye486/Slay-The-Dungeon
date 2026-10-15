@@ -1,5 +1,7 @@
 package io.github.zhuiye486.cards.Master.Vestal;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -35,7 +37,7 @@ public class Judgement extends AbstractDungeonCard {
         BrightnessIndicator brightness = (BrightnessIndicator) player.getRelic(BrightnessIndicator.ID);
         int amount = brightness == null ? 0 : brightness.getBrightness();
         addToBot(new ChangeBrightnessAction(-amount));
-        addToBot(new DamageAction(monster, new DamageInfo(player, amount, DamageInfo.DamageType.NORMAL)));
+        addToBot(new DamageAction(monster, new DamageInfo(player, amount, DamageInfo.DamageType.NORMAL), AttackEffect.LIGHTNING));
     }
 
     

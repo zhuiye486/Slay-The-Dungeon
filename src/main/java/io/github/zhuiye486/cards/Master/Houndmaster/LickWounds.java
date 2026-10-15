@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
+import io.github.zhuiye486.patches.HealPatch;
 import io.github.zhuiye486.powers.HoundSupportPower;
 
 public class LickWounds extends AbstractDungeonCard {
@@ -43,6 +44,9 @@ public class LickWounds extends AbstractDungeonCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);
+            this.baseHeal += 3;
+            this.heal = this.baseHeal;
+            HealPatch.upgradedHeal.set(this, true);
         }
     }
 
