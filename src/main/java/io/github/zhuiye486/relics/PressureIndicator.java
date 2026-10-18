@@ -178,16 +178,19 @@ public class PressureIndicator extends CustomRelic{
     }
 
     private void updateDescription() {
-        this.description = buildDescription();
+        String updatedDescription = buildDescription();
+        if (!updatedDescription.equals(this.description)) {
+            this.description = updatedDescription;
+            if (this.tips != null && !this.tips.isEmpty()) {
+                this.tips.get(0).body = updatedDescription;
+            }
+        }
     }
 
     @Override
     public void update() {
         super.update();
-        String updatedDescription = buildDescription();
-        if (!updatedDescription.equals(this.description)) {
-            this.description = updatedDescription;
-        }
+        updateDescription();
     }
 
     @Override

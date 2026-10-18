@@ -1,6 +1,7 @@
 package io.github.zhuiye486.relics;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardQueueItem;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
@@ -11,20 +12,19 @@ public class BrokenKey extends HeroRelic {
     public static final String ID = ModHelper.makePath(BrokenKey.class.getSimpleName());
     private static final String IMG_PATH = "SlayTheDungeonResources/img/relics/BrokenKey.png";
 
-    private int played = 0;
-
     public BrokenKey() {
         super(ID, IMG_PATH);
+        this.counter = 1;
     }
 
     @Override
     public void atBattleStart() {
-        played = 0;
+        this.counter = 1;
     }
 
     @Override
     public void atTurnStart() {
-        played = 0;
+        this.counter = 1;
     }
 
     @Override
@@ -42,7 +42,11 @@ public class BrokenKey extends HeroRelic {
         if (card.purgeOnUse) {
             return;
         }
-        played++;
+        if (this.counter == 1) {
+            this.counter = 2;
+        } else {
+            this.counter = 1;
+        }
         refreshHand();
     }
 
@@ -51,16 +55,34 @@ public class BrokenKey extends HeroRelic {
             return;
         }
         for (AbstractCard c : AbstractDungeon.player.hand.group) {
-            applyCost(c);
+            if (!isQueued(c)) {
+                applyCost(c);
+            }
         }
+    }
+
+    private boolean isQueued(AbstractCard card) {
+        if (AbstractDungeon.actionManager == null) {
+            return false;
+        }
+        for (CardQueueItem queueItem : AbstractDungeon.actionManager.cardQueue) {
+            if (queueItem.card != null && queueItem.card == card) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void applyCost(AbstractCard c) {
         if (c.cost < 0) {
             return;
         }
-        boolean odd = (played + 1) % 2 == 1;
-        int target = odd ? 0 : c.cost + 1;
+        int target;
+        if (this.counter == 1) {
+            target = 0;
+        } else {
+            target = c.cost + 1;
+        }
         if (c.costForTurn != target) {
             c.setCostForTurn(target);
         }

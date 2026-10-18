@@ -34,8 +34,8 @@ public class ToxinTrickery extends AbstractDungeonCard {
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
         int amount = 2;
-        if (p.getPower("Poison") != null) {
-            amount += p.getPower("Poison").amount;
+        if (p.getPower("Dexterity") != null) {
+            amount += Math.max(0, p.getPower("Dexterity").amount);
         }
         
         addToBot(

@@ -38,6 +38,7 @@ public class BrightnessIndicator extends CustomRelic {
         int updatedBrightness = Math.max(MIN_BRIGHTNESS, Math.min(getMaxBrightness(), brightness));
         if (updatedBrightness != this.counter) {
             this.counter = updatedBrightness;
+            updateDescription();
             flash();
             MaceBash.onBrightnessChanged();
         }
@@ -60,7 +61,7 @@ public class BrightnessIndicator extends CustomRelic {
     }
 
     public static float getPositiveChanceModifier(int brightness) {
-        return Math.max(-0.25f, Math.min(0.25f, (50 - brightness) / 100.0f));
+        return Math.max(-0.25f, Math.min(0.25f, (50.0f - brightness) / 100.0f));
     }
 
     private String buildDescription() {
@@ -83,13 +84,20 @@ public class BrightnessIndicator extends CustomRelic {
         return buildDescription();
     }
 
-    @Override
-    public void update() {
-        super.update();
+    private void updateDescription() {
         String updatedDescription = buildDescription();
         if (!updatedDescription.equals(this.description)) {
             this.description = updatedDescription;
+            if (this.tips != null && !this.tips.isEmpty()) {
+                this.tips.get(0).body = updatedDescription;
+            }
         }
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        updateDescription();
     }
 
     @Override

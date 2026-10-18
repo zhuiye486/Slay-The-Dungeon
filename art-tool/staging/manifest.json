@@ -1,11 +1,15 @@
 {
   "entries": {},
   "last_commit": {
-    "id": "20261015T115018014473Z",
-    "directory": "backups\\20261015T115018014473Z",
+    "id": "20261015T173319861404Z",
+    "directory": "backups\\20261015T173319861404Z",
     "files": [
       {
-        "path": "src/main/java/io/github/zhuiye486/cards/Master/Houndmaster/HoundsHurry.java",
+        "path": "src/main/java/io/github/zhuiye486/cards/Master/BountyHunter/ComeHither.java",
+        "exists": true
+      },
+      {
+        "path": "src/main/resources/SlayTheDungeonResources/localization/ZHS/cards.json",
         "exists": true
       }
     ]

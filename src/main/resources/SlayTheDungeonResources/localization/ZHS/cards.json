@@ -374,7 +374,7 @@
     },
     "SlayTheDungeon:ComeHither": {
         "NAME": "靠近点！",
-        "DESCRIPTION": "本回合中，你的下一张 slaythedungeon:概率 牌成功率提升 !SlayTheDungeonP! %。"
+        "DESCRIPTION": "本回合中，你的下一张概率牌成功率提升 !SlayTheDungeonP! %。"
     },
     "SlayTheDungeon:Flashbang": {
         "NAME": "闪光弹",
@@ -514,7 +514,7 @@
     },
     "SlayTheDungeon:Captivate": {
         "NAME": "诱捕",
-        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 额外给予目标身上 slaythedungeon:流血 和 slaythedungeon:中毒 层数的 slaythedungeon:瘟疫 。"
+        "DESCRIPTION": "给予 !M! slaythedungeon:瘟疫 。 NL 额外给予目标身上 slaythedungeon:流血 和 中毒 层数的 slaythedungeon:瘟疫 。"
     },
     "SlayTheDungeon:Puncture": {
         "NAME": "贯穿",

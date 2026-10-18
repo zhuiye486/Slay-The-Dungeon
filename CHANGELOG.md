@@ -1,5 +1,21 @@
 # 更新日志 | Changelog
 
+## 0.2.6
+
+### 平衡与修正 | Balance & Fixes
+- 修正「敏捷药剂」的额外抽牌判定：现在按玩家的敏捷层数增加抽牌数，而不是读取中毒层数。<br>
+  Fixed Toxin Trickery's bonus draw calculation: it now draws cards based on the player's Dexterity instead of Poison.
+- 调整「破损钥匙」的费用循环：每回合打出的奇数张牌消耗为 0，偶数张牌消耗增加 1；刷新手牌费用时跳过已排入出牌队列的牌。<br>
+  Updated Broken Key's cost cycle: odd-numbered cards played each turn cost 0, while even-numbered cards cost 1 more; queued cards are skipped when refreshing hand costs.
+- 修正亮度与压力指示器在数值变化时的遗物说明同步更新。<br>
+  Fixed Brightness Indicator and Pressure Indicator tooltips so their descriptions stay in sync when values change.
+- 修正亮度概率修正中的浮点计算精度。<br>
+  Fixed floating-point precision in the Brightness chance modifier.
+
+### 资源与本地化 | Assets & Localization
+- 更新「诱捕」卡牌图片与升级图片，并修正简体中文描述中「靠近点！」和「诱捕」的关键词格式。<br>
+  Updated the Captivate card art and upgraded art, and corrected the keyword formatting in the Simplified Chinese descriptions for Come Hither and Captivate.
+
 ## 0.2.5
 
 ### 新内容与机制 | New Content & Mechanics
