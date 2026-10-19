@@ -7,6 +7,8 @@ import com.megacrit.cardcrawl.events.RoomEventDialog;
 import com.megacrit.cardcrawl.helpers.EventHelper;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble;
+import com.megacrit.cardcrawl.vfx.SpeechBubble;
 import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.map.MapEdge;
@@ -20,6 +22,7 @@ public class ChooseHeroesEventsTrigger {
             public void update() {
                 this.isDone = true;
 
+                removeSpeechBubbles();
                 boolean isTargetEventExists = checkEventExists(targetEventName);
                 RoomEventDialog.optionList.clear();
 
@@ -41,6 +44,21 @@ public class ChooseHeroesEventsTrigger {
 
             }
         });
+    }
+
+    // 移除原生涅奥的对话气泡（含本帧原版逻辑新加入的），避免遮挡第一个选项
+    public static void removeSpeechBubbles() {
+        // 只标记 isDone，由游戏在遍历时自行移除，避免 ConcurrentModificationException
+        markDone(AbstractDungeon.effectList);
+        markDone(AbstractDungeon.topLevelEffects);
+    }
+
+    private static void markDone(java.util.List<AbstractGameEffect> effects) {
+        for (AbstractGameEffect f : effects) {
+            if (f instanceof SpeechBubble || f instanceof InfiniteSpeechBubble) {
+                f.isDone = true;
+            }
+        }
     }
 
     private static boolean checkEventExists(String eventName) {

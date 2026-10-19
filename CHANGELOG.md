@@ -1,5 +1,19 @@
 # 更新日志 | Changelog
 
+## 0.2.7
+
+### 游戏内容与修正 | Gameplay & Fixes
+- 修正音乐牌联动效果：终曲的额外伤害与抽牌现在至少触发一次，并会随本场战斗打出的音乐牌数量额外触发。<br>
+  Fixed Music card interactions: Finale's bonus damage and card draw now trigger at least once, with additional triggers for each Music card played this combat.
+- 修正开局组队事件中涅奥对话气泡遮挡选项的问题，并兼容在该事件期间保存和继续游戏。<br>
+  Fixed Neow's speech bubbles covering options in the starting party-selection event, and added save/load compatibility while that event is active.
+- 卡牌费用因效果增加时，现在以红色显示增加后的费用。<br>
+  Cards now display their increased cost in red when an effect raises their cost.
+- 为「圣水」和「铁锹」补充初始防御牌与初始攻击牌标签。<br>
+  Added the Starter Defend and Starter Strike tags to Holy Water and Shovel.
+- 修正标记效果在伤害来源为空时的处理，并避免反击效果在没有有效敌人时尝试打出牌。<br>
+  Fixed Mark when damage has no source, and prevented Riposte from attempting to play a card when no valid enemy is available.
+
 ## 0.2.6
 
 ### 平衡与修正 | Balance & Fixes

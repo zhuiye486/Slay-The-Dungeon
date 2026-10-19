@@ -22,19 +22,7 @@ public interface ChooseHeroesWithNeow {
             if (AbstractDungeon.player.chosenClass == SlayTheDungeonColorEnum.Heroes) {
                 System.out.println("Patch triggered for Heroes");
                 try {
-                    for (AbstractGameEffect f : AbstractDungeon.effectList) {
-                        if (f instanceof InfiniteSpeechBubble) {
-                            ((InfiniteSpeechBubble) f).dismiss();
-                        }
-                    }
-                    Field screenNumField = NeowEvent.class.getDeclaredField("screenNum");
-                    screenNumField.setAccessible(true);
-                    MapRoomNode currNode = AbstractDungeon.getCurrMapNode();
-                    for (AbstractGameEffect f : AbstractDungeon.effectList) {
-                        if (f instanceof InfiniteSpeechBubble) {
-                            ((InfiniteSpeechBubble) f).dismiss();
-                        }
-                    }
+                    ChooseHeroesEventsTrigger.removeSpeechBubbles();
                     ChooseHeroesEventsTrigger.triggerChooseHeroesEvent();
                 } catch (Exception ex) {
                     ex.printStackTrace();

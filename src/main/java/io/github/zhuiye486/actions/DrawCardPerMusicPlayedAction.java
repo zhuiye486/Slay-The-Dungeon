@@ -28,7 +28,8 @@ public class DrawCardPerMusicPlayedAction extends AbstractGameAction {
             }
         }
 
-        for (int i = 0; i < count; i++) {
+        // 基础触发一次，每打出过一张音乐牌额外触发一次
+        for (int i = 0; i < count + 1; i++) {
             AbstractDungeon.actionManager.addToTop(
                 new DrawCardAction(
                     AbstractDungeon.player, 

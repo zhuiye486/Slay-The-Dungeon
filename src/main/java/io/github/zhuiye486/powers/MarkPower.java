@@ -44,12 +44,15 @@ public class MarkPower extends AbstractPower {
     public int onAttacked(DamageInfo info, int damageAmount) {
         if (info.type != DamageType.HP_LOSS) {
             this.flash();
-            
+
+            // Relics like Mercury Hourglass / Stone Calendar deal damage with a null owner
+            com.megacrit.cardcrawl.core.AbstractCreature source =
+                info.owner != null ? info.owner : com.megacrit.cardcrawl.dungeons.AbstractDungeon.player;
             this.addToTop(
                 new DamageAction(
                     owner, 
                     new DamageInfo(
-                        info.owner,
+                        source,
                         this.amount, 
                         DamageType.HP_LOSS
                     ),

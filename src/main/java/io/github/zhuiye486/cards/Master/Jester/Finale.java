@@ -37,6 +37,7 @@ public class Finale extends AbstractDungeonCard {
         super(ID, NAME, IMG_PATH, COST, DESCRIPTION, TYPE, COLOR, RARITY, TARGET);
         this.tags.add(CardTagsEnum.Music);
         this.damage = this.baseDamage = 6;
+        this.isMultiDamage = true;
         this.exhaust = true;
     }
 

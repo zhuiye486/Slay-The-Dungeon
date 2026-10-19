@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import io.github.zhuiye486.actions.ChooseDrawPileCardAction;
@@ -62,9 +63,10 @@ public class RipostePower extends AbstractPower {
                 addToBot(new ChooseDrawPileCardAction());
                 this.chooseDrawPileCardNext = false;
             } else {
-                addToBot(
-                    new PlayTopCardAction(AbstractDungeon.getCurrRoom().monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng), false)
-                );
+                AbstractMonster target = AbstractDungeon.getCurrRoom().monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+                if (target != null) {
+                    addToBot(new PlayTopCardAction(target, false));
+                }
             }
         }
         
