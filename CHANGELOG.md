@@ -1,5 +1,19 @@
 # 更新日志 | Changelog
 
+## 0.2.8
+
+### 游戏内容与修正 | Gameplay & Fixes
+- 修正「终曲」的结算实现：现在至少触发一次伤害和抽牌，并根据本场战斗中已打出的音乐牌数量增加触发次数。<br>
+  Fixed Finale's resolution: it now triggers damage and card draw at least once, with additional triggers based on the Music cards played during the combat.
+- 修正「钢铁天鹅」、「火枪射击」和「抵近射击」在不属于当前手牌时的使用判定，避免生成或队列中的卡牌因手牌位置检查而无法使用。<br>
+  Fixed use checks for Iron Sawn, Pistol Shot, and Point-Blank Shoot when the card is not in the current hand, preventing generated or queued cards from being incorrectly blocked by hand-position checks.
+- 修正「劈砍」的卡牌类型，现在会正确作为攻击牌处理。<br>
+  Fixed Chop's card type so it is correctly treated as an Attack.
+- 修正老兵「怒吼」的吼叫效果：回合开始时获得能量，不再错误地获得力量。<br>
+  Fixed the Man-at-Arms' Bellow effect so Roar grants Energy at the start of the affected turns instead of incorrectly granting Strength.
+- 修正老兵「指挥」的回合结束处理，仅在玩家回合结束时获得敏捷并移除能力，避免在其他回合结束回调中提前移除。<br>
+  Fixed the Man-at-Arms' Command end-of-turn handling so it grants Dexterity and is removed only at the end of the player's turn, preventing premature removal during other end-of-turn callbacks.
+
 ## 0.2.7
 
 ### 游戏内容与修正 | Gameplay & Fixes

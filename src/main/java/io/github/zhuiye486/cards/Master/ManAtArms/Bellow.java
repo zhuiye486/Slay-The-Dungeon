@@ -11,7 +11,6 @@ import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
-import com.megacrit.cardcrawl.powers.StrengthPower;
 import io.github.zhuiye486.powers.RoarPower;
 
 public class Bellow extends AbstractDungeonCard {
@@ -36,7 +35,7 @@ public class Bellow extends AbstractDungeonCard {
     public void use(AbstractPlayer player, AbstractMonster monster) {
         addToBot(new GainEnergyAction(1));
         addToBot(new ApplyPowerAction(player, player, new RoarPower(player, this.magicNumber,
-                () -> new ApplyPowerAction(player, player, new StrengthPower(player, 1)))));
+                () -> new GainEnergyAction(1))));
     }
 
     

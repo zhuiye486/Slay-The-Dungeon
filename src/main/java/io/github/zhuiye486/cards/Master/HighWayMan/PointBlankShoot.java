@@ -94,13 +94,11 @@ public class PointBlankShoot extends AbstractDungeonCard {
 
     @Override
     public boolean canUse(AbstractPlayer p, AbstractMonster m) {
-        boolean canUse = false;
-
-        if (p.hand.group.get(p.hand.group.size()-1).cardID.equals(this.ID)) {
-            canUse = true;
+        if (!p.hand.group.contains(this)) {
+            return true;
         }
 
-        return canUse;
+        return p.hand.group.get(p.hand.group.size() - 1) == this;
     }
 
     @Override

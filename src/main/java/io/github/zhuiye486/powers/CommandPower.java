@@ -29,7 +29,9 @@ public class CommandPower extends AbstractPower {
 
     @Override
     public void atEndOfTurn(boolean isPlayer) {
-        if (isPlayer) addToBot(new ApplyPowerAction(owner, owner, new DexterityPower(owner, amount)));
-        addToBot(new RemoveSpecificPowerAction(owner, owner, this));
+        if (isPlayer) {
+            addToBot(new ApplyPowerAction(owner, owner, new DexterityPower(owner, amount)));
+            addToBot(new RemoveSpecificPowerAction(owner, owner, this));
+        }
     }
 }

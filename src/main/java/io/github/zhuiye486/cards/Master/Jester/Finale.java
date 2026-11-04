@@ -5,17 +5,16 @@ import com.megacrit.cardcrawl.cards.AbstractCard.CardColor;
 import com.megacrit.cardcrawl.cards.AbstractCard.CardRarity;
 import com.megacrit.cardcrawl.cards.AbstractCard.CardTarget;
 import com.megacrit.cardcrawl.cards.AbstractCard.CardType;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
-import io.github.zhuiye486.actions.DamageAllEnemyPerMusicPlayedAction;
-import io.github.zhuiye486.actions.DrawCardPerMusicPlayedAction;
 import io.github.zhuiye486.cards.AbstractDungeonCard;
 import io.github.zhuiye486.characters.Heroes.SlayTheDungeonColorEnum;
 import io.github.zhuiye486.helpers.ModHelper;
@@ -43,21 +42,26 @@ public class Finale extends AbstractDungeonCard {
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(
-            new DamageAllEnemyPerMusicPlayedAction(
-                new DamageInfo(
-                    p, 
-                    this.damage, 
-                    DamageType.NORMAL
-                ),
-                this.multiDamage,
-                this,
-                AttackEffect.SLASH_HORIZONTAL
-            )
-        );
-        addToBot(
-            new DrawCardPerMusicPlayedAction(1, this)
-        );
+        int triggerCount = 1;
+        for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisCombat) {
+            if (c != this && c.hasTag(CardTagsEnum.Music)) {
+                triggerCount++;
+            }
+        }
+
+        for (int i = 0; i < triggerCount; i++) {
+            addToBot(
+                new DamageAllEnemiesAction(
+                    p,
+                    this.multiDamage,
+                    DamageType.NORMAL,
+                    AttackEffect.SLASH_HORIZONTAL
+                )
+            );
+        }
+        for (int i = 0; i < triggerCount; i++) {
+            addToBot(new DrawCardAction(p, 1));
+        }
     }
 
     @Override

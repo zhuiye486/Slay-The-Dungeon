@@ -48,7 +48,8 @@ public class PistolShot extends AbstractDungeonCard {
         if (!super.canUse(player, monster)) {
             return false;
         }
-        return !player.hand.isEmpty() && player.hand.group.get(0) == this;
+        return !player.hand.group.contains(this)
+            || (!player.hand.isEmpty() && player.hand.group.get(0) == this);
     }
 
     @Override
